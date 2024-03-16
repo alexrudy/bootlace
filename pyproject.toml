@@ -1,0 +1,95 @@
+[build-system]
+requires = ["hatchling", "hatch-requirements-txt", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "bootlace"
+dynamic = ["version", "dependencies"]
+description = 'Pythonic Bootstrap Utilities'
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+keywords = []
+authors = [{ name = "Alex Rudy", email = "github@alexrudy.net" }]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.metadata.hooks.requirements_txt]
+files = ["requirements/base.in"]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/bootlace/_version.py"
+
+[project.urls]
+Documentation = "https://github.com/unknown/bootlace#readme"
+Issues = "https://github.com/unknown/bootlace/issues"
+Source = "https://github.com/unknown/bootlace"
+
+
+[tool.hatch.build.targets.sdist]
+include = ["src/"]
+
+
+[tool.pytest.ini_options]
+testpaths = "tests"
+filterwarnings = "error"
+addopts = [
+  "--cov-report=term-missing",
+  "--cov-config=pyproject.toml",
+  "--cov=bootlace",
+  "--ignore=setup.py",
+]
+log_level = "NOTSET"
+
+[tool.coverage.run]
+branch = true
+source = ["src/bootlace", "tests"]
+
+
+[tool.coverage.paths]
+source = ["src", "*/site-packages"]
+
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "def __repr__",
+  "def __str__",
+  "def __hash__",
+  "if TYPE_CHECKING:",
+  "if __name__ == .__main__.:",
+  "raise AssertionError",
+  "raise NotImplementedError",
+  "if 0:",
+  "except BaseException:",
+]
+
+[tool.black]
+line-length = 120
+
+[tool.mypy]
+files = "src/bootlace"
+python_version = "3.11"
+show_error_codes = true
+allow_redefinition = true
+disallow_subclassing_any = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+no_implicit_optional = true
+local_partial_types = true
+no_implicit_reexport = true
+strict_equality = true
+warn_redundant_casts = true
+warn_unused_configs = true
+warn_unused_ignores = true
