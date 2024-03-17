@@ -1,10 +1,12 @@
-from bootlace.nav import elements
-from bootlace.nav import bar
+from .conftest import CurrentLink
+from .conftest import DisabledLink
+from .conftest import get_fixture
 from bootlace.image import Image
-from bootlace.util import render
+from bootlace.nav import bar
+from bootlace.nav import elements
+from bootlace.style import ColorClass
 from bootlace.testing.html import assert_same_html
-
-from .conftest import CurrentLink, DisabledLink, get_fixture
+from bootlace.util import render
 
 
 def test_navbar() -> None:
@@ -87,5 +89,39 @@ def test_brand_img() -> None:
     source = render(navbar)
 
     expected = get_fixture("brand_img.html")
+
+    assert_same_html(expected_html=expected, actual_html=str(source))
+
+
+def test_navbar_color() -> None:
+
+    navbar = bar.NavBar(items=[bar.Brand.with_url(url="#", text="Navbar")], color=ColorClass.PRIMARY)
+
+    source = render(navbar)
+
+    expected = """
+    <nav class="navbar navbar-expand-lg bg-body-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </div>
+    </nav>
+    """
+
+    assert_same_html(expected_html=expected, actual_html=str(source))
+
+
+def test_navbar_nocolor() -> None:
+
+    navbar = bar.NavBar(items=[bar.Brand.with_url(url="#", text="Navbar")], color=None)
+
+    source = render(navbar)
+
+    expected = """
+    <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+    </div>
+    </nav>
+    """
 
     assert_same_html(expected_html=expected, actual_html=str(source))

@@ -1,4 +1,5 @@
-from .core import NavAlignment, NavStyle
+from .core import NavAlignment
+from .core import NavStyle
 
 __all__ = [
     "NavAlignment",

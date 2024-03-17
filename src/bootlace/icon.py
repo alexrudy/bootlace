@@ -10,7 +10,7 @@ from flask import url_for
 class Icon:
     """A Bootstrap icon"""
 
-    endpoint: ClassVar[str] = "core.static"
+    endpoint: ClassVar[str] = "static"
     filename: ClassVar[str] = "icons/bootstrap-icons.svg"
 
     name: str

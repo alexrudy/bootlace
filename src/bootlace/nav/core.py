@@ -5,11 +5,11 @@ from typing import Any
 import attrs
 from dominate import tags
 
-from bootlace.util import ids as element_id
-from bootlace.util import BootlaceWarning
-from bootlace.util import as_tag
 from bootlace import links
 from bootlace.image import Image
+from bootlace.util import as_tag
+from bootlace.util import BootlaceWarning
+from bootlace.util import ids as element_id
 
 
 class NavStyle(enum.Enum):

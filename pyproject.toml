@@ -55,6 +55,7 @@ log_level = "NOTSET"
 [tool.coverage.run]
 branch = true
 source = ["src/bootlace", "tests"]
+omit = ["src/bootlace/_version.py", "src/bootlace/testing/*"]
 
 
 [tool.coverage.paths]
@@ -73,7 +74,10 @@ exclude_lines = [
   "raise NotImplementedError",
   "if 0:",
   "except BaseException:",
+  ": \\.\\.\\.",
 ]
+omit = ["src/bootlace/_version.py", "src/bootlace/testing/*"]
+
 
 [tool.black]
 line-length = 120

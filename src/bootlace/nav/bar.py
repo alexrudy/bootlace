@@ -1,16 +1,15 @@
 import attrs
-
 from dominate import tags
 from dominate.util import container
 
-from .nav import Nav
+from .core import Link
 from .core import NavElement
 from .core import SubGroup
-from .core import Link
+from .nav import Nav
 from bootlace.size import SizeClass
 from bootlace.style import ColorClass
-from bootlace.util import ids as element_id
 from bootlace.util import as_tag
+from bootlace.util import ids as element_id
 
 
 @attrs.define

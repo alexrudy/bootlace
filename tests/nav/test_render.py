@@ -1,13 +1,14 @@
 import pytest
-
 from flask import Flask
 
-from bootlace.nav import NavAlignment, NavStyle
-from bootlace.nav import elements, core
+from .conftest import CurrentLink
 from bootlace.links import View
+from bootlace.nav import core
+from bootlace.nav import elements
+from bootlace.nav import NavAlignment
+from bootlace.nav import NavStyle
 from bootlace.testing.html import assert_same_html
 from bootlace.util import render
-from .conftest import CurrentLink
 
 
 def test_plain_element() -> None:
@@ -38,7 +39,10 @@ def test_nav_alignment(alignment: core.NavAlignment, cls: str) -> None:
     nav.items.append(elements.Text("Text"))
 
     source = render(nav)
-    expected = f"<ul class='nav {cls if cls else str()}'><li class='nav-item'><span class='nav-link disabled' aria-disabled='true'>Text</span></li></ul>"
+    expected = f"""
+    <ul class='nav {cls if cls else str()}'>
+        <li class='nav-item'><span class='nav-link disabled' aria-disabled='true'>Text</span></li>
+    </ul>"""
 
     assert_same_html(expected_html=expected, actual_html=str(source))
 
@@ -58,7 +62,11 @@ def test_nav_style(style: NavStyle) -> None:
     nav.items.append(elements.Text("Text"))
 
     source = render(nav)
-    expected = f"<ul class='nav {style.value}'><li class='nav-item'><span class='nav-link disabled' aria-disabled='true'>Text</span></li></ul>"
+    expected = f"""
+    <ul class='nav {style.value}'>
+        <li class='nav-item'><span class='nav-link disabled' aria-disabled='true'>Text</span></li>
+    </ul>"""
+    assert not nav.active, "No item should be active"
 
     assert_same_html(expected_html=expected, actual_html=str(source))
 
@@ -69,6 +77,7 @@ def test_nav_active_endpoint(app: Flask) -> None:
 
     with app.test_request_context("/"):
         source = render(nav)
+        assert nav.active, "The first item should be active"
     expected = "<ul class='nav'><li class='nav-item'><a class='nav-link active' aria-current='page' href='/'>Active</a></li></ul>"
 
     assert_same_html(expected_html=expected, actual_html=str(source))

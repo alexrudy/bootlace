@@ -1,9 +1,11 @@
 import attrs
 from dominate import tags
 
-from bootlace.util import ids as element_id
+from .core import NavAlignment
+from .core import NavStyle
+from .core import SubGroup
 from bootlace.util import as_tag
-from .core import NavAlignment, NavStyle, SubGroup
+from bootlace.util import ids as element_id
 
 
 @attrs.define

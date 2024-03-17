@@ -1,11 +1,13 @@
 import abc
 from typing import Any
+
 import attrs
 from dominate import tags
 from flask import request
 from flask import url_for
 
-from .util import as_tag, MaybeTaggable
+from .util import as_tag
+from .util import MaybeTaggable
 
 
 @attrs.define(kw_only=True, frozen=True)

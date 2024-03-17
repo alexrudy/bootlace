@@ -1,9 +1,10 @@
-from bootlace.nav import elements, NavStyle
-from bootlace.util import render
+from .conftest import CurrentLink
+from .conftest import DisabledLink
+from .conftest import get_fixture
+from bootlace.nav import elements
+from bootlace.nav import NavStyle
 from bootlace.testing.html import assert_same_html
-
-
-from .conftest import CurrentLink, DisabledLink, get_fixture
+from bootlace.util import render
 
 
 def test_base_nav() -> None:

@@ -1,6 +1,13 @@
-from .core import Link, Separator, Text
-from .bar import NavBar, Brand, NavBarCollapse, NavBarNav, NavBarSearch
-from .nav import Nav, Dropdown
+from .bar import Brand
+from .bar import NavBar
+from .bar import NavBarCollapse
+from .bar import NavBarNav
+from .bar import NavBarSearch
+from .core import Link
+from .core import Separator
+from .core import Text
+from .nav import Dropdown
+from .nav import Nav
 
 
 __all__ = [
