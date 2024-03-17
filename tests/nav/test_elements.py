@@ -19,6 +19,6 @@ def test_view(app: Flask) -> None:
 
     with app.test_request_context("/"):
         source = as_tag(view_e).render()
-    expected = '<a class="nav-link" href="/">View</a>'
+    expected = '<a class="nav-link active" aria-current="page" href="/">View</a>'
 
     assert_same_html(expected, source)

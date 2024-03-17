@@ -1,2 +1,5 @@
 -r base.in
 mypy
+types-WTForms
+types-pytz
+types-PyYAML

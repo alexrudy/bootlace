@@ -2,3 +2,4 @@ dominate
 attrs
 flask
 html5lib
+wtforms

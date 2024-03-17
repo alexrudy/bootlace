@@ -13,8 +13,14 @@ from .util import MaybeTaggable
 @attrs.define(kw_only=True, frozen=True)
 class LinkBase(abc.ABC):
     text: MaybeTaggable
-    active: bool = False
-    enabled: bool = True
+
+    @abc.abstractproperty
+    def active(self) -> bool:
+        raise NotImplementedError("LinkBase.active must be implemented in a subclass")
+
+    @abc.abstractproperty
+    def enabled(self) -> bool:
+        raise NotImplementedError("LinkBase.enabled must be implemented in a subclass")
 
     @abc.abstractproperty
     def url(self) -> str:
@@ -28,6 +34,8 @@ class LinkBase(abc.ABC):
 @attrs.define(kw_only=True, frozen=True)
 class Link(LinkBase):
     url: str
+    active: bool = False
+    enabled: bool = True
 
 
 @attrs.define(kw_only=True, frozen=True)
@@ -35,6 +43,7 @@ class View(LinkBase):
     endpoint: str
     url_kwargs: dict[str, Any] = attrs.field(factory=dict)
     ignore_query: bool = True
+    enabled: bool = True
 
     @property
     def url(self) -> str:
@@ -45,10 +54,12 @@ class View(LinkBase):
         if request.endpoint != self.endpoint:
             return False
 
-        if request.url_rule is None:
+        if request.url_rule is None:  # pragma: no cover
             return False
 
-        if (rule_url := request.url_rule.build(self.url_kwargs, append_unknown=not self.ignore_query)) is None:
+        rule_url = request.url_rule.build(self.url_kwargs, append_unknown=not self.ignore_query)
+
+        if rule_url is None:  # pragma: no cover
             return False
 
         _, url = rule_url

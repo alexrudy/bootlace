@@ -45,7 +45,7 @@ def as_tag(item: Taggable) -> tags.html_tag:
         return container(*[as_tag(i) for i in item])
 
     warnings.warn(BootlaceWarning(f"Rendered type {item.__class__.__name__} not explicitly supported"), stacklevel=2)
-    return container(text(item), tags.comment(f"Rendered type {item.__class__.__name__} not supported"))
+    return container(text(str(item)), tags.comment(f"Rendered type {item.__class__.__name__} not supported"))
 
 
 def render(item: Taggable) -> str:

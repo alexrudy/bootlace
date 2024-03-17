@@ -97,3 +97,19 @@ strict_equality = true
 warn_redundant_casts = true
 warn_unused_configs = true
 warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = "wtforms.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_subclassing_any = false
+
+[[tool.mypy.overrides]]
+module = "dominate.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "html5lib.*"
+ignore_missing_imports = true
