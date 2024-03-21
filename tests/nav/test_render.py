@@ -71,6 +71,7 @@ def test_nav_style(style: NavStyle) -> None:
     assert_same_html(expected_html=expected, actual_html=str(source))
 
 
+@pytest.mark.usefixtures("homepage")
 def test_nav_active_endpoint(app: Flask) -> None:
     nav = elements.Nav()
     nav.items.append(CurrentLink(link=View(text="Active", endpoint="index")))

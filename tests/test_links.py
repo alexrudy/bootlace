@@ -1,3 +1,4 @@
+import pytest
 from flask import Flask
 from flask import request
 
@@ -17,6 +18,7 @@ def test_link() -> None:
     assert_same_html(expected, render(link))
 
 
+@pytest.mark.usefixtures("homepage")
 def test_view(app: Flask) -> None:
 
     with app.test_request_context("/"):

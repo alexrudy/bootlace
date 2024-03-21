@@ -1,6 +1,7 @@
 import datetime as dt
 
 import attrs
+import pytest
 from flask import Flask
 
 from bootlace.icon import Icon
@@ -23,6 +24,7 @@ class Item:
     when: dt.datetime = dt.datetime(2021, 1, 1, 12, 18, 5)
 
 
+@pytest.mark.usefixtures("homepage")
 def test_edit_column(app: Flask) -> None:
 
     col = EditColumn(heading="Edit", attribute="editor", endpoint="index")

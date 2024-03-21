@@ -5,6 +5,8 @@ import warnings
 from collections.abc import Callable
 from collections.abc import Iterable
 from collections.abc import Iterator
+from collections.abc import Mapping
+from typing import Any
 from typing import Protocol
 from typing import TypeVar
 
@@ -12,6 +14,7 @@ import attrs
 from dominate import tags
 from dominate.util import container
 from dominate.util import text
+from flask import request
 
 T = TypeVar("T")
 
@@ -114,3 +117,21 @@ def maybe(cls: type[T]) -> Callable[[str | T], T]:
         return value
 
     return converter
+
+
+def is_active_endpoint(endpoint: str, url_kwargs: Mapping[str, Any], ignore_query: bool = True) -> bool:
+    """Check if the current request is for the given endpoint and URL kwargs"""
+    if request.endpoint != endpoint:
+        return False
+
+    if request.url_rule is None:  # pragma: no cover
+        return False
+
+    rule_url = request.url_rule.build(url_kwargs, append_unknown=not ignore_query)
+
+    if rule_url is None:  # pragma: no cover
+        return False
+
+    _, url = rule_url
+
+    return url == request.path

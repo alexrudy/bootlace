@@ -3,10 +3,10 @@ from typing import Any
 
 import attrs
 from dominate import tags
-from flask import request
 from flask import url_for
 
 from .util import as_tag
+from .util import is_active_endpoint
 from .util import MaybeTaggable
 
 
@@ -51,17 +51,4 @@ class View(LinkBase):
 
     @property
     def active(self) -> bool:
-        if request.endpoint != self.endpoint:
-            return False
-
-        if request.url_rule is None:  # pragma: no cover
-            return False
-
-        rule_url = request.url_rule.build(self.url_kwargs, append_unknown=not self.ignore_query)
-
-        if rule_url is None:  # pragma: no cover
-            return False
-
-        _, url = rule_url
-
-        return url == request.path
+        return is_active_endpoint(self.endpoint, self.url_kwargs, self.ignore_query)
