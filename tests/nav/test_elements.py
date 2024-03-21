@@ -1,3 +1,4 @@
+import pytest
 from flask import Flask
 
 from bootlace.nav import elements
@@ -14,6 +15,7 @@ def test_link() -> None:
     assert link_e.url == "#"
 
 
+@pytest.mark.usefixtures("homepage")
 def test_view(app: Flask) -> None:
     view_e = elements.Link.with_view(endpoint="index", text="View")
 
