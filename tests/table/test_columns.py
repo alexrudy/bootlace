@@ -24,6 +24,14 @@ class Item:
     when: dt.datetime = dt.datetime(2021, 1, 1, 12, 18, 5)
 
 
+def test_unnamed_column() -> None:
+
+    col = EditColumn(heading="Edit", endpoint="index")
+
+    with pytest.raises(ValueError):
+        col.attribute
+
+
 @pytest.mark.usefixtures("homepage")
 def test_edit_column(app: Flask) -> None:
 
@@ -34,7 +42,7 @@ def test_edit_column(app: Flask) -> None:
     assert str(th) == "<span>Edit</span>"
 
     with app.test_request_context("/"):
-        td = col.cell("editor", Item())
+        td = col.cell(Item())
 
     expected = '<td><a href="/?id=1">editor</a></td>'
 
@@ -46,7 +54,7 @@ def test_check_column(app: Flask) -> None:
     col = CheckColumn(heading="Check", attribute="check")
 
     with app.test_request_context("/"):
-        td = col.cell("check", Item())
+        td = col.cell(Item())
 
     expected = f"""
     <td>
@@ -56,7 +64,7 @@ def test_check_column(app: Flask) -> None:
     </td>"""
 
     with app.test_request_context("/"):
-        td = col.cell("check", Item(check=False))
+        td = col.cell(Item(check=False))
 
     expected = f"""
     <td>
@@ -84,7 +92,7 @@ def test_datetime_column(app: Flask) -> None:
 
     assert_same_html(expected_heading, str(th))
 
-    td = col.cell("when", Item())
+    td = col.cell(Item())
 
     expected = "<td>2021-01-01T12:18:05</td>"
 

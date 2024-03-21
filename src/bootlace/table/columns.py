@@ -12,17 +12,17 @@ from bootlace.util import as_tag
 @attrs.define
 class Column(ColumnBase):
 
-    def cell(self, name: str, value: Any) -> tags.html_tag:
-        return tags.td(getattr(value, name))
+    def cell(self, value: Any) -> tags.html_tag:
+        return tags.td(getattr(value, self.attribute))
 
 
 @attrs.define
 class EditColumn(ColumnBase):
     endpoint: str = attrs.field(default=".edit")
 
-    def cell(self, name: str, value: Any) -> tags.html_tag:
+    def cell(self, value: Any) -> tags.html_tag:
         id = getattr(value, "id", None)
-        return tags.td(tags.a(getattr(value, name), href=url_for(self.endpoint, id=id)))
+        return tags.td(tags.a(getattr(value, self.attribute), href=url_for(self.endpoint, id=id)))
 
 
 @attrs.define
@@ -31,8 +31,8 @@ class CheckColumn(ColumnBase):
     yes: Icon = attrs.field(default=Icon("check", width=16, height=16))
     no: Icon = attrs.field(default=Icon("x", width=16, height=16))
 
-    def cell(self, name: str, value: Any) -> tags.html_tag:
-        if getattr(value, name):
+    def cell(self, value: Any) -> tags.html_tag:
+        if getattr(value, self.attribute):
             return tags.td(as_tag(self.yes))
         return tags.td(as_tag(self.no))
 
@@ -40,5 +40,5 @@ class CheckColumn(ColumnBase):
 @attrs.define
 class Datetime(ColumnBase):
 
-    def cell(self, name: str, value: Any) -> tags.html_tag:
-        return tags.td(getattr(value, name).isoformat())
+    def cell(self, value: Any) -> tags.html_tag:
+        return tags.td(getattr(value, self.attribute).isoformat())

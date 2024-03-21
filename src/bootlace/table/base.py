@@ -30,10 +30,19 @@ class Heading:
 @attrs.define
 class ColumnBase(ABC):
     heading: Heading = attrs.field(converter=maybe(Heading))  # type: ignore
-    attribute: str | None = None
+    _attribute: str | None = None
+
+    def __set_name__(self, owner: type, name: str) -> None:
+        self._attribute = self._attribute or name
+
+    @property
+    def attribute(self) -> str:
+        if self._attribute is None:
+            raise ValueError("column must be named in Table or attribute= parameter must be provided")
+        return self._attribute
 
     @abstractmethod
-    def cell(self, name: str, value: Any) -> tags.html_tag:
+    def cell(self, value: Any) -> tags.html_tag:
         raise NotImplementedError("Subclasses must implement this method")
 
 
@@ -106,8 +115,8 @@ class Table(metaclass=TableMetaclass):
         for item in items:
             id = getattr(item, "id", None)
             tr = tags.tr(id=f"item-{id}" if id else None)
-            for column_name, column in self.columns.items():
-                td = column.cell(column_name, item)
+            for column in self.columns.values():
+                td = column.cell(item)
                 tr.add(td)
             tbody.add(tr)
         table.add(tbody)
