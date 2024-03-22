@@ -2,6 +2,7 @@ from typing import Any
 
 import attrs
 from dominate import tags
+from dominate.util import text
 from flask import url_for
 
 from bootlace.icon import Icon
@@ -13,7 +14,7 @@ from bootlace.util import as_tag
 class Column(ColumnBase):
 
     def cell(self, value: Any) -> tags.html_tag:
-        return tags.td(getattr(value, self.attribute))
+        return text(str(getattr(value, self.attribute)))
 
 
 @attrs.define
@@ -22,7 +23,7 @@ class EditColumn(ColumnBase):
 
     def cell(self, value: Any) -> tags.html_tag:
         id = getattr(value, "id", None)
-        return tags.td(tags.a(getattr(value, self.attribute), href=url_for(self.endpoint, id=id)))
+        return tags.a(getattr(value, self.attribute), href=url_for(self.endpoint, id=id))
 
 
 @attrs.define
@@ -33,12 +34,12 @@ class CheckColumn(ColumnBase):
 
     def cell(self, value: Any) -> tags.html_tag:
         if getattr(value, self.attribute):
-            return tags.td(as_tag(self.yes))
-        return tags.td(as_tag(self.no))
+            return as_tag(self.yes)
+        return as_tag(self.no)
 
 
 @attrs.define
 class Datetime(ColumnBase):
 
     def cell(self, value: Any) -> tags.html_tag:
-        return tags.td(getattr(value, self.attribute).isoformat())
+        return text(getattr(value, self.attribute).isoformat())

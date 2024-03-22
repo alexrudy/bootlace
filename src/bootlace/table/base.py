@@ -113,7 +113,7 @@ class Table(metaclass=TableMetaclass):
         else:
             self.decorated_classes = set(decorated_classes)
 
-    def render(self, items: list[Any]) -> tags.html_tag:
+    def __call__(self, items: list[Any]) -> tags.html_tag:
         table = tags.table(cls="table")
         table.classes.add(*self.decorated_classes)
         thead = tags.thead()
@@ -127,8 +127,8 @@ class Table(metaclass=TableMetaclass):
             id = getattr(item, "id", None)
             tr = tags.tr(id=f"item-{id}" if id else None)
             for column in self.columns.values():
-                td = column.cell(item)
-                tr.add(td)
+                cell = column.cell(item)
+                tr.add(tags.td(cell))
             tbody.add(tr)
         table.add(tbody)
         return table

@@ -31,7 +31,7 @@ def test_basic_table(items: list[Item], table: type[Table]) -> None:
     assert len(table.columns) == 2
 
     table = table()
-    rendered = table.render(items).render()
+    rendered = table(items).render()
 
     print(rendered)
 
@@ -60,7 +60,7 @@ def test_basic_table(items: list[Item], table: type[Table]) -> None:
 def test_table_with_decorated_classes(items: list[Item], table: type[Table]) -> None:
 
     table = table(decorated_classes=["table-striped", "table-bordered"])
-    rendered = table.render(items).render()
+    rendered = table(items).render()
 
     print(rendered)
 
