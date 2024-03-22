@@ -4,8 +4,10 @@
 from . import __about__
 from ._version import __version__
 from .util import _monkey_patch_dominate
+from .util import as_tag
+from .util import render
 
-__all__ = ["__version__", "__about__"]
+__all__ = ["__version__", "__about__", "as_tag", "render"]
 
 
 _monkey_patch_dominate()

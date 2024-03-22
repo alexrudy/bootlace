@@ -92,6 +92,17 @@ class TableMetaclass(type):
 
 
 class Table(metaclass=TableMetaclass):
+    """Base class for class-defined tables.
+
+    Subclasses should define columns as class attributes, e.g.:
+
+    class MyTable(Table):
+        name = Column(Heading("Name"))
+        age = Column(Heading("Age"))
+
+    Use :meth:`render` to render a table from a list of items as
+    :class:`dominate.tags.table`.
+    """
 
     decorated_classes: set[str] = set()
     columns: ClassVar[dict[str, ColumnBase]]

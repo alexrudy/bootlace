@@ -15,6 +15,7 @@ from dominate import tags
 from dominate.util import container
 from dominate.util import text
 from flask import request
+from markupsafe import Markup
 
 T = TypeVar("T")
 
@@ -51,8 +52,8 @@ def as_tag(item: Taggable) -> tags.html_tag:
     return container(text(str(item)), tags.comment(f"Rendered type {item.__class__.__name__} not supported"))
 
 
-def render(item: Taggable) -> str:
-    return as_tag(item).render()
+def render(item: Taggable) -> Markup:
+    return Markup(as_tag(item).render())
 
 
 class Classes:
