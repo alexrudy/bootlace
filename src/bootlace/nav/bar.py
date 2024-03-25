@@ -14,10 +14,25 @@ from bootlace.util import ids as element_id
 
 @attrs.define
 class NavBar(NavElement):
+    """A navigation bar, typically at the top of the page
+
+    This is usually the primary navigation for a site.
+    """
+
+    #: The ID of the navbar
     id: str = attrs.field(factory=element_id.factory("navbar"))
+
+    #: The elements in the navbar
     items: list[NavElement] = attrs.field(factory=list)
+
+    #: The size of the navbar, if any, used to select when it
+    #: should expand or collapse
     expand: SizeClass | None = SizeClass.LARGE
+
+    #: The color of the navbar, if using a bootstrap color class
     color: ColorClass | None = ColorClass.TERTIARY
+
+    #: Whether the navbar should be fluid (e.g. full width)
     fluid: bool = True
 
     def __tag__(self) -> tags.html_tag:
@@ -43,6 +58,13 @@ class NavBar(NavElement):
 
 @attrs.define
 class Brand(Link):
+    """The brand for the navbar, typically the site's logo or name
+
+    You can pass :class:`~bootlace.links.Link` or :class:`~bootlace.links.View`
+    as the source link, and
+    """
+
+    #: The ID of the brand
     id: str = attrs.field(factory=element_id.factory("navbar-brand"))
 
     def __tag__(self) -> tags.html_tag:

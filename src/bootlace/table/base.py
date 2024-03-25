@@ -16,7 +16,12 @@ from bootlace.util import maybe
 
 @attrs.define
 class Heading:
+    """A heading for a table column."""
+
+    #: The text of the heading
     text: str
+
+    #: The icon for the heading, in place of the text
     icon: Icon | None = attrs.field(default=None, converter=maybe(Icon))  # type: ignore
 
     def __tag__(self) -> tags.html_tag:
@@ -29,7 +34,13 @@ class Heading:
 
 @attrs.define
 class ColumnBase(ABC):
+    """Base class for table columns.
+
+    Subclasses must implement the :meth:`cell` method."""
+
+    #: The heading for the column
     heading: Heading = attrs.field(converter=maybe(Heading))  # type: ignore
+
     _attribute: str | None = None
 
     def __set_name__(self, owner: type, name: str) -> None:
@@ -37,12 +48,14 @@ class ColumnBase(ABC):
 
     @property
     def attribute(self) -> str:
+        """The attribute name for the column."""
         if self._attribute is None:
             raise ValueError("column must be named in Table or attribute= parameter must be provided")
         return self._attribute
 
     @abstractmethod
     def cell(self, value: Any) -> tags.html_tag:
+        """Return the cell for the column as an HTML tag."""
         raise NotImplementedError("Subclasses must implement this method")
 
 

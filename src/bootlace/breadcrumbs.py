@@ -18,6 +18,8 @@ from werkzeug.local import LocalProxy
 from .util import as_tag
 from .util import is_active_endpoint
 
+__all__ = ["breadcrumbs", "Breadcrumb", "Breadcrumbs", "BreadcrumbEntry", "BreadcrumbExtension", "Endpoint"]
+
 
 class Named(Protocol):
 
@@ -64,14 +66,21 @@ class KeywordArguments(Mapping[str, Any]):
 class Endpoint:
     """An endpoint for a breadcrumb, as captured at registration"""
 
+    #: The flask context, if any
     context: None | Blueprint
+
+    #: The endpoint name
     name: str = attrs.field(validator=endpoint_name)
+
+    #: The keyword arguments for the endpoint used with url_for
     url_kwargs: KeywordArguments = attrs.field(factory=lambda: KeywordArguments(), converter=KeywordArguments)
+
+    #: Whether to ignore the query string when checking for active status
     ignore_query: bool = True
 
     @property
     def url(self) -> str:
-
+        """The URL for the endpoint"""
         if isinstance(self.context, Blueprint):
             name = f"{self.context.name}.{self.name}"
             return url_for(name, **self.url_kwargs)
@@ -80,6 +89,7 @@ class Endpoint:
 
     @property
     def active(self) -> bool:
+        """Whether the endpoint is active"""
         return is_active_endpoint(self.name, self.url_kwargs, self.ignore_query)
 
     def __repr__(self) -> str:
@@ -101,17 +111,22 @@ class Endpoint:
 
 @attrs.define
 class Breadcrumb:
-    """A single breadcrumb"""
+    """A single breadcrumb, representing a single, possibly active, endpoint"""
 
+    #: The title of the breadcrumb, displayed in text
     title: str
+
+    #: The endpoint for the breadcrumb
     link: Endpoint
 
     @property
     def active(self) -> bool:
+        """Whether the breadcrumb is the active view"""
         return self.link.active
 
     @property
     def url(self) -> str:
+        """The URL for the breadcrumb"""
         return self.link.url
 
     def __tag__(self) -> tags.html_tag:
@@ -123,9 +138,14 @@ class Breadcrumb:
 
 @attrs.define
 class Breadcrumbs:
-    """The trail of breadcrumbs"""
+    """The trail of breadcrumbs
 
+    Supports the :func:`as_tag` protocol to render the breadcrumbs as HTML"""
+
+    #: The list of breadcrumbs, in order from broadest to most specific
     crumbs: list[Breadcrumb] = attrs.field(factory=list)
+
+    #: The divider to use between breadcrumbs
     divider: str = attrs.field(default=">")
 
     def __iter__(self) -> Iterator[Breadcrumb]:
@@ -138,6 +158,7 @@ class Breadcrumbs:
         return self.crumbs[index]
 
     def push(self, crumb: Breadcrumb) -> None:
+        """Add a new crumb to the beginning of the list"""
         self.crumbs.insert(0, crumb)
 
     def __tag__(self) -> tags.html_tag:
@@ -179,12 +200,25 @@ class BreadcrumbExtension:
             self.init_app(app)
 
     def init_app(self, app: Flask) -> None:
+        """Set up the extension on the app"""
         app.config.setdefault(DIVIDER_SETTING, ">")
         app.extensions[EXTENSION_KEY] = self
 
     def register(
         self, context: Flask | Blueprint | None, parent: str | Endpoint | None, title: str
     ) -> Callable[[V], V]:
+        """Register a breadcrumb for a view
+
+        :param context: The context for the view, if any.
+            For a blueprint, this is the blueprint object. For a view on the root app,
+            this ie either the root app or None.
+        :param parent: The parent for the breadcrumb. This can be a string, an endpoint, or None.
+            If a string, it is the name of the parent endpoint. If an endpoint, it is the parent endpoint.
+            If None, there is no parent, and this is a root item.
+        :param title: The title of the breadcrumb
+
+        :returns: A decorator that can be used to register the view, which will return the view unchanged.
+        """
         if isinstance(context, Flask):
             context = None
 
@@ -213,6 +247,7 @@ class BreadcrumbExtension:
 
     @property
     def divider(self) -> str:
+        """The divider to use between breadcrumbs"""
         return current_app.config[DIVIDER_SETTING]
 
     def _current_context(self) -> Blueprint | None:
@@ -230,6 +265,7 @@ class BreadcrumbExtension:
         return Endpoint(name=name, context=context)
 
     def get(self) -> Breadcrumbs:
+        """Get the :class:`Breadcrumbs` for the current request"""
         endpoint = self._current_endpoint()
         crumbs = Breadcrumbs(divider=self.divider)
         if not endpoint:  # pragma: no cover

@@ -31,6 +31,13 @@ def _enum_labelfunc(value: E) -> str:
 
 
 class EnumField(fields.SelectField, Generic[E]):
+    """Field for selecting an enum value. The choices are generated from the enum values. The label is the enum value.
+
+    :param label: The label for the field
+    :param validators: Validators for the field
+    :param enum: The enum type
+    """
+
     def __init__(self, label: str | None = None, validators: Any = None, *, enum: type[E], **kwargs: Any) -> None:
         labelfunc = kwargs.pop("labelfunc", _enum_labelfunc)
         kwargs.setdefault("choices", [(value.name, labelfunc(value)) for value in enum])
@@ -54,6 +61,10 @@ def unwrap_paragraphs(txt: str) -> str:
 
 
 class MarkdownField(fields.TextAreaField):
+    """TextArea field designed for Markdown content.
+
+    The field will unwrap paragraphs and remove newlines from paragraphs."""
+
     def _value(self) -> str:
         if self.data:
             return unwrap_paragraphs(self.data)
@@ -71,6 +82,13 @@ class KnownMIMEType:
         self.db = mimetypes.MimeTypes()
 
     def __call__(self, form: Any, field: fields.Field) -> None:
+        """Validates the field
+
+        :param form: The form contianing the field
+        :param field: The field
+
+        :raises ValidationError: If the field is not a known MIME type
+        """
         mimetype, _options = parse_options_header(field.data)
 
         well_known_types, official_types = self.db.types_map_inv

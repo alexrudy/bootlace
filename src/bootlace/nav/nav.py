@@ -10,8 +10,15 @@ from bootlace.util import ids as element_id
 
 @attrs.define
 class Nav(SubGroup):
+    """A navigation bar"""
+
+    #: The ID of the nav
     id: str = attrs.field(factory=element_id.factory("nav"))
+
+    #: The style of the nav
     style: NavStyle = NavStyle.PLAIN
+
+    #: The alignment of the elments in the nav
     alignment: NavAlignment = NavAlignment.DEFAULT
 
     def __tag__(self) -> tags.html_tag:
@@ -36,7 +43,12 @@ class Nav(SubGroup):
 
 @attrs.define
 class Dropdown(SubGroup):
+    """A dropdown menu in the nav bar"""
+
+    #: The title of the dropdown
     title: str = attrs.field(kw_only=True)
+
+    #: The ID of the dropdown
     id: str = attrs.field(factory=element_id.factory("bs-dropdown"))
 
     def __tag__(self) -> tags.html_tag:

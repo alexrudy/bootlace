@@ -19,6 +19,20 @@ from markupsafe import Markup
 
 T = TypeVar("T")
 
+__all__ = [
+    "BootlaceWarning",
+    "Classes",
+    "HtmlIDScope",
+    "IntoTag",
+    "MaybeTaggable",
+    "Taggable",
+    "as_tag",
+    "ids",
+    "is_active_endpoint",
+    "maybe",
+    "render",
+]
+
 
 class BootlaceWarning(UserWarning):
     """A warning specific to Bootlace"""
@@ -30,15 +44,21 @@ def _monkey_patch_dominate() -> None:
 
 
 class Taggable(Protocol):
+    """Protocol for objects that can be converted to a tag."""
+
     def __tag__(self) -> tags.html_tag: ...
 
 
+#: A type that can be converted to a tag
 IntoTag = Taggable | tags.html_tag
 
+#: A type that can be converted to a tag via :func:`as_tag`
 MaybeTaggable = IntoTag | str | Iterable[Taggable | tags.html_tag]
 
 
 def as_tag(item: Taggable) -> tags.html_tag:
+    """Convert an item to a dominate tag."""
+
     if isinstance(item, tags.html_tag):
         return item
     if hasattr(item, "__tag__"):
@@ -53,10 +73,13 @@ def as_tag(item: Taggable) -> tags.html_tag:
 
 
 def render(item: Taggable) -> Markup:
+    """Render an item to a Markup object."""
     return Markup(as_tag(item).render())
 
 
 class Classes:
+    """A helper for manipulating the class attribute on a tag."""
+
     def __init__(self, tag: tags.html_tag) -> None:
         self.tag = tag
 
@@ -94,6 +117,8 @@ class Classes:
 
 @attrs.define
 class HtmlIDScope:
+    """A helper for generating unique HTML IDs."""
+
     scopes: collections.defaultdict[str, itertools.count] = attrs.field(
         factory=lambda: collections.defaultdict(itertools.count)
     )
@@ -112,6 +137,8 @@ ids = HtmlIDScope()
 
 
 def maybe(cls: type[T]) -> Callable[[str | T], T]:
+    """Convert a string to a class instance if necessary."""
+
     def converter(value: str | T) -> T:
         if isinstance(value, str):
             return cls(value)  # type: ignore
