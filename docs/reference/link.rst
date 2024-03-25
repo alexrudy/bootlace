@@ -1,0 +1,4 @@
+Links
+=====
+
+.. automodapi:: bootlace.links
