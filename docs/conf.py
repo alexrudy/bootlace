@@ -16,7 +16,9 @@ release = __about__.version
 
 extensions: list[str] = [
     "sphinx_automodapi.automodapi",
+    "sphinx_automodapi.smart_resolver",
     "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
     "sphinx.ext.viewcode",
     "sphinx_mdinclude",
 ]

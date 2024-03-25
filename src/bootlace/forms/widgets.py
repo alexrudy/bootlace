@@ -3,6 +3,8 @@ from typing import Any
 from dominate import tags
 from wtforms.fields import Field
 
+__all__ = ["Switch"]
+
 
 class Switch:
 
