@@ -38,8 +38,13 @@ docs:
 # Clean up
 clean:
     rm -rf dist/* *.egg-info
+    rm -rf docs/_build
+
+# Clean more stuff
+clean-all: clean
+    rm -rf .direnv
+    rm -rf .venv
     rm -rf .tox
     rm -rf .mypy_cache .pytest_cache
-    rm -rf .coverage htmlcov
-    rm -rf docs/_build
     rm -rf docs/api
+    rm -rf .coverage htmlcov
