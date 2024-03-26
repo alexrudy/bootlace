@@ -17,6 +17,12 @@ Icon
       ~Icon.url
       ~Icon.width
 
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Icon.__tag__
+
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: endpoint
@@ -25,3 +31,7 @@ Icon
    .. autoattribute:: name
    .. autoattribute:: url
    .. autoattribute:: width
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: __tag__

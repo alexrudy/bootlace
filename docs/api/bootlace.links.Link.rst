@@ -12,10 +12,22 @@ Link
 
       ~Link.active
       ~Link.enabled
+      ~Link.text
       ~Link.url
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Link.__tag__
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: active
    .. autoattribute:: enabled
+   .. autoattribute:: text
    .. autoattribute:: url
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: __tag__

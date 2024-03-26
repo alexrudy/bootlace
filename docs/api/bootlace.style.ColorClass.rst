@@ -21,12 +21,6 @@ ColorClass
       ~ColorClass.TERTIARY
       ~ColorClass.WARNING
 
-   .. rubric:: Methods Summary
-
-   .. autosummary::
-
-      ~ColorClass.add_to_class
-
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: BODY
@@ -39,7 +33,3 @@ ColorClass
    .. autoattribute:: SUCCESS
    .. autoattribute:: TERTIARY
    .. autoattribute:: WARNING
-
-   .. rubric:: Methods Documentation
-
-   .. automethod:: add_to_class

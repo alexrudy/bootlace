@@ -10,6 +10,8 @@ CheckColumn
 
    .. autosummary::
 
+      ~CheckColumn.attribute
+      ~CheckColumn.heading
       ~CheckColumn.no
       ~CheckColumn.yes
 
@@ -21,6 +23,8 @@ CheckColumn
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: attribute
+   .. autoattribute:: heading
    .. autoattribute:: no
    .. autoattribute:: yes
 

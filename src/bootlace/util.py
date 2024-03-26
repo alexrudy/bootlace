@@ -8,6 +8,7 @@ from collections.abc import Iterator
 from collections.abc import Mapping
 from typing import Any
 from typing import Protocol
+from typing import TypeAlias
 from typing import TypeVar
 
 import attrs
@@ -46,18 +47,53 @@ def _monkey_patch_dominate() -> None:
 class Taggable(Protocol):
     """Protocol for objects that can be converted to a tag."""
 
-    def __tag__(self) -> tags.html_tag: ...
+    def __tag__(self) -> tags.html_tag:
+        """Convert the object to a dominate tag.
+
+        This method gives objects control over how they are processed by :func:`as_tag`. It should return a
+        :mod:`dominate` tag. If a taggable object contains other taggable objects, it should use :func:`as_tag` to
+        convert them, and then apply any additional processing as necessary to the returned :class:`~dominate.html_tag`.
+
+        :meta public:
+        :returns: A :mod:`dominate` tag.
+        """
+        ...
 
 
 #: A type that can be converted to a tag
-IntoTag = Taggable | tags.html_tag
+IntoTag: TypeAlias = Taggable | tags.html_tag
 
 #: A type that can be converted to a tag via :func:`as_tag`
-MaybeTaggable = IntoTag | str | Iterable[Taggable | tags.html_tag]
+MaybeTaggable: TypeAlias = IntoTag | str | Iterable[Taggable | tags.html_tag]
 
 
-def as_tag(item: Taggable) -> tags.html_tag:
-    """Convert an item to a dominate tag."""
+def as_tag(item: MaybeTaggable) -> tags.html_tag:
+    """Convert an item to a dominate tag.
+
+    :mod:`bootlace` uses :mod:`dominate` to render HTML. To do this, objects implement the :class:`Taggable` protocol,
+    providing a ``__tag__`` dunder method. This method will also accept regular :mod:`dominate` tags, strings, and
+    iterables of :class:`Taggable` objects. It will try to always return a :mod:`dominate` tag.
+
+    To render taggable objects in a template, use :func:`render`, a convenience function that will convert the object
+    to a :mod:`dominate` tag and then render it to a :class:`Markup` object for use in a template.
+
+    Handling notes
+    --------------
+
+    When a string is passed in, it will be wrapped with :class:`dominate.util.text` to render a literal string as a
+    tag. When an iterable of taggable items is passed, it is returned as a :class:`dominate.util.container`, which will
+    render the tags in sequence.
+
+    Unknown types are displayed using their string representation (by calling :class:`str` on them), along with a
+    comment in the rendered HTML and a :class:`Bootlace` warning emitted.
+
+    Arguments
+    ---------
+
+    :param item: The item to convert to :mod:`dominate` tags.
+    :returns: A :mod:`dominate` tag.
+
+    """
 
     if isinstance(item, tags.html_tag):
         return item
@@ -72,8 +108,19 @@ def as_tag(item: Taggable) -> tags.html_tag:
     return container(text(str(item)), tags.comment(f"Rendered type {item.__class__.__name__} not supported"))
 
 
-def render(item: Taggable) -> Markup:
-    """Render an item to a Markup object."""
+def render(item: MaybeTaggable) -> Markup:
+    """Render an item to a Markup object.
+
+    This function is a convenience wrapper around :func:`as_tag` and :meth:`dominate.tags.html_tag.render`. It will try
+    to convert most objects to a :mod:`dominate` tag and then render it to a :class:`Markup` object which can be
+    inserted into :mod:`jinja` templates.
+
+    Arguments
+    ---------
+    :param item: The item to render. See :func:`as_tag` for more information.
+    :returns: A :class:`Markup` object, suitable for inserting into a :mod:`jinja` template.
+
+    """
     return Markup(as_tag(item).render())
 
 

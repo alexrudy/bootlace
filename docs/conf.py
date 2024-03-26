@@ -23,6 +23,8 @@ extensions: list[str] = [
     "sphinx_mdinclude",
 ]
 
+automodsumm_inherited_members = True
+automodsumm_included_members = ["__tag__", "__init__", "__call__"]
 
 templates_path: list[str] = ["_templates"]
 exclude_patterns: list[str] = []

@@ -13,7 +13,17 @@ Heading
       ~Heading.icon
       ~Heading.text
 
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Heading.__tag__
+
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: icon
    .. autoattribute:: text
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: __tag__

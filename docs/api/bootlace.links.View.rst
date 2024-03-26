@@ -14,8 +14,15 @@ View
       ~View.enabled
       ~View.endpoint
       ~View.ignore_query
+      ~View.text
       ~View.url
       ~View.url_kwargs
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~View.__tag__
 
    .. rubric:: Attributes Documentation
 
@@ -23,5 +30,10 @@ View
    .. autoattribute:: enabled
    .. autoattribute:: endpoint
    .. autoattribute:: ignore_query
+   .. autoattribute:: text
    .. autoattribute:: url
    .. autoattribute:: url_kwargs
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: __tag__

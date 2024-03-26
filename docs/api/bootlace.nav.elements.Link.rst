@@ -20,6 +20,8 @@ Link
 
    .. autosummary::
 
+      ~Link.__tag__
+      ~Link.element_state
       ~Link.with_url
       ~Link.with_view
 
@@ -33,5 +35,7 @@ Link
 
    .. rubric:: Methods Documentation
 
+   .. automethod:: __tag__
+   .. automethod:: element_state
    .. automethod:: with_url
    .. automethod:: with_view

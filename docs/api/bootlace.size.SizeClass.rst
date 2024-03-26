@@ -17,12 +17,6 @@ SizeClass
       ~SizeClass.MEDIUM
       ~SizeClass.SMALL
 
-   .. rubric:: Methods Summary
-
-   .. autosummary::
-
-      ~SizeClass.add_to_class
-
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: EXTRA_EXTRA_LARGE
@@ -31,7 +25,3 @@ SizeClass
    .. autoattribute:: LARGE
    .. autoattribute:: MEDIUM
    .. autoattribute:: SMALL
-
-   .. rubric:: Methods Documentation
-
-   .. automethod:: add_to_class
