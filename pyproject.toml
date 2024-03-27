@@ -36,8 +36,8 @@ Documentation = "https://github.com/alexrudy/bootlace#readme"
 Issues = "https://github.com/alexrudy/bootlace/issues"
 Source = "https://github.com/alexrudy/bootlace"
 
-[tool.hatch.build]
-include = ["/src/bootlace", "pyproject.toml", "README.md", "LICENSE"]
+[tool.hatch.build.targets.sdist]
+include = ["src/"]
 
 [tool.pytest.ini_options]
 testpaths = "tests"
