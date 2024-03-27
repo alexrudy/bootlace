@@ -1,5 +1,6 @@
 import attrs
 from dominate import tags
+from dominate.dom_tag import dom_tag
 from dominate.util import container
 
 from .core import Link
@@ -67,7 +68,7 @@ class Brand(Link):
     #: The ID of the brand
     id: str = attrs.field(factory=element_id.factory("navbar-brand"))
 
-    def __tag__(self) -> tags.html_tag:
+    def __tag__(self) -> dom_tag:
         a = as_tag(self.link)
         a["class"] = "navbar-brand"
         a["id"] = self.id
@@ -80,7 +81,7 @@ class NavBarCollapse(SubGroup):
 
     id: str = attrs.field(factory=element_id.factory("navbar-collapse"))
 
-    def __tag__(self) -> tags.html_tag:
+    def __tag__(self) -> dom_tag:
         button = tags.button(
             type="button",
             cls="navbar-toggler",
@@ -121,7 +122,7 @@ class NavBarSearch(NavElement):
     method: str = "GET"
     button: str | None = None
 
-    def __tag__(self) -> tags.html_tag:
+    def __tag__(self) -> dom_tag:
         form = tags.form(id=self.id)
         form.classes.add("d-flex")
         form["role"] = "search"

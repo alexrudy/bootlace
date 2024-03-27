@@ -1,3 +1,5 @@
+import warnings
+
 import attrs
 from dominate import tags
 
@@ -5,6 +7,7 @@ from .core import NavAlignment
 from .core import NavStyle
 from .core import SubGroup
 from bootlace.util import as_tag
+from bootlace.util import BootlaceWarning
 from bootlace.util import ids as element_id
 
 
@@ -66,9 +69,14 @@ class Dropdown(SubGroup):
         menu = tags.ul(cls="dropdown-menu", aria_labelledby=self.id)
         for item in self.items:
             tag = as_tag(item)
-            tag.classes.remove("nav-link")
-            if not any(cls.startswith("dropdown-") for cls in tag.classes):
-                tag.classes.add("dropdown-item")
+            if isinstance(tag, tags.html_tag):
+                tag.classes.remove("nav-link")
+                if not any(cls.startswith("dropdown-") for cls in tag.classes):
+                    tag.classes.add("dropdown-item")
+            else:
+                warnings.warn(
+                    BootlaceWarning(f"Item {item!r} is not an html tag, may not display properly"), stacklevel=2
+                )
             menu.add(tags.li(tag, __pretty=False))
         div.add(menu)
         return div

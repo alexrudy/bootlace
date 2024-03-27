@@ -13,6 +13,7 @@ from typing import TypeVar
 
 import attrs
 from dominate import tags
+from dominate.dom_tag import dom_tag
 from dominate.util import container
 from dominate.util import text
 from flask import request
@@ -41,13 +42,13 @@ class BootlaceWarning(UserWarning):
 
 def _monkey_patch_dominate() -> None:
     """Monkey patch the dominate tags to support class attribute manipulation"""
-    tags.html_tag.classes = property(lambda self: Classes(self))
+    tags.html_tag.classes = property(lambda self: Classes(self))  # type: ignore
 
 
 class Taggable(Protocol):
     """Protocol for objects that can be converted to a tag."""
 
-    def __tag__(self) -> tags.html_tag:
+    def __tag__(self) -> dom_tag:
         """Convert the object to a dominate tag.
 
         This method gives objects control over how they are processed by :func:`as_tag`. It should return a
@@ -61,13 +62,13 @@ class Taggable(Protocol):
 
 
 #: A type that can be converted to a tag
-IntoTag: TypeAlias = Taggable | tags.html_tag
+IntoTag: TypeAlias = Taggable | dom_tag
 
 #: A type that can be converted to a tag via :func:`as_tag`
-MaybeTaggable: TypeAlias = IntoTag | str | Iterable[Taggable | tags.html_tag]
+MaybeTaggable: TypeAlias = IntoTag | str | Iterable[Taggable | dom_tag]
 
 
-def as_tag(item: MaybeTaggable) -> tags.html_tag:
+def as_tag(item: MaybeTaggable) -> dom_tag:
     """Convert an item to a dominate tag.
 
     :mod:`bootlace` uses :mod:`dominate` to render HTML. To do this, objects implement the :class:`Taggable` protocol,

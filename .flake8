@@ -12,3 +12,4 @@ ignore =
     B902
 max-line-length = 120
 min_python_version = 3.11
+exclude = src/dominate-stubs

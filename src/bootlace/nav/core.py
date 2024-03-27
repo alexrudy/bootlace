@@ -4,6 +4,7 @@ from typing import Any
 
 import attrs
 from dominate import tags
+from dominate.dom_tag import dom_tag
 
 from bootlace import links
 from bootlace.image import Image
@@ -42,12 +43,15 @@ class NavElement:
         """Whether the element is enabled"""
         return True
 
-    def __tag__(self) -> tags.html_tag:
+    def __tag__(self) -> dom_tag:
         warnings.warn(BootlaceWarning(f"Unhandled element {self.__class__.__name__}"), stacklevel=2)
         return tags.comment(f"unhandled element {self.__class__.__name__}")
 
-    def element_state(self, tag: tags.html_tag) -> tags.html_tag:
+    def element_state(self, tag: dom_tag) -> dom_tag:
         """Apply :attr:`active` and :attr:`enabled` states to the tag."""
+        if not isinstance(tag, tags.html_tag):
+            return tag
+
         if self.active:
             tag.classes.add("active")
             tag.attributes["aria-current"] = "page"
@@ -93,10 +97,11 @@ class Link(NavElement):
         """The URL for the link."""
         return self.link.url
 
-    def __tag__(self) -> tags.html_tag:
+    def __tag__(self) -> dom_tag:
         a = as_tag(self.link)
-        a["id"] = self.id
-        a.classes.add("nav-link")
+        if isinstance(a, tags.html_tag):
+            a["id"] = self.id
+            a.classes.add("nav-link")
 
         return self.element_state(a)
 
@@ -119,7 +124,7 @@ class Text(NavElement):
     def enabled(self) -> bool:
         return False
 
-    def __tag__(self) -> tags.html_tag:
+    def __tag__(self) -> dom_tag:
         tag = tags.span(self.text, cls="nav-link")
         return self.element_state(tag)
 

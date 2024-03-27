@@ -8,6 +8,7 @@ from typing import ClassVar
 
 import attrs
 from dominate import tags
+from dominate.dom_tag import dom_tag
 
 from bootlace.icon import Icon
 from bootlace.util import as_tag
@@ -54,7 +55,7 @@ class ColumnBase(ABC):
         return self._attribute
 
     @abstractmethod
-    def cell(self, value: Any) -> tags.html_tag:
+    def cell(self, value: Any) -> dom_tag:
         """Return the cell for the column as an HTML tag."""
         raise NotImplementedError("Subclasses must implement this method")
 

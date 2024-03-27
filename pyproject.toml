@@ -38,8 +38,7 @@ Source = "https://github.com/unknown/bootlace"
 
 
 [tool.hatch.build.targets.sdist]
-include = ["src/"]
-
+include = ["src/bootlace", "src/dominate-stubs"]
 
 [tool.pytest.ini_options]
 testpaths = "tests"
@@ -106,9 +105,6 @@ ignore_missing_imports = true
 module = "tests.*"
 disallow_subclassing_any = false
 
-[[tool.mypy.overrides]]
-module = "dominate.*"
-ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = "html5lib.*"
