@@ -2,7 +2,7 @@ from typing import ClassVar
 
 import attrs
 from dominate import svg
-from dominate import tags
+from dominate.dom_tag import dom_tag
 from flask import url_for
 
 
@@ -36,7 +36,7 @@ class Icon:
         """The URL for the SVG source for the icon"""
         return url_for(self.endpoint, filename=self.filename, _anchor=self.name)
 
-    def __tag__(self) -> tags.html_tag:
+    def __tag__(self) -> dom_tag:
         classes = ["bi", "me-1", "pe-none", "align-self-center"]
         return svg.svg(
             svg.use(xlink_href=self.url),

@@ -7,6 +7,7 @@ from typing import TypeVar
 
 import attrs
 from dominate import tags
+from dominate.dom_tag import dom_tag
 from dominate.util import text
 from flask import Blueprint
 from flask import current_app
@@ -129,7 +130,7 @@ class Breadcrumb:
         """The URL for the breadcrumb"""
         return self.link.url
 
-    def __tag__(self) -> tags.html_tag:
+    def __tag__(self) -> dom_tag:
         if self.active:
             return text(self.title)
 
@@ -161,7 +162,7 @@ class Breadcrumbs:
         """Add a new crumb to the beginning of the list"""
         self.crumbs.insert(0, crumb)
 
-    def __tag__(self) -> tags.html_tag:
+    def __tag__(self) -> dom_tag:
         if not self.crumbs:
             return text("")
 
