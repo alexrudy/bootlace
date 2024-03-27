@@ -32,13 +32,12 @@ source = "vcs"
 version-file = "src/bootlace/_version.py"
 
 [project.urls]
-Documentation = "https://github.com/unknown/bootlace#readme"
-Issues = "https://github.com/unknown/bootlace/issues"
-Source = "https://github.com/unknown/bootlace"
+Documentation = "https://github.com/alexrudy/bootlace#readme"
+Issues = "https://github.com/alexrudy/bootlace/issues"
+Source = "https://github.com/alexrudy/bootlace"
 
-
-[tool.hatch.build.targets.sdist]
-include = ["src/bootlace", "src/dominate-stubs"]
+[tool.hatch.build]
+include = ["/src/bootlace", "pyproject.toml", "README.md", "LICENSE"]
 
 [tool.pytest.ini_options]
 testpaths = "tests"
@@ -47,7 +46,6 @@ addopts = [
   "--cov-report=term-missing",
   "--cov-config=pyproject.toml",
   "--cov=bootlace",
-  "--ignore=setup.py",
 ]
 log_level = "NOTSET"
 
@@ -82,7 +80,7 @@ omit = ["src/bootlace/_version.py", "src/bootlace/testing/*"]
 line-length = 120
 
 [tool.mypy]
-files = "src/bootlace"
+files = "src/bootlace,stubs/dominate-stubs"
 python_version = "3.11"
 show_error_codes = true
 allow_redefinition = true
