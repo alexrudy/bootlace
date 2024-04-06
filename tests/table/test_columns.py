@@ -4,6 +4,7 @@ import attrs
 import pytest
 from flask import Flask
 
+from bootlace.extension import Bootlace
 from bootlace.icon import Icon
 from bootlace.table.base import Heading
 from bootlace.table.columns import CheckColumn
@@ -13,6 +14,12 @@ from bootlace.testing import assert_same_html
 from bootlace.util import as_tag
 
 ICON_OPEN_SVG_TAG = """<svg class="bi pe-none align-self-center me-1" role="img" width="16" height="16">"""
+
+
+@pytest.fixture
+def app(app: Flask) -> Flask:
+    Bootlace(app)
+    return app
 
 
 @attrs.define(kw_only=True)

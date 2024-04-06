@@ -17,7 +17,7 @@ class Icon:
     """
 
     #: Endpoint name for getting the Bootstrap Icon SVG file
-    endpoint: ClassVar[str] = "static"
+    endpoint: ClassVar[str] = "bootlace.static"
 
     #: Filename for the Bootstrap Icon SVG file
     filename: ClassVar[str] = "icons/bootstrap-icons.svg"

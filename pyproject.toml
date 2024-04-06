@@ -71,7 +71,8 @@ exclude_lines = [
   "raise NotImplementedError",
   "if 0:",
   "except BaseException:",
-  ": \\.\\.\\.",
+  "\\.\\.\\.",
+  "if app is not None:",
 ]
 omit = ["src/bootlace/_version.py", "src/bootlace/testing/*"]
 
