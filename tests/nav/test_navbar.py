@@ -9,34 +9,7 @@ from bootlace.testing.html import assert_same_html
 from bootlace.util import render
 
 
-def test_navbar() -> None:
-    nav = bar.NavBar(
-        items=[
-            bar.Brand.with_url(url="#", text="Navbar"),
-            bar.NavBarCollapse(
-                id="navbarSupportedContent",
-                items=[
-                    bar.NavBarNav(
-                        items=[
-                            CurrentLink.with_url(url="#", text="Home"),
-                            elements.Link.with_url(url="#", text="Link"),
-                            elements.Dropdown(
-                                title="Dropdown",
-                                items=[
-                                    elements.Link.with_url(url="#", text="Action"),
-                                    elements.Link.with_url(url="#", text="Another action"),
-                                    elements.Separator(),
-                                    elements.Link.with_url(url="#", text="Separated link"),
-                                ],
-                            ),
-                            DisabledLink.with_url(url="#", text="Disabled"),
-                        ]
-                    ),
-                    bar.NavBarSearch(),
-                ],
-            ),
-        ],
-    )
+def test_navbar(nav: bar.NavBar) -> None:
 
     source = render(nav)
 

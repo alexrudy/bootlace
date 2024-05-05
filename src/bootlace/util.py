@@ -180,6 +180,9 @@ class HtmlIDScope:
     def factory(self, scope: str) -> functools.partial:
         return functools.partial(self, scope)
 
+    def reset(self) -> None:
+        self.scopes.clear()
+
 
 ids = HtmlIDScope()
 

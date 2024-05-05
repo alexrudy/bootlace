@@ -1,6 +1,7 @@
 import enum
 import warnings
 from typing import Any
+from typing import Self
 
 import attrs
 from dominate import tags
@@ -32,6 +33,26 @@ class NavAlignment(enum.Enum):
 
 class NavElement:
     """Base class for nav components"""
+
+    _NAV_ELEMENT_REGISTRY: dict[str, type["NavElement"]] = {}
+
+    def __init_subclass__(cls) -> None:
+        cls._NAV_ELEMENT_REGISTRY[cls.__name__] = cls
+
+    def serialize(self) -> dict[str, Any]:
+        """Serialize the element to a dictionary"""
+        data = attrs.asdict(self)  # type: ignore
+        data["__type__"] = self.__class__.__name__
+        return data
+
+    @classmethod
+    def deserialize(cls, data: dict[str, Any]) -> "NavElement":
+        """Deserialize an element from a dictionary"""
+        if cls is NavElement:
+            element_cls = cls._NAV_ELEMENT_REGISTRY.get(data["__type__"], NavElement)
+            del data["__type__"]
+            return element_cls.deserialize(data)
+        return cls(**data)
 
     @property
     def active(self) -> bool:
@@ -71,6 +92,18 @@ class Link(NavElement):
 
     #: The ID of the element
     id: str = attrs.field(factory=element_id.factory("nav-link"))
+
+    def serialize(self) -> dict[str, Any]:
+        data = super().serialize()
+        data["link"] = attrs.asdict(self.link)
+        data["link"]["__type__"] = self.link.__class__.__name__
+        return data
+
+    @classmethod
+    def deserialize(cls, data: dict[str, Any]) -> Self:
+        link_cls = getattr(links, data["link"].pop("__type__"))
+        data["link"] = link_cls(**data["link"])
+        return cls(**data)
 
     @classmethod
     def with_url(cls, url: str, text: str | Image, **kwargs: Any) -> "Link":
@@ -134,6 +167,16 @@ class SubGroup(NavElement):
     """Any grouping of items in the nav bar"""
 
     items: list[NavElement] = attrs.field(factory=list)
+
+    def serialize(self) -> dict[str, Any]:
+        data = super().serialize()
+        data["items"] = [item.serialize() for item in self.items]
+        return data
+
+    @classmethod
+    def deserialize(cls, data: dict[str, Any]) -> Self:
+        data["items"] = [NavElement.deserialize(item) for item in data["items"]]
+        return cls(**data)
 
     @property
     def active(self) -> bool:

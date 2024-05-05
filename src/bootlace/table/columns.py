@@ -59,8 +59,17 @@ class CheckColumn(ColumnBase):
 
 @attrs.define
 class Datetime(ColumnBase):
-    """A column which shows a datetime attribute as an ISO formatted string."""
+    """A column which shows a datetime attribute as an ISO formatted string.
+
+    This column can also be used for date or time objects.
+
+    A format string can be provided to format the datetime object."""
+
+    format: str | None = attrs.field(default=None)
 
     def cell(self, value: Any) -> dom_tag:
         """Return the cell for the column as an HTML tag."""
+        if self.format:
+            return text(getattr(value, self.attribute).strftime(self.format))
+
         return text(getattr(value, self.attribute).isoformat())

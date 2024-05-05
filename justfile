@@ -25,7 +25,7 @@ test-all:
 
 # Run lints
 lint:
-    flake8
+    pre-commit run --all-files
 
 # Run mypy
 mypy:

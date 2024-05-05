@@ -1,4 +1,6 @@
 import warnings
+from typing import Any
+from typing import Self
 
 import attrs
 from dominate import tags
@@ -23,6 +25,18 @@ class Nav(SubGroup):
 
     #: The alignment of the elments in the nav
     alignment: NavAlignment = NavAlignment.DEFAULT
+
+    def serialize(self) -> dict[str, Any]:
+        data = super().serialize()
+        data["style"] = self.style.name
+        data["alignment"] = self.alignment.name
+        return data
+
+    @classmethod
+    def deserialize(cls, data: dict[str, Any]) -> Self:
+        data["style"] = NavStyle[data["style"]]
+        data["alignment"] = NavAlignment[data["alignment"]]
+        return super().deserialize(data)
 
     def __tag__(self) -> tags.html_tag:
         active_endpoint = next((item for item in self.items if item.active), None)
