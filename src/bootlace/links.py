@@ -16,15 +16,18 @@ __all__ = ["Link", "View"]
 class LinkBase(abc.ABC):
     text: MaybeTaggable
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def active(self) -> bool:
         raise NotImplementedError("LinkBase.active must be implemented in a subclass")
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def enabled(self) -> bool:
         raise NotImplementedError("LinkBase.enabled must be implemented in a subclass")
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def url(self) -> str:
         raise NotImplementedError("LinkBase.url must be implemented in a subclass")
 

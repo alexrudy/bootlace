@@ -1,3 +1,5 @@
+from typing import Any
+
 import attrs
 from dominate import tags
 from dominate.dom_tag import dom_tag
@@ -35,6 +37,20 @@ class NavBar(NavElement):
 
     #: Whether the navbar should be fluid (e.g. full width)
     fluid: bool = True
+
+    def serialize(self) -> dict[str, Any]:
+        data = super().serialize()
+        data["items"] = [item.serialize() for item in self.items]
+        data["expand"] = self.expand.value if self.expand else None
+        data["color"] = self.color.value if self.color else None
+        return data
+
+    @classmethod
+    def deserialize(cls, data: dict[str, Any]) -> NavElement:
+        data["items"] = [NavElement.deserialize(item) for item in data["items"]]
+        data["expand"] = SizeClass(data["expand"]) if data["expand"] else None
+        data["color"] = ColorClass(data["color"]) if data["color"] else None
+        return cls(**data)
 
     def __tag__(self) -> tags.html_tag:
         nav = tags.nav(cls="navbar")

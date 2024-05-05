@@ -1,3 +1,5 @@
+import pytest
+
 from .conftest import CurrentLink
 from .conftest import DisabledLink
 from .conftest import get_fixture
@@ -7,14 +9,17 @@ from bootlace.testing.html import assert_same_html
 from bootlace.util import render
 
 
-def test_base_nav() -> None:
-
+@pytest.fixture
+def nav() -> elements.Nav:
     nav = elements.Nav()
     nav.items.append(CurrentLink.with_url(url="#", text="Active"))
     nav.items.append(elements.Link.with_url(url="#", text="Link"))
     nav.items.append(elements.Link.with_url(url="#", text="Link"))
     nav.items.append(DisabledLink.with_url(url="#", text="Disabled"))
+    return nav
 
+
+def test_base_nav(nav: elements.Nav) -> None:
     source = render(nav)
 
     expected = get_fixture("nav.html")
@@ -22,14 +27,9 @@ def test_base_nav() -> None:
     assert_same_html(expected_html=expected, actual_html=str(source))
 
 
-def test_nav_tabs() -> None:
+def test_nav_tabs(nav: elements.Nav) -> None:
 
-    nav = elements.Nav(style=NavStyle.TABS)
-    nav.items.append(CurrentLink.with_url(url="#", text="Active"))
-    nav.items.append(elements.Link.with_url(url="#", text="Link"))
-    nav.items.append(elements.Link.with_url(url="#", text="Link"))
-    nav.items.append(DisabledLink.with_url(url="#", text="Disabled"))
-
+    nav.style = NavStyle.TABS
     source = render(nav)
 
     expected = get_fixture("nav_tabs.html")
@@ -37,13 +37,9 @@ def test_nav_tabs() -> None:
     assert_same_html(expected_html=expected, actual_html=str(source))
 
 
-def test_nav_pills() -> None:
+def test_nav_pills(nav: elements.Nav) -> None:
 
-    nav = elements.Nav(style=NavStyle.PILLS)
-    nav.items.append(CurrentLink.with_url(url="#", text="Active"))
-    nav.items.append(elements.Link.with_url(url="#", text="Link"))
-    nav.items.append(elements.Link.with_url(url="#", text="Link"))
-    nav.items.append(DisabledLink.with_url(url="#", text="Disabled"))
+    nav.style = NavStyle.PILLS
 
     source = render(nav)
 
