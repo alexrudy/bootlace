@@ -11,7 +11,10 @@ Table
    .. autosummary::
 
       ~Table.columns
-      ~Table.decorated_classes
+      ~Table.table
+      ~Table.tbody
+      ~Table.thead
+      ~Table.tr
 
    .. rubric:: Methods Summary
 
@@ -22,7 +25,10 @@ Table
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: columns
-   .. autoattribute:: decorated_classes
+   .. autoattribute:: table
+   .. autoattribute:: tbody
+   .. autoattribute:: thead
+   .. autoattribute:: tr
 
    .. rubric:: Methods Documentation
 

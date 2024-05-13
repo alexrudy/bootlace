@@ -12,6 +12,9 @@ Column
 
       ~Column.attribute
       ~Column.heading
+      ~Column.name
+      ~Column.td
+      ~Column.th
 
    .. rubric:: Methods Summary
 
@@ -23,6 +26,9 @@ Column
 
    .. autoattribute:: attribute
    .. autoattribute:: heading
+   .. autoattribute:: name
+   .. autoattribute:: td
+   .. autoattribute:: th
 
    .. rubric:: Methods Documentation
 

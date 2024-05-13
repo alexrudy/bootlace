@@ -12,30 +12,38 @@ NavBar
 
       ~NavBar.active
       ~NavBar.color
+      ~NavBar.container
       ~NavBar.enabled
       ~NavBar.expand
       ~NavBar.fluid
       ~NavBar.id
       ~NavBar.items
+      ~NavBar.nav
 
    .. rubric:: Methods Summary
 
    .. autosummary::
 
       ~NavBar.__tag__
+      ~NavBar.deserialize
       ~NavBar.element_state
+      ~NavBar.serialize
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: active
    .. autoattribute:: color
+   .. autoattribute:: container
    .. autoattribute:: enabled
    .. autoattribute:: expand
    .. autoattribute:: fluid
    .. autoattribute:: id
    .. autoattribute:: items
+   .. autoattribute:: nav
 
    .. rubric:: Methods Documentation
 
    .. automethod:: __tag__
+   .. automethod:: deserialize
    .. automethod:: element_state
+   .. automethod:: serialize

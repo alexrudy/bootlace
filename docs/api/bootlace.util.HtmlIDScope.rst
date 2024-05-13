@@ -18,6 +18,7 @@ HtmlIDScope
 
       ~HtmlIDScope.__call__
       ~HtmlIDScope.factory
+      ~HtmlIDScope.reset
 
    .. rubric:: Attributes Documentation
 
@@ -27,3 +28,4 @@ HtmlIDScope
 
    .. automethod:: __call__
    .. automethod:: factory
+   .. automethod:: reset

@@ -12,7 +12,10 @@ CheckColumn
 
       ~CheckColumn.attribute
       ~CheckColumn.heading
+      ~CheckColumn.name
       ~CheckColumn.no
+      ~CheckColumn.td
+      ~CheckColumn.th
       ~CheckColumn.yes
 
    .. rubric:: Methods Summary
@@ -25,7 +28,10 @@ CheckColumn
 
    .. autoattribute:: attribute
    .. autoattribute:: heading
+   .. autoattribute:: name
    .. autoattribute:: no
+   .. autoattribute:: td
+   .. autoattribute:: th
    .. autoattribute:: yes
 
    .. rubric:: Methods Documentation
