@@ -6,6 +6,8 @@ from collections.abc import Callable
 from collections.abc import Iterable
 from collections.abc import Iterator
 from collections.abc import Mapping
+from collections.abc import MutableMapping
+from collections.abc import MutableSet
 from typing import Any
 from typing import Protocol
 from typing import TypeAlias
@@ -43,6 +45,9 @@ class BootlaceWarning(UserWarning):
 def _monkey_patch_dominate() -> None:
     """Monkey patch the dominate tags to support class attribute manipulation"""
     tags.html_tag.classes = property(lambda self: Classes(self))  # type: ignore
+    tags.html_tag.data = PrefixAccessor("data")  # type: ignore
+    tags.html_tag.aria = PrefixAccessor("aria")  # type: ignore
+    tags.html_tag.hx = PrefixAccessor("hx")  # type: ignore
 
 
 class Taggable(Protocol):
@@ -125,17 +130,20 @@ def render(item: MaybeTaggable) -> Markup:
     return Markup(as_tag(item).render())
 
 
-class Classes:
+class Classes(MutableSet[str]):
     """A helper for manipulating the class attribute on a tag."""
 
     def __init__(self, tag: tags.html_tag) -> None:
         self.tag = tag
 
-    def __contains__(self, cls: str) -> bool:
+    def __contains__(self, cls: object) -> bool:
         return cls in self.tag.attributes.get("class", "").split()
 
     def __iter__(self) -> Iterator[str]:
         return iter(self.tag.attributes.get("class", "").split())
+
+    def __len__(self) -> int:
+        return len(self.tag.attributes.get("class", "").split())
 
     def add(self, *classes: str) -> tags.html_tag:
         current: list[str] = self.tag.attributes.get("class", "").split()
@@ -153,6 +161,9 @@ class Classes:
         self.tag.attributes["class"] = " ".join(current)
         return self.tag
 
+    def discard(self, value: str) -> None:
+        self.remove(value)
+
     def swap(self, old: str, new: str) -> tags.html_tag:
         current: list[str] = self.tag.attributes.get("class", "").split()
         if old in current:
@@ -160,6 +171,48 @@ class Classes:
         if new not in current:
             current.append(new)
         self.tag.attributes["class"] = " ".join(current)
+        return self.tag
+
+
+@attrs.define
+class PrefixAccessor:
+    """A helper for accessing attributes with a prefix."""
+
+    prefix: str = attrs.field()
+
+    def __get__(self, instance: tags.html_tag, owner: type[tags.html_tag]) -> "PrefixAccess":
+        return PrefixAccess(self.prefix, instance)
+
+
+@attrs.define
+class PrefixAccess(MutableMapping[str, str]):
+
+    prefix: str = attrs.field()
+    tag: tags.html_tag = attrs.field()
+
+    def __getitem__(self, name: str) -> str:
+        return self.tag.attributes[f"{self.prefix}-{name}"]
+
+    def __setitem__(self, name: str, value: str) -> None:
+        self.tag.attributes[f"{self.prefix}-{name}"] = value
+
+    def __delitem__(self, name: str) -> None:
+        del self.tag.attributes[f"{self.prefix}-{name}"]
+
+    def __iter__(self) -> Iterator[str]:
+        for key in self.tag.attributes:
+            if key.startswith(f"{self.prefix}-"):
+                yield key[len(self.prefix) + 1 :]
+
+    def __len__(self) -> int:
+        return sum(1 for _ in self)
+
+    def set(self, name: str, value: str) -> tags.html_tag:
+        self[name] = value
+        return self.tag
+
+    def remove(self, name: str) -> tags.html_tag:
+        del self[name]
         return self.tag
 
 
