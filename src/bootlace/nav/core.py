@@ -85,11 +85,11 @@ class NavElement:
 
         if self.active:
             tag.classes.add("active")
-            tag.aria["current"] = "page"  # type: ignore[attr-defined]
+            tag.aria["current"] = "page"
 
         if not self.enabled:
             tag.classes.add("disabled")
-            tag.aria["disabled"] = "true"  # type: ignore[attr-defined]
+            tag.aria["disabled"] = "true"
         return tag
 
 

@@ -278,7 +278,7 @@ class Tag:
     :meth:`update` method to apply the attributes to an existing tag."""
 
     #: The tag type
-    tag: type[dom_tag] = attrs.field()
+    tag: type[tags.html_tag] = attrs.field()
 
     #: The classes to apply to the tag
     classes: set[str] = attrs.field(factory=set)
@@ -286,15 +286,14 @@ class Tag:
     #: The attributes to apply to the tag
     attributes: dict[str, str] = attrs.field(factory=dict)
 
-    def __tag__(self) -> dom_tag:
+    def __tag__(self) -> tags.html_tag:
         tag = self.tag(**self.attributes)
-        tag.classes.add(*self.classes)  # type: ignore[attr-defined]
+        tag.classes.add(*self.classes)
         return tag
 
     def __call__(self, *args: Any, **kwds: Any) -> Any:
         tag = self.tag(*args, **{**self.attributes, **kwds})
-        tag.classes.add(*self.classes)  # type: ignore[attr-defined]
-        return tag
+        tag.classes.add(*self.classes)
 
     def __setitem__(self, name: str, value: str) -> None:
         self.attributes[name] = value
@@ -302,6 +301,6 @@ class Tag:
     def __getitem__(self, name: str) -> str:
         return self.attributes[name]
 
-    def update(self, tag: dom_tag) -> None:
-        tag.classes.add(*self.classes)  # type: ignore[attr-defined]
+    def update(self, tag: tags.html_tag) -> None:
+        tag.classes.add(*self.classes)
         tag.attributes.update(self.attributes)
