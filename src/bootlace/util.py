@@ -145,7 +145,7 @@ class Classes(MutableSet[str]):
     def __len__(self) -> int:
         return len(self.tag.attributes.get("class", "").split())
 
-    def add(self, *classes: str) -> tags.html_tag:
+    def add(self, *classes: str) -> tags.html_tag:  # type: ignore[override]
         current: list[str] = self.tag.attributes.get("class", "").split()
         for cls in classes:
             if cls not in current:
@@ -153,7 +153,7 @@ class Classes(MutableSet[str]):
         self.tag.attributes["class"] = " ".join(current)
         return self.tag
 
-    def remove(self, *classes: str) -> tags.html_tag:
+    def remove(self, *classes: str) -> tags.html_tag:  # type: ignore[override]
         current: list[str] = self.tag.attributes.get("class", "").split()
         for cls in classes:
             if cls in current:
@@ -288,12 +288,12 @@ class Tag:
 
     def __tag__(self) -> dom_tag:
         tag = self.tag(**self.attributes)
-        tag.classes.add(*self.classes)
+        tag.classes.add(*self.classes)  # type: ignore[attr-defined]
         return tag
 
     def __call__(self, *args: Any, **kwds: Any) -> Any:
         tag = self.tag(*args, **{**self.attributes, **kwds})
-        tag.classes.add(*self.classes)
+        tag.classes.add(*self.classes)  # type: ignore[attr-defined]
         return tag
 
     def __setitem__(self, name: str, value: str) -> None:
@@ -303,5 +303,5 @@ class Tag:
         return self.attributes[name]
 
     def update(self, tag: dom_tag) -> None:
-        tag.classes.add(*self.classes)
+        tag.classes.add(*self.classes)  # type: ignore[attr-defined]
         tag.attributes.update(self.attributes)
