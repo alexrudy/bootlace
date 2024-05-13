@@ -139,6 +139,7 @@ class HTMLDiff:
 
 
 def assert_same_html(expected_html: str, actual_html: str) -> None:
+    __tracebackhide__ = True
     diff = HTMLDiff(attributes=ATTRIBUTES)
     result = diff.compare(expected_html, actual_html)
     assert not result, str(result)

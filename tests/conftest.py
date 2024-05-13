@@ -1,3 +1,5 @@
+from collections.abc import Iterator
+
 import pytest
 from flask import Flask
 
@@ -15,3 +17,12 @@ def homepage(app: Flask) -> None:
     @app.route("/")
     def index() -> str:
         return "Hello, World!"
+
+
+@pytest.fixture(autouse=True, scope="function")
+def ids() -> Iterator[None]:
+    from bootlace.util import ids as element_id
+
+    yield
+
+    element_id.reset()

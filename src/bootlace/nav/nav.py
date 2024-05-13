@@ -11,6 +11,7 @@ from .core import SubGroup
 from bootlace.util import as_tag
 from bootlace.util import BootlaceWarning
 from bootlace.util import ids as element_id
+from bootlace.util import Tag
 
 
 @attrs.define
@@ -26,6 +27,9 @@ class Nav(SubGroup):
     #: The alignment of the elments in the nav
     alignment: NavAlignment = NavAlignment.DEFAULT
 
+    ul: Tag = Tag(tags.ul, classes={"nav"})
+    li: Tag = Tag(tags.li, classes={"nav-item"})
+
     def serialize(self) -> dict[str, Any]:
         data = super().serialize()
         data["style"] = self.style.name
@@ -40,7 +44,7 @@ class Nav(SubGroup):
 
     def __tag__(self) -> tags.html_tag:
         active_endpoint = next((item for item in self.items if item.active), None)
-        ul = tags.ul(cls="nav", id=self.id)
+        ul = self.ul(id=self.id)
 
         if (style := self.style.value) != "":
             ul.classes.add(style)
@@ -53,7 +57,7 @@ class Nav(SubGroup):
                 ul["data-endpoint"] = endpoint
 
         for item in self.items:
-            ul.add(tags.li(as_tag(item), cls="nav-item", __pretty=False))
+            ul.add(self.li(as_tag(item), __pretty=False))
 
         return ul
 
@@ -68,19 +72,24 @@ class Dropdown(SubGroup):
     #: The ID of the dropdown
     id: str = attrs.field(factory=element_id.factory("bs-dropdown"))
 
+    dropdown: Tag = Tag(tags.div, classes={"dropdown"})
+    ul: Tag = Tag(tags.ul, classes={"dropdown-menu"})
+    li: Tag = Tag(tags.li)
+    toggle: Tag = Tag(tags.a, classes={"nav-link", "dropdown-toggle"}, attributes={"role": "button"})
+
     def __tag__(self) -> tags.html_tag:
-        div = tags.div(cls="dropdown")
-        a = tags.a(
+        div = self.dropdown()
+        a = self.toggle(
             self.title,
             href="#",
-            cls="nav-link dropdown-toggle",
-            role="button",
             id=self.id,
-            aria_expanded="false",
-            data_bs_toggle="dropdown",
         )
+        a.aria["expanded"] = "false"
+        a.data["bs-toggle"] = "dropdown"
         div.add(a)
-        menu = tags.ul(cls="dropdown-menu", aria_labelledby=self.id)
+
+        menu = self.ul()
+        menu.aria["labelledby"] = self.id
         for item in self.items:
             tag = as_tag(item)
             if isinstance(tag, tags.html_tag):
@@ -91,6 +100,6 @@ class Dropdown(SubGroup):
                 warnings.warn(
                     BootlaceWarning(f"Item {item!r} is not an html tag, may not display properly"), stacklevel=2
                 )
-            menu.add(tags.li(tag, __pretty=False))
+            menu.add(self.li(tag, __pretty=False))
         div.add(menu)
         return div

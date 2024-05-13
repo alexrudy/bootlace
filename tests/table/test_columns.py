@@ -42,7 +42,7 @@ def test_unnamed_column() -> None:
 @pytest.mark.usefixtures("homepage")
 def test_edit_column(app: Flask) -> None:
 
-    col = EditColumn(heading="Edit", attribute="editor", endpoint="index")
+    col = EditColumn(heading="Edit", name="editor", endpoint="index")
 
     th = as_tag(col.heading)
 
@@ -58,7 +58,7 @@ def test_edit_column(app: Flask) -> None:
 
 def test_check_column(app: Flask) -> None:
 
-    col = CheckColumn(heading="Check", attribute="check")
+    col = CheckColumn(heading="Check", name="check")
 
     with app.test_request_context("/"):
         td = col.cell(Item())
@@ -85,7 +85,7 @@ def test_check_column(app: Flask) -> None:
 
 def test_datetime_column(app: Flask) -> None:
 
-    col = Datetime(heading=Heading(icon=Icon("clock"), text="time"), attribute="when")
+    col = Datetime(heading=Heading(icon=Icon("clock"), text="time"), name="when")
 
     with app.test_request_context("/"):
         th = as_tag(col.heading)
@@ -102,5 +102,16 @@ def test_datetime_column(app: Flask) -> None:
     td = col.cell(Item())
 
     expected = "<td>2021-01-01T12:18:05</td>"
+
+    assert_same_html(expected, str(td))
+
+
+def test_datetime_format(app: Flask) -> None:
+
+    col = Datetime(heading="Date", name="when", format="%Y-%m-%d")
+
+    td = col.cell(Item())
+
+    expected = "<td>2021-01-01</td>"
 
     assert_same_html(expected, str(td))

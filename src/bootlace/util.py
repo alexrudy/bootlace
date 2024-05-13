@@ -267,3 +267,41 @@ def is_active_endpoint(endpoint: str, url_kwargs: Mapping[str, Any], ignore_quer
     _, url = rule_url
 
     return url == request.path
+
+
+@attrs.define
+class Tag:
+    """A helper for creating tags.
+
+    Holds the tag type as well as attributes for the tag. This can be used
+    by calling the instance as a function to create a tag, or by calling the
+    :meth:`update` method to apply the attributes to an existing tag."""
+
+    #: The tag type
+    tag: type[dom_tag] = attrs.field()
+
+    #: The classes to apply to the tag
+    classes: set[str] = attrs.field(factory=set)
+
+    #: The attributes to apply to the tag
+    attributes: dict[str, str] = attrs.field(factory=dict)
+
+    def __tag__(self) -> dom_tag:
+        tag = self.tag(**self.attributes)
+        tag.classes.add(*self.classes)
+        return tag
+
+    def __call__(self, *args: Any, **kwds: Any) -> Any:
+        tag = self.tag(*args, **{**self.attributes, **kwds})
+        tag.classes.add(*self.classes)
+        return tag
+
+    def __setitem__(self, name: str, value: str) -> None:
+        self.attributes[name] = value
+
+    def __getitem__(self, name: str) -> str:
+        return self.attributes[name]
+
+    def update(self, tag: dom_tag) -> None:
+        tag.classes.add(*self.classes)
+        tag.attributes.update(self.attributes)

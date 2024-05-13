@@ -13,6 +13,7 @@ from bootlace.size import SizeClass
 from bootlace.style import ColorClass
 from bootlace.util import as_tag
 from bootlace.util import ids as element_id
+from bootlace.util import Tag
 
 
 @attrs.define
@@ -38,6 +39,9 @@ class NavBar(NavElement):
     #: Whether the navbar should be fluid (e.g. full width)
     fluid: bool = True
 
+    nav: Tag = Tag(tags.nav, classes={"navbar"})
+    container: Tag = Tag(tags.div, classes={"container"})
+
     def serialize(self) -> dict[str, Any]:
         data = super().serialize()
         data["items"] = [item.serialize() for item in self.items]
@@ -53,15 +57,16 @@ class NavBar(NavElement):
         return cls(**data)
 
     def __tag__(self) -> tags.html_tag:
-        nav = tags.nav(cls="navbar")
+        nav = self.nav()
         if self.expand:
             nav.classes.add(self.expand.add_to_class("navbar-expand"))
         if self.color:
             nav.classes.add(self.color.add_to_class("bg-body"))
 
-        container = tags.div()
+        container = self.container()
         if self.fluid:
             container.classes.add("container-fluid")
+            container.classes.remove("container")
         else:
             container.classes.add("container")
 
@@ -97,18 +102,20 @@ class NavBarCollapse(SubGroup):
 
     id: str = attrs.field(factory=element_id.factory("navbar-collapse"))
 
+    button: Tag = Tag(tags.button, classes={"navbar-toggler"}, attributes={"type": "button"})
+    icon: Tag = Tag(tags.span, classes={"navbar-toggler-icon"})
+    container: Tag = Tag(tags.div, classes={"collapse", "navbar-collapse"})
+
     def __tag__(self) -> dom_tag:
-        button = tags.button(
-            type="button",
-            cls="navbar-toggler",
-            data_bs_toggle="collapse",
-            data_bs_target=f"#{self.id}",
-            aria_controls=f"{self.id}",
-            aria_expanded="false",
-            aria_label="Toggle navigation",
-        )
-        button.add(tags.span(cls="navbar-toggler-icon"))
-        div = tags.div(cls="collapse navbar-collapse", id=self.id)
+        button = self.button()
+        button.data["bs-toggle"] = "collapse"
+        button.data["bs-target"] = f"#{self.id}"
+        button.aria["controls"] = f"{self.id}"
+        button.aria["expanded"] = "false"
+        button.aria["label"] = "Toggle navigation"
+
+        button.add(self.icon())
+        div = self.container(id=self.id)
         for item in self.items:
             div.add(as_tag(item))
         return container(button, div)
@@ -120,10 +127,13 @@ class NavBarNav(Nav):
 
     id: str = attrs.field(factory=element_id.factory("navbar-nav"))
 
+    ul: Tag = Tag(tags.ul, classes={"navbar-nav"})
+    li: Tag = Tag(tags.li, classes={"nav-item"})
+
     def __tag__(self) -> tags.html_tag:
-        ul = tags.ul(cls="navbar-nav", id=self.id)
+        ul = self.ul(id=self.id)
         for item in self.items:
-            ul.add(tags.li(as_tag(item), cls="nav-item", __pretty=False))
+            ul.add(self.li(as_tag(item), __pretty=False))
         return ul
 
 
@@ -138,17 +148,17 @@ class NavBarSearch(NavElement):
     method: str = "GET"
     button: str | None = None
 
-    def __tag__(self) -> dom_tag:
-        form = tags.form(id=self.id)
-        form.classes.add("d-flex")
-        form["role"] = "search"
+    form: Tag = Tag(tags.form, classes={"d-flex"}, attributes={"role": "search"})
+    input: Tag = Tag(tags.input_, classes={"form-control", "me-2"}, attributes={"type": "search"})
+    button_tag: Tag = Tag(tags.button, classes={"btn", "btn-success"}, attributes={"type": "submit"})
 
-        input = tags.input_(
-            type="search",
-            cls="form-control me-2",
+    def __tag__(self) -> dom_tag:
+        form = self.form(id=self.id)
+
+        input = self.input(
             placeholder=self.placeholder,
-            aria_label=self.placeholder,
         )
+        input.aria["label"] = self.placeholder
         form.add(input)
-        form.add(tags.button(self.button or self.placeholder, cls="btn btn-success", type="submit"))
+        form.add(self.button_tag(self.button or self.placeholder))
         return self.element_state(form)

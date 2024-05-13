@@ -4,6 +4,7 @@ import pytest
 from dominate import tags
 
 from bootlace.util import as_tag
+from bootlace.util import Tag
 
 
 class Taggable:
@@ -47,14 +48,21 @@ def test_classes() -> None:
 
     assert div.render() == '<div class="other"></div>'
 
+    assert len(div.classes) == 1
+
     div.classes.remove("other")
 
     assert div.render() == '<div class=""></div>'
 
+    div.classes.add("test")
+    div.classes.add("other")
+    div.classes.discard("test")
+    assert div.render() == '<div class="other"></div>'
+
 
 @pytest.mark.parametrize("prefix", ["data", "aria", "hx"])
 def test_accessors(prefix: str) -> None:
-    div = tags.div()
+    div = tags.div(other="ignored")
 
     pa = getattr(div, prefix)
     assert pa is not None
@@ -74,7 +82,23 @@ def test_accessors(prefix: str) -> None:
     assert tag == div
     assert f"{prefix}-other-test" not in div.attributes
 
+    div[f"{prefix}-parent-test"] = "test-4"
+    assert pa["parent-test"] == "test-4"
+    del div[f"{prefix}-parent-test"]
+
     pa["test1"] = "value-1"
     pa["test2"] = "value-2"
     assert len(pa) == 2
     assert set(pa) == {"test1", "test2"}
+
+
+def test_tag_configurator() -> None:
+
+    a = Tag(tags.a, classes={"test"}, attributes={"href": "#"})
+
+    assert a["href"] == "#"
+    a["href"] = "/test"
+    a.classes.add("other")
+    a.classes.discard("test")
+
+    assert as_tag(a).render() == '<a class="other" href="/test"></a>'

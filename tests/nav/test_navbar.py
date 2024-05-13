@@ -1,3 +1,6 @@
+import pytest
+from dominate import util
+
 from .conftest import CurrentLink
 from .conftest import DisabledLink
 from .conftest import get_fixture
@@ -98,3 +101,27 @@ def test_navbar_nocolor() -> None:
     """
 
     assert_same_html(expected_html=expected, actual_html=str(source))
+
+
+def test_dropdown_fallback() -> None:
+    dropdown = (
+        elements.Dropdown(
+            title="Dropdown",
+            items=[
+                elements.Link.with_url(url="#", text="Action"),
+                elements.Link.with_url(url="#", text="Another action"),
+                elements.Separator(),
+                elements.Link.with_url(url="#", text="Separated link"),
+                util.text("Some text here"),
+            ],
+        ),
+    )
+
+    expected = get_fixture("dropdown.html")
+
+    with pytest.warns(UserWarning):
+        html = render(dropdown)
+
+    print(html)
+
+    assert_same_html(expected_html=expected, actual_html=str(html))
