@@ -9,6 +9,7 @@ from collections.abc import Mapping
 from collections.abc import MutableMapping
 from collections.abc import MutableSet
 from typing import Any
+from typing import Generic
 from typing import Protocol
 from typing import TypeAlias
 from typing import TypeVar
@@ -269,8 +270,11 @@ def is_active_endpoint(endpoint: str, url_kwargs: Mapping[str, Any], ignore_quer
     return url == request.path
 
 
+H = TypeVar("H", bound=tags.html_tag)
+
+
 @attrs.define
-class Tag:
+class Tag(Generic[H]):
     """A helper for creating tags.
 
     Holds the tag type as well as attributes for the tag. This can be used
@@ -278,7 +282,7 @@ class Tag:
     :meth:`update` method to apply the attributes to an existing tag."""
 
     #: The tag type
-    tag: type[tags.html_tag] = attrs.field()
+    tag: type[H] = attrs.field()
 
     #: The classes to apply to the tag
     classes: set[str] = attrs.field(factory=set)
@@ -286,14 +290,15 @@ class Tag:
     #: The attributes to apply to the tag
     attributes: dict[str, str] = attrs.field(factory=dict)
 
-    def __tag__(self) -> tags.html_tag:
+    def __tag__(self) -> H:
         tag = self.tag(**self.attributes)
         tag.classes.add(*self.classes)
         return tag
 
-    def __call__(self, *args: Any, **kwds: Any) -> Any:
+    def __call__(self, *args: Any, **kwds: Any) -> H:
         tag = self.tag(*args, **{**self.attributes, **kwds})
         tag.classes.add(*self.classes)
+        return tag
 
     def __setitem__(self, name: str, value: str) -> None:
         self.attributes[name] = value
@@ -301,6 +306,7 @@ class Tag:
     def __getitem__(self, name: str) -> str:
         return self.attributes[name]
 
-    def update(self, tag: tags.html_tag) -> None:
+    def update(self, tag: H) -> H:
         tag.classes.add(*self.classes)
         tag.attributes.update(self.attributes)
+        return tag
