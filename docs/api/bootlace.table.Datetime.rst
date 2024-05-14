@@ -11,7 +11,11 @@ Datetime
    .. autosummary::
 
       ~Datetime.attribute
+      ~Datetime.format
       ~Datetime.heading
+      ~Datetime.name
+      ~Datetime.td
+      ~Datetime.th
 
    .. rubric:: Methods Summary
 
@@ -22,7 +26,11 @@ Datetime
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: attribute
+   .. autoattribute:: format
    .. autoattribute:: heading
+   .. autoattribute:: name
+   .. autoattribute:: td
+   .. autoattribute:: th
 
    .. rubric:: Methods Documentation
 

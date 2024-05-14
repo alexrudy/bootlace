@@ -12,6 +12,9 @@ ColumnBase
 
       ~ColumnBase.attribute
       ~ColumnBase.heading
+      ~ColumnBase.name
+      ~ColumnBase.td
+      ~ColumnBase.th
 
    .. rubric:: Methods Summary
 
@@ -23,6 +26,9 @@ ColumnBase
 
    .. autoattribute:: attribute
    .. autoattribute:: heading
+   .. autoattribute:: name
+   .. autoattribute:: td
+   .. autoattribute:: th
 
    .. rubric:: Methods Documentation
 

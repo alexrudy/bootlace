@@ -9,6 +9,7 @@ from collections.abc import Mapping
 from collections.abc import MutableMapping
 from collections.abc import MutableSet
 from typing import Any
+from typing import Generic
 from typing import Protocol
 from typing import TypeAlias
 from typing import TypeVar
@@ -145,7 +146,7 @@ class Classes(MutableSet[str]):
     def __len__(self) -> int:
         return len(self.tag.attributes.get("class", "").split())
 
-    def add(self, *classes: str) -> tags.html_tag:
+    def add(self, *classes: str) -> tags.html_tag:  # type: ignore[override]
         current: list[str] = self.tag.attributes.get("class", "").split()
         for cls in classes:
             if cls not in current:
@@ -153,7 +154,7 @@ class Classes(MutableSet[str]):
         self.tag.attributes["class"] = " ".join(current)
         return self.tag
 
-    def remove(self, *classes: str) -> tags.html_tag:
+    def remove(self, *classes: str) -> tags.html_tag:  # type: ignore[override]
         current: list[str] = self.tag.attributes.get("class", "").split()
         for cls in classes:
             if cls in current:
@@ -267,3 +268,45 @@ def is_active_endpoint(endpoint: str, url_kwargs: Mapping[str, Any], ignore_quer
     _, url = rule_url
 
     return url == request.path
+
+
+H = TypeVar("H", bound=tags.html_tag)
+
+
+@attrs.define
+class Tag(Generic[H]):
+    """A helper for creating tags.
+
+    Holds the tag type as well as attributes for the tag. This can be used
+    by calling the instance as a function to create a tag, or by calling the
+    :meth:`update` method to apply the attributes to an existing tag."""
+
+    #: The tag type
+    tag: type[H] = attrs.field()
+
+    #: The classes to apply to the tag
+    classes: set[str] = attrs.field(factory=set)
+
+    #: The attributes to apply to the tag
+    attributes: dict[str, str] = attrs.field(factory=dict)
+
+    def __tag__(self) -> H:
+        tag = self.tag(**self.attributes)
+        tag.classes.add(*self.classes)
+        return tag
+
+    def __call__(self, *args: Any, **kwds: Any) -> H:
+        tag = self.tag(*args, **{**self.attributes, **kwds})
+        tag.classes.add(*self.classes)
+        return tag
+
+    def __setitem__(self, name: str, value: str) -> None:
+        self.attributes[name] = value
+
+    def __getitem__(self, name: str) -> str:
+        return self.attributes[name]
+
+    def update(self, tag: H) -> H:
+        tag.classes.add(*self.classes)
+        tag.attributes.update(self.attributes)
+        return tag

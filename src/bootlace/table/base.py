@@ -13,6 +13,7 @@ from dominate.dom_tag import dom_tag
 from bootlace.icon import Icon
 from bootlace.util import as_tag
 from bootlace.util import maybe
+from bootlace.util import Tag
 
 
 @attrs.define
@@ -42,22 +43,31 @@ class ColumnBase(ABC):
     #: The heading for the column
     heading: Heading = attrs.field(converter=maybe(Heading))  # type: ignore
 
-    _attribute: str | None = None
+    name: str | None = None
+
+    th = Tag(tags.th)
+    td = Tag(tags.td)
 
     def __set_name__(self, owner: type, name: str) -> None:
-        self._attribute = self._attribute or name
+        self.name = self.name or name
 
     @property
     def attribute(self) -> str:
         """The attribute name for the column."""
-        if self._attribute is None:
+        if self.name is None:
             raise ValueError("column must be named in Table or attribute= parameter must be provided")
-        return self._attribute
+        return self.name
 
     @abstractmethod
     def cell(self, value: Any) -> dom_tag:
         """Return the cell for the column as an HTML tag."""
         raise NotImplementedError("Subclasses must implement this method")
+
+    def __th__(self) -> dom_tag:
+        return self.th(as_tag(self.heading), scope="col", __pretty=False)
+
+    def __td__(self, value: Any) -> dom_tag:
+        return self.td(self.cell(value), __pretty=False)
 
 
 def is_instance_or_subclass(val: Any, class_: type) -> bool:
@@ -118,8 +128,12 @@ class Table(metaclass=TableMetaclass):
     :class:`dominate.tags.table`.
     """
 
-    decorated_classes: set[str] = set()
     columns: ClassVar[dict[str, ColumnBase]]
+
+    table = Tag(tags.table)
+    thead = Tag(tags.thead)
+    tbody = Tag(tags.tbody)
+    tr = Tag(tags.tr)
 
     def __init__(self, decorated_classes: Iterable[str] | None = None) -> None:
         if decorated_classes is None:
@@ -127,22 +141,32 @@ class Table(metaclass=TableMetaclass):
         else:
             self.decorated_classes = set(decorated_classes)
 
-    def __call__(self, items: list[Any]) -> tags.html_tag:
-        table = tags.table(cls="table")
+    def __table__(self, items: list[Any]) -> tags.html_tag:
+        table = self.table(cls="table")
         table.classes.add(*self.decorated_classes)
-        thead = tags.thead()
-        tbody = tags.tbody()
-
-        for _, column in self.columns.items():
-            thead.add(tags.th(as_tag(column.heading), scope="col", __pretty=False))
-        table.add(thead)
-
-        for item in items:
-            id = getattr(item, "id", None)
-            tr = tags.tr(id=f"item-{id}" if id else None)
-            for column in self.columns.values():
-                cell = column.cell(item)
-                tr.add(tags.td(cell))
-            tbody.add(tr)
-        table.add(tbody)
+        table.add(self.__thead__())
+        table.add(self.__tbody__(items))
         return table
+
+    def __thead__(self) -> tags.html_tag:
+        thead = self.thead()
+        for column in self.columns.values():
+            thead.add(column.__th__())
+        return thead
+
+    def __tr__(self, item: Any) -> tags.html_tag:
+        id = getattr(item, "id", None)
+        name = item.__class__.__name__.lower()
+        tr = self.tr(id=f"{name}-{id}" if id else None)
+        for column in self.columns.values():
+            tr.add(column.__td__(item))
+        return tr
+
+    def __tbody__(self, items: list[Any]) -> tags.html_tag:
+        tbody = self.tbody()
+        for item in items:
+            tbody.add(self.__tr__(item))
+        return tbody
+
+    def __call__(self, items: list[Any]) -> tags.html_tag:
+        return self.__table__(items)

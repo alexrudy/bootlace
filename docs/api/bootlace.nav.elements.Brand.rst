@@ -10,6 +10,7 @@ Brand
 
    .. autosummary::
 
+      ~Brand.a
       ~Brand.active
       ~Brand.enabled
       ~Brand.id
@@ -21,12 +22,15 @@ Brand
    .. autosummary::
 
       ~Brand.__tag__
+      ~Brand.deserialize
       ~Brand.element_state
+      ~Brand.serialize
       ~Brand.with_url
       ~Brand.with_view
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: a
    .. autoattribute:: active
    .. autoattribute:: enabled
    .. autoattribute:: id
@@ -36,6 +40,8 @@ Brand
    .. rubric:: Methods Documentation
 
    .. automethod:: __tag__
+   .. automethod:: deserialize
    .. automethod:: element_state
+   .. automethod:: serialize
    .. automethod:: with_url
    .. automethod:: with_view

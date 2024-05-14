@@ -18,6 +18,7 @@ from werkzeug.local import LocalProxy
 
 from .util import as_tag
 from .util import is_active_endpoint
+from .util import Tag
 
 __all__ = ["breadcrumbs", "Breadcrumb", "Breadcrumbs", "BreadcrumbEntry", "BreadcrumbExtension", "Endpoint"]
 
@@ -40,6 +41,10 @@ def endpoint_name(instance: object, attribute: attrs.Attribute, value: str) -> N
 
 @attrs.define(frozen=True, init=False)
 class KeywordArguments(Mapping[str, Any]):
+    """
+    A mapping of keyword arguments for a URL endpoint,
+    which is frozen and hashable for use as a key in a dictionary.
+    """
 
     _arguments: frozenset[tuple[str, Any]]
 
@@ -120,6 +125,8 @@ class Breadcrumb:
     #: The endpoint for the breadcrumb
     link: Endpoint
 
+    a: Tag = Tag(tags.a)
+
     @property
     def active(self) -> bool:
         """Whether the breadcrumb is the active view"""
@@ -134,7 +141,7 @@ class Breadcrumb:
         if self.active:
             return text(self.title)
 
-        return tags.a(self.title, href=self.url)
+        return self.a(self.title, href=self.url)
 
 
 @attrs.define
@@ -148,6 +155,10 @@ class Breadcrumbs:
 
     #: The divider to use between breadcrumbs
     divider: str = attrs.field(default=">")
+
+    nav: Tag = Tag(tags.nav)
+    ol: Tag = Tag(tags.ol, classes={"breadcrumb"})
+    li: Tag = Tag(tags.li, classes={"breadcrumb-item"})
 
     def __iter__(self) -> Iterator[Breadcrumb]:
         return iter(self.crumbs)
@@ -166,15 +177,17 @@ class Breadcrumbs:
         if not self.crumbs:
             return text("")
 
-        nav = tags.nav(aria_label="breadcrumb")
+        nav = self.nav()
+        nav.aria["label"] = "breadcrumb"
+
         if self.divider != "/":
             nav["style"] = f"--breadcrumb-divider: '{self.divider:s}';"  # noqa: B907
 
-        ol = tags.ol(cls="breadcrumb")
+        ol = self.ol()
         for crumb in self:
-            item = tags.li(as_tag(crumb), cls="breadcrumb-item")
+            item = self.li(as_tag(crumb))
             if crumb.active:
-                item["aria-current"] = "page"
+                item.aria["current"] = "page"
                 item.classes.add("active")
             ol.add(item)
         nav.add(ol)

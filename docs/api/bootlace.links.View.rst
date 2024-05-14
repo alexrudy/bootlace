@@ -10,6 +10,7 @@ View
 
    .. autosummary::
 
+      ~View.a
       ~View.active
       ~View.enabled
       ~View.endpoint
@@ -26,6 +27,7 @@ View
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: a
    .. autoattribute:: active
    .. autoattribute:: enabled
    .. autoattribute:: endpoint

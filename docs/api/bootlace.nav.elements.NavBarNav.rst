@@ -15,14 +15,18 @@ NavBarNav
       ~NavBarNav.enabled
       ~NavBarNav.id
       ~NavBarNav.items
+      ~NavBarNav.li
       ~NavBarNav.style
+      ~NavBarNav.ul
 
    .. rubric:: Methods Summary
 
    .. autosummary::
 
       ~NavBarNav.__tag__
+      ~NavBarNav.deserialize
       ~NavBarNav.element_state
+      ~NavBarNav.serialize
 
    .. rubric:: Attributes Documentation
 
@@ -31,9 +35,13 @@ NavBarNav
    .. autoattribute:: enabled
    .. autoattribute:: id
    .. autoattribute:: items
+   .. autoattribute:: li
    .. autoattribute:: style
+   .. autoattribute:: ul
 
    .. rubric:: Methods Documentation
 
    .. automethod:: __tag__
+   .. automethod:: deserialize
    .. automethod:: element_state
+   .. automethod:: serialize

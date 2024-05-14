@@ -12,6 +12,7 @@ from bootlace.image import Image
 from bootlace.util import as_tag
 from bootlace.util import BootlaceWarning
 from bootlace.util import ids as element_id
+from bootlace.util import Tag
 
 
 class NavStyle(enum.Enum):
@@ -31,6 +32,14 @@ class NavAlignment(enum.Enum):
     JUSTIFIED = "nav-justified"
 
 
+def nav_serialize_filter(field: attrs.Attribute, value: Any) -> Any:
+    """Serialize the value of a NavElement"""
+    if isinstance(value, Tag):
+        return False
+
+    return True
+
+
 class NavElement:
     """Base class for nav components"""
 
@@ -41,7 +50,7 @@ class NavElement:
 
     def serialize(self) -> dict[str, Any]:
         """Serialize the element to a dictionary"""
-        data = attrs.asdict(self)  # type: ignore
+        data = attrs.asdict(self, filter=nav_serialize_filter)  # type: ignore
         data["__type__"] = self.__class__.__name__
         return data
 
@@ -52,6 +61,7 @@ class NavElement:
             element_cls = cls._NAV_ELEMENT_REGISTRY.get(data["__type__"], NavElement)
             del data["__type__"]
             return element_cls.deserialize(data)
+
         return cls(**data)
 
     @property
@@ -75,11 +85,11 @@ class NavElement:
 
         if self.active:
             tag.classes.add("active")
-            tag.attributes["aria-current"] = "page"
+            tag.aria["current"] = "page"
 
         if not self.enabled:
             tag.classes.add("disabled")
-            tag["aria-disabled"] = "true"
+            tag.aria["disabled"] = "true"
         return tag
 
 
@@ -93,9 +103,11 @@ class Link(NavElement):
     #: The ID of the element
     id: str = attrs.field(factory=element_id.factory("nav-link"))
 
+    a: Tag = Tag(tags.a, classes={"nav-link"})
+
     def serialize(self) -> dict[str, Any]:
         data = super().serialize()
-        data["link"] = attrs.asdict(self.link)
+        data["link"] = attrs.asdict(self.link, filter=nav_serialize_filter)
         data["link"]["__type__"] = self.link.__class__.__name__
         return data
 
@@ -134,7 +146,7 @@ class Link(NavElement):
         a = as_tag(self.link)
         if isinstance(a, tags.html_tag):
             a["id"] = self.id
-            a.classes.add("nav-link")
+            self.a.update(a)
 
         return self.element_state(a)
 
@@ -143,8 +155,10 @@ class Link(NavElement):
 class Separator(NavElement):
     """A separator in dropdown menus"""
 
+    hr: Tag = Tag(tags.hr, classes={"dropdown-divider"})
+
     def __tag__(self) -> tags.html_tag:
-        return tags.hr(cls="dropdown-divider")
+        return self.hr()
 
 
 @attrs.define
@@ -153,12 +167,14 @@ class Text(NavElement):
 
     text: str
 
+    span: Tag = Tag(tags.span, classes={"nav-link"})
+
     @property
     def enabled(self) -> bool:
         return False
 
     def __tag__(self) -> dom_tag:
-        tag = tags.span(self.text, cls="nav-link")
+        tag = self.span(self.text, cls="nav-link")
         return self.element_state(tag)
 
 

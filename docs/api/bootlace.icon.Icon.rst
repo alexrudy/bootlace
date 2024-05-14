@@ -12,10 +12,10 @@ Icon
 
       ~Icon.endpoint
       ~Icon.filename
-      ~Icon.height
       ~Icon.name
+      ~Icon.svg
       ~Icon.url
-      ~Icon.width
+      ~Icon.use
 
    .. rubric:: Methods Summary
 
@@ -27,10 +27,10 @@ Icon
 
    .. autoattribute:: endpoint
    .. autoattribute:: filename
-   .. autoattribute:: height
    .. autoattribute:: name
+   .. autoattribute:: svg
    .. autoattribute:: url
-   .. autoattribute:: width
+   .. autoattribute:: use
 
    .. rubric:: Methods Documentation
 

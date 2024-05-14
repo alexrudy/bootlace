@@ -10,6 +10,7 @@ Link
 
    .. autosummary::
 
+      ~Link.a
       ~Link.active
       ~Link.enabled
       ~Link.text
@@ -23,6 +24,7 @@ Link
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: a
    .. autoattribute:: active
    .. autoattribute:: enabled
    .. autoattribute:: text

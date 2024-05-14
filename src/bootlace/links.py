@@ -8,6 +8,7 @@ from flask import url_for
 from .util import as_tag
 from .util import is_active_endpoint
 from .util import MaybeTaggable
+from .util import Tag
 
 __all__ = ["Link", "View"]
 
@@ -15,6 +16,8 @@ __all__ = ["Link", "View"]
 @attrs.define(kw_only=True, frozen=True)
 class LinkBase(abc.ABC):
     text: MaybeTaggable
+
+    a: Tag = Tag(tags.a)
 
     @property
     @abc.abstractmethod
@@ -32,8 +35,7 @@ class LinkBase(abc.ABC):
         raise NotImplementedError("LinkBase.url must be implemented in a subclass")
 
     def __tag__(self) -> tags.html_tag:
-
-        return tags.a(as_tag(self.text), href=self.url)
+        return self.a(as_tag(self.text), href=self.url)
 
 
 @attrs.define(kw_only=True, frozen=True)

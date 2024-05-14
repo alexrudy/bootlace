@@ -1,9 +1,11 @@
 from typing import ClassVar
 
 import attrs
-from dominate import svg
+from dominate import svg as svg_tag
 from dominate.dom_tag import dom_tag
 from flask import url_for
+
+from bootlace.util import Tag
 
 
 __all__ = ["Icon"]
@@ -25,11 +27,13 @@ class Icon:
     #: Name of the icon
     name: str
 
-    #: Width of the icon
-    width: int = 16
+    svg: Tag = Tag(
+        svg_tag.svg,
+        attributes={"role": "img", "fill": "currentColor", "width": "16", "height": "16"},
+        classes={"bi", "me-1", "pe-none", "align-self-center"},
+    )
 
-    #: Height of the icon
-    height: int = 16
+    use: Tag = Tag(svg_tag.use)
 
     @property
     def url(self) -> str:
@@ -37,12 +41,6 @@ class Icon:
         return url_for(self.endpoint, filename=self.filename, _anchor=self.name)
 
     def __tag__(self) -> dom_tag:
-        classes = ["bi", "me-1", "pe-none", "align-self-center"]
-        return svg.svg(
-            svg.use(xlink_href=self.url),
-            cls=" ".join(classes),
-            role="img",
-            width=self.width,
-            height=self.height,
-            fill="currentColor",
+        return self.svg(
+            self.use(xlink_href=self.url),
         )

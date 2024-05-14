@@ -10,9 +10,13 @@ EditColumn
 
    .. autosummary::
 
+      ~EditColumn.a
       ~EditColumn.attribute
       ~EditColumn.endpoint
       ~EditColumn.heading
+      ~EditColumn.name
+      ~EditColumn.td
+      ~EditColumn.th
 
    .. rubric:: Methods Summary
 
@@ -22,9 +26,13 @@ EditColumn
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: a
    .. autoattribute:: attribute
    .. autoattribute:: endpoint
    .. autoattribute:: heading
+   .. autoattribute:: name
+   .. autoattribute:: td
+   .. autoattribute:: th
 
    .. rubric:: Methods Documentation
 
