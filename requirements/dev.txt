@@ -10,9 +10,11 @@
 -r typing.txt
 -e file:///Users/alexrudy/Development/alexrudy/bootlace
     # via -r requirements/dev.in
-black==24.3.0
+backports-tarfile==1.1.1
+    # via jaraco-context
+black==24.4.2
     # via -r requirements/dev.in
-build==1.1.1
+build==1.2.1
     # via
     #   -r requirements/dev.in
     #   pip-tools
@@ -28,7 +30,7 @@ colorama==0.4.6
     # via tox
 distlib==0.3.8
     # via virtualenv
-filelock==3.13.3
+filelock==3.14.0
     # via
     #   tox
     #   virtualenv
@@ -37,27 +39,27 @@ flake8==7.0.0
     #   -r requirements/dev.in
     #   flake8-bugbear
     #   flake8-typing-imports
-flake8-bugbear==24.2.6
+flake8-bugbear==24.4.26
     # via -r requirements/dev.in
 flake8-implicit-str-concat==0.4.0
     # via -r requirements/dev.in
 flake8-typing-imports==1.15.0
     # via -r requirements/dev.in
-hatchling==1.22.4
+hatchling==1.24.2
     # via -r requirements/dev.in
-identify==2.5.35
+identify==2.5.36
     # via pre-commit
 importlib-metadata==7.1.0
     # via
     #   keyring
     #   twine
-jaraco-classes==3.3.1
+jaraco-classes==3.4.0
     # via keyring
-jaraco-context==4.3.0
+jaraco-context==5.3.0
     # via keyring
-jaraco-functools==4.0.0
+jaraco-functools==4.0.1
     # via keyring
-keyring==25.0.0
+keyring==25.2.1
     # via twine
 markdown-it-py==3.0.0
     # via rich
@@ -83,12 +85,12 @@ pip-tools==7.4.1
     # via pip-compile-multi
 pkginfo==1.10.0
     # via twine
-platformdirs==4.2.0
+platformdirs==4.2.1
     # via
     #   black
     #   tox
     #   virtualenv
-pre-commit==3.7.0
+pre-commit==3.7.1
     # via -r requirements/dev.in
 pycodestyle==2.11.1
     # via flake8
@@ -96,7 +98,7 @@ pyflakes==3.2.0
     # via flake8
 pyproject-api==1.6.1
     # via tox
-pyproject-hooks==1.0.0
+pyproject-hooks==1.1.0
     # via
     #   build
     #   pip-tools
@@ -112,13 +114,13 @@ rich==13.7.1
     # via twine
 toposort==1.10
     # via pip-compile-multi
-tox==4.14.2
+tox==4.15.0
     # via -r requirements/dev.in
-trove-classifiers==2024.3.25
+trove-classifiers==2024.4.10
     # via hatchling
 twine==5.0.0
     # via -r requirements/dev.in
-virtualenv==20.25.1
+virtualenv==20.26.2
     # via
     #   pre-commit
     #   tox
