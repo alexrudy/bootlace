@@ -31,6 +31,7 @@ __all__ = [
     "IntoTag",
     "MaybeTaggable",
     "Taggable",
+    "Tag",
     "as_tag",
     "ids",
     "is_active_endpoint",
@@ -147,6 +148,7 @@ class Classes(MutableSet[str]):
         return len(self.tag.attributes.get("class", "").split())
 
     def add(self, *classes: str) -> tags.html_tag:  # type: ignore[override]
+        """Add classes to the tag."""
         current: list[str] = self.tag.attributes.get("class", "").split()
         for cls in classes:
             if cls not in current:
@@ -155,6 +157,7 @@ class Classes(MutableSet[str]):
         return self.tag
 
     def remove(self, *classes: str) -> tags.html_tag:  # type: ignore[override]
+        """Remove classes from the tag."""
         current: list[str] = self.tag.attributes.get("class", "").split()
         for cls in classes:
             if cls in current:
@@ -163,9 +166,11 @@ class Classes(MutableSet[str]):
         return self.tag
 
     def discard(self, value: str) -> None:
+        """Remove a class if it exists."""
         self.remove(value)
 
     def swap(self, old: str, new: str) -> tags.html_tag:
+        """Swap one class for another."""
         current: list[str] = self.tag.attributes.get("class", "").split()
         if old in current:
             current.remove(old)
@@ -179,6 +184,7 @@ class Classes(MutableSet[str]):
 class PrefixAccessor:
     """A helper for accessing attributes with a prefix."""
 
+    #: Attribute prefix
     prefix: str = attrs.field()
 
     def __get__(self, instance: tags.html_tag, owner: type[tags.html_tag]) -> "PrefixAccess":
@@ -188,7 +194,10 @@ class PrefixAccessor:
 @attrs.define
 class PrefixAccess(MutableMapping[str, str]):
 
+    #: Attribute prefix
     prefix: str = attrs.field()
+
+    #: The tag to access
     tag: tags.html_tag = attrs.field()
 
     def __getitem__(self, name: str) -> str:
@@ -209,10 +218,12 @@ class PrefixAccess(MutableMapping[str, str]):
         return sum(1 for _ in self)
 
     def set(self, name: str, value: str) -> tags.html_tag:
+        """Set an attribute with the given name."""
         self[name] = value
         return self.tag
 
     def remove(self, name: str) -> tags.html_tag:
+        """Remove an attribute with the given name."""
         del self[name]
         return self.tag
 
@@ -221,20 +232,30 @@ class PrefixAccess(MutableMapping[str, str]):
 class HtmlIDScope:
     """A helper for generating unique HTML IDs."""
 
+    #: A mapping of scopes to counters
     scopes: collections.defaultdict[str, itertools.count] = attrs.field(
         factory=lambda: collections.defaultdict(itertools.count)
     )
 
     def __call__(self, scope: str) -> str:
+        """Generate a unique ID for a given scope.
+
+        Parameters
+        ----------
+        scope : str
+            Scopes are used to group IDs together, e.g. items in a list, or a form and its fields.
+        """
         counter = next(self.scopes[scope])
         if counter == 0:
             return scope
         return f"{scope}-{counter}"
 
     def factory(self, scope: str) -> functools.partial:
+        """Create a factory function for generating IDs in a specific scope."""
         return functools.partial(self, scope)
 
     def reset(self) -> None:
+        """Reset all ID scopes."""
         self.scopes.clear()
 
 
@@ -279,7 +300,8 @@ class Tag(Generic[H]):
 
     Holds the tag type as well as attributes for the tag. This can be used
     by calling the instance as a function to create a tag, or by calling the
-    :meth:`update` method to apply the attributes to an existing tag."""
+    :meth:`update` method to apply the attributes to an existing tag.
+    """
 
     #: The tag type
     tag: type[H] = attrs.field()
@@ -291,11 +313,18 @@ class Tag(Generic[H]):
     attributes: dict[str, str] = attrs.field(factory=dict)
 
     def __tag__(self) -> H:
+        """Create a tag from the attributes and classes."""
         tag = self.tag(**self.attributes)
         tag.classes.add(*self.classes)
         return tag
 
     def __call__(self, *args: Any, **kwds: Any) -> H:
+        """Create a tag from the attributes and classes.
+
+        This method is a convenience wrapper around :meth:`__tag__` that allows
+        the tag to be created with additional arguments and keyword arguments passed
+        to the tag constructor.
+        """
         tag = self.tag(*args, **{**self.attributes, **kwds})
         tag.classes.add(*self.classes)
         return tag
@@ -307,6 +336,7 @@ class Tag(Generic[H]):
         return self.attributes[name]
 
     def update(self, tag: H) -> H:
+        """Update the tag with the attributes and classes."""
         tag.classes.add(*self.classes)
         tag.attributes.update(self.attributes)
         return tag
