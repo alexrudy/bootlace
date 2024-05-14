@@ -20,6 +20,10 @@ jobs:
       fail-fast: false
       matrix:
         tox: [py311, typing, style, docs, minimal, dist]
+        python: [3.11]
+        include:
+          - tox: py312
+            python: 3.12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -27,7 +31,7 @@ jobs:
           node-version: '21'
       - uses: actions/setup-python@v5
         with:
-          python-version: 3.11
+          python-version: ${{ matrix.python }}
           cache: 'pip'
           cache-dependency-path: 'requirements/*.txt'
       - name: Install dot
@@ -48,7 +52,7 @@ jobs:
         uses: actions/cache@v3.0.3
         with:
           path: ./.mypy_cache
-          key: mypy|python3.11|${{ hashFiles('pyproject.toml') }}
+          key: mypy|python-${{ matrix.python }}|${{ hashFiles('pyproject.toml') }}
         if: matrix.tox == 'typing'
       - run: pip install tox
       - run: tox -e ${{ matrix.tox }}
