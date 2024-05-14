@@ -9,6 +9,7 @@ from typing import ClassVar
 import attrs
 from dominate import tags
 from dominate.dom_tag import dom_tag
+from dominate.util import text
 
 from bootlace.icon import Icon
 from bootlace.util import as_tag
@@ -55,8 +56,15 @@ class ColumnBase(ABC):
     def attribute(self) -> str:
         """The attribute name for the column."""
         if self.name is None:
-            raise ValueError("column must be named in Table or attribute= parameter must be provided")
+            raise ValueError("column must be named in Table or name= parameter must be provided")
         return self.name
+
+    def contents(self, value: Any) -> Any:
+        """Return the contents of the cell for the column, using an HTML comment if the attribute value is None."""
+        contents = getattr(value, self.attribute)
+        if contents is None:
+            return tags.comment(f"no value for {self.name}")
+        return text(str(contents))
 
     @abstractmethod
     def cell(self, value: Any) -> dom_tag:
