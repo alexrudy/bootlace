@@ -23,7 +23,7 @@ class Column(ColumnBase):
 
     def cell(self, value: Any) -> dom_tag:
         """Return the cell for the column as an HTML tag."""
-        return text(str(getattr(value, self.attribute)))
+        return self.contents(value)
 
 
 @attrs.define
@@ -40,7 +40,7 @@ class EditColumn(ColumnBase):
     def cell(self, value: Any) -> tags.html_tag:
         """Return the cell for the column as an HTML tag."""
         id = getattr(value, "id", None)
-        return self.a(getattr(value, self.attribute), href=url_for(self.endpoint, id=id))
+        return self.a(self.contents(value), href=url_for(self.endpoint, id=id))
 
 
 @attrs.define

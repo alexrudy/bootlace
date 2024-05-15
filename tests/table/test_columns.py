@@ -8,6 +8,7 @@ from bootlace.extension import Bootlace
 from bootlace.icon import Icon
 from bootlace.table.base import Heading
 from bootlace.table.columns import CheckColumn
+from bootlace.table.columns import Column
 from bootlace.table.columns import Datetime
 from bootlace.table.columns import EditColumn
 from bootlace.testing import assert_same_html
@@ -27,6 +28,7 @@ class Item:
     editor: str = "editor"
     check: bool = True
     id: int = 1
+    missing: str | None = None
 
     when: dt.datetime = dt.datetime(2021, 1, 1, 12, 18, 5)
 
@@ -106,7 +108,7 @@ def test_datetime_column(app: Flask) -> None:
     assert_same_html(expected, str(td))
 
 
-def test_datetime_format(app: Flask) -> None:
+def test_datetime_format() -> None:
 
     col = Datetime(heading="Date", name="when", format="%Y-%m-%d")
 
@@ -115,3 +117,12 @@ def test_datetime_format(app: Flask) -> None:
     expected = "<td>2021-01-01</td>"
 
     assert_same_html(expected, str(td))
+
+
+def test_regular_column_missing() -> None:
+
+    col = Column(heading="Something", name="missing")
+
+    td = col.cell(Item())
+    expected = "<!--no value for missing-->"
+    assert str(td) == expected
