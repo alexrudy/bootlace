@@ -1,7 +1,9 @@
 from flask import Blueprint
 from flask import current_app
 from flask import Flask
-from flask import url_for
+
+from .endpoint import Endpoint
+from bootlace.resources import Resources
 
 
 class Bootlace:
@@ -34,17 +36,7 @@ class Bootlace:
         bp = current_app.config["BOOTLACE_BLUEPRINT_NAME"]
         return f"{bp}.static"
 
-    @property
-    def icons(self) -> str:
-        """The URL for the SVG source for the icons"""
-        return url_for(self.static_view, filename="icons/bootstrap-icons.svg")
-
-    @property
-    def css(self) -> str:
-        """The URL for the Bootstrap CSS file"""
-        return url_for(self.static_view, filename="css/bootstrap.min.css")
-
-    @property
-    def js(self) -> str:
-        """The URL for the Bootstrap JS file"""
-        return url_for(self.static_view, filename="js/bootstrap.min.js")
+    def bootstrap(self) -> "Resources":
+        return Resources(
+            endpoint=Endpoint.from_name(self.static_view), resources=["bootstrap.min.js", "bootstrap.min.css"]
+        )

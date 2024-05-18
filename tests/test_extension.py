@@ -7,19 +7,20 @@ def test_extension(app: Flask) -> None:
 
     bootlace = Bootlace(app)
 
-    with app.test_request_context("/"):
-
-        assert bootlace.icons == "/static/bootstrap/icons/bootstrap-icons.svg"
-        assert bootlace.css == "/static/bootstrap/css/bootstrap.min.css"
-        assert bootlace.js == "/static/bootstrap/js/bootstrap.min.js"
+    with app.app_context():
+        bootstrap = bootlace.bootstrap()
 
     with app.test_client() as client:
 
-        with client.get("/static/bootstrap/icons/bootstrap-icons.svg") as response:
-            assert response.status_code == 200
+        for resource in bootstrap.iter_resources(extension=None):
+            with client.get(resource) as response:
+                assert response.status_code == 200
 
-        with client.get("/static/bootstrap/css/bootstrap.min.css") as response:
-            assert response.status_code == 200
+    with app.test_request_context("/"):
+        tags = bootstrap.css()
+        assert str(tags).strip() == '<link href="/static/bootstrap/bootstrap.min.css" rel="stylesheet">'
 
-        with client.get("/static/bootstrap/js/bootstrap.min.js") as response:
-            assert response.status_code == 200
+        tags = bootstrap.js()
+        assert str(tags).strip() == '<script src="/static/bootstrap/bootstrap.min.js"></script>'
+
+        assert len(list(bootstrap.iter_resources(extension="css"))) == 1
