@@ -40,7 +40,12 @@ clean:
     rm -rf dist/* *.egg-info
     rm -rf docs/_build
 
-# Clean more stuff
+# Clean up docs
+clean-docs:
+    rm -rf docs/_build
+    rm -rf docs/api
+
+# Clean aggressively
 clean-all: clean
     rm -rf .direnv
     rm -rf .venv
