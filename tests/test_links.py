@@ -2,6 +2,7 @@ import pytest
 from flask import Flask
 from flask import request
 
+from bootlace.endpoint import Endpoint
 from bootlace.links import Link
 from bootlace.links import View
 from bootlace.testing import assert_same_html
@@ -38,7 +39,7 @@ def test_view(app: Flask) -> None:
         assert_same_html(expected, render(view))
 
     with app.test_request_context("/"):
-        view = View(text="Test", endpoint="other", ignore_query=False)
+        view = View(text="Test", endpoint=Endpoint(name="other", ignore_query=False))
         assert not view.active, "View should not be active"
 
     with app.test_request_context("/foo"):
@@ -46,5 +47,5 @@ def test_view(app: Flask) -> None:
         assert not view.active, "View should not be active"
 
     with app.test_request_context("/static/foo"):
-        view = View(text="Test", endpoint="static", url_kwargs={"filename": "foo.txt"})
+        view = View(text="Test", endpoint=Endpoint(name="static", url_kwargs={"filename": "foo.txt"}))
         assert not view.active, "View should not be active"

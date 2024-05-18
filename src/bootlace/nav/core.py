@@ -8,10 +8,11 @@ from dominate import tags
 from dominate.dom_tag import dom_tag
 
 from bootlace import links
-from bootlace.image import Image
+from bootlace.endpoint import Endpoint
 from bootlace.util import as_tag
 from bootlace.util import BootlaceWarning
 from bootlace.util import ids as element_id
+from bootlace.util import MaybeTaggable
 from bootlace.util import Tag
 
 
@@ -109,23 +110,30 @@ class Link(NavElement):
         data = super().serialize()
         data["link"] = attrs.asdict(self.link, filter=nav_serialize_filter)
         data["link"]["__type__"] = self.link.__class__.__name__
+
+        if "endpoint" in data["link"]:
+            data["link"]["endpoint"]["url_kwargs"] = dict(data["link"]["endpoint"]["url_kwargs"]["_arguments"])
+
         return data
 
     @classmethod
     def deserialize(cls, data: dict[str, Any]) -> Self:
         link_cls = getattr(links, data["link"].pop("__type__"))
+        if "endpoint" in data["link"]:
+            data["link"]["endpoint"] = Endpoint(**data["link"]["endpoint"])
+
         data["link"] = link_cls(**data["link"])
         return cls(**data)
 
     @classmethod
-    def with_url(cls, url: str, text: str | Image, **kwargs: Any) -> "Link":
+    def with_url(cls, url: str, text: MaybeTaggable, **kwargs: Any) -> "Link":
         """Create a link with a URL."""
         return cls(link=links.Link(url=url, text=text, **kwargs))
 
     @classmethod
-    def with_view(cls, endpoint: str, text: str | Image, **kwargs: Any) -> "Link":
+    def with_view(cls, endpoint: str, text: MaybeTaggable, **kwargs: Any) -> "Link":
         """Create a link with a view."""
-        return cls(link=links.View(endpoint=endpoint, text=text, **kwargs))
+        return cls(link=links.View(endpoint=Endpoint.from_name(endpoint, **kwargs), text=text))
 
     @property
     def active(self) -> bool:

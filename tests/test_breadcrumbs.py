@@ -4,8 +4,7 @@ from flask import Flask
 
 from bootlace.breadcrumbs import BreadcrumbExtension
 from bootlace.breadcrumbs import breadcrumbs
-from bootlace.breadcrumbs import Endpoint
-from bootlace.breadcrumbs import KeywordArguments
+from bootlace.endpoint import KeywordArguments
 from bootlace.testing import assert_same_html
 from bootlace.util import as_tag
 
@@ -200,25 +199,3 @@ def test_kwargs_frozen() -> None:
 
     assert len(kwargs) == 1
     assert kwargs["foo"] == "bar"
-
-
-def test_endpoint_invalid_name(app: Flask) -> None:
-
-    with pytest.raises(ValueError):
-        Endpoint(None, "too.many.dots")
-
-
-def test_endpoint_app_url(app: Flask) -> None:
-
-    endpoint = Endpoint(None, "home")
-
-    with app.test_request_context("/"):
-        assert endpoint.url == "/"
-
-
-def test_endpoint_bp_url(app: Flask, bp: Blueprint) -> None:
-
-    endpoint = Endpoint(bp, "archive")
-
-    with app.test_request_context("/"):
-        assert endpoint.url == "/archive"

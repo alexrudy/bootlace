@@ -1,12 +1,11 @@
 import abc
-from typing import Any
 
 import attrs
 from dominate import tags
-from flask import url_for
 
+from .endpoint import convert_endpoint
+from .endpoint import Endpoint
 from .util import as_tag
-from .util import is_active_endpoint
 from .util import MaybeTaggable
 from .util import Tag
 
@@ -57,13 +56,7 @@ class View(LinkBase):
     """Link to a Flask view."""
 
     #: The endpoint to link to, for use with Flask's :func:`~flask.url_for`
-    endpoint: str
-
-    #: The keyword arguments to pass to :func:`~flask.url_for`
-    url_kwargs: dict[str, Any] = attrs.field(factory=dict)
-
-    #: Whether to ignore the query string when checking if the link is active
-    ignore_query: bool = True
+    endpoint: Endpoint = attrs.field(converter=convert_endpoint)
 
     #: Whether the link is enabled.
     enabled: bool = True
@@ -71,9 +64,9 @@ class View(LinkBase):
     @property
     def url(self) -> str:
         """The URL to link to, constructed using :func:`~flask.url_for`."""
-        return url_for(self.endpoint, **self.url_kwargs)
+        return self.endpoint.url
 
     @property
     def active(self) -> bool:
         """Whether the link is active, based on the current request endpoint."""
-        return is_active_endpoint(self.endpoint, self.url_kwargs, self.ignore_query)
+        return self.endpoint.active

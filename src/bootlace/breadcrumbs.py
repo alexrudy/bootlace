@@ -1,7 +1,5 @@
 from collections.abc import Callable
 from collections.abc import Iterator
-from collections.abc import Mapping
-from typing import Any
 from typing import Protocol
 from typing import TypeVar
 
@@ -13,14 +11,19 @@ from flask import Blueprint
 from flask import current_app
 from flask import Flask
 from flask import request
-from flask import url_for
 from werkzeug.local import LocalProxy
 
 from .util import as_tag
-from .util import is_active_endpoint
 from .util import Tag
+from bootlace.endpoint import Endpoint
 
-__all__ = ["breadcrumbs", "Breadcrumb", "Breadcrumbs", "BreadcrumbEntry", "BreadcrumbExtension", "Endpoint"]
+__all__ = [
+    "breadcrumbs",
+    "Breadcrumb",
+    "Breadcrumbs",
+    "BreadcrumbEntry",
+    "BreadcrumbExtension",
+]
 
 
 class Named(Protocol):
@@ -32,87 +35,6 @@ V = TypeVar("V", bound=Named)
 
 EXTENSION_KEY: str = "bootlace.breadcrumbs"
 DIVIDER_SETTING: str = "BOOTLACE_BREADCRUMBS_DIVIDER"
-
-
-def endpoint_name(instance: object, attribute: attrs.Attribute, value: str) -> None:
-    if "." in value:
-        raise ValueError("Endpoint names cannot contain dots")
-
-
-@attrs.define(frozen=True, init=False)
-class KeywordArguments(Mapping[str, Any]):
-    """
-    A mapping of keyword arguments for a URL endpoint,
-    which is frozen and hashable for use as a key in a dictionary.
-    """
-
-    _arguments: frozenset[tuple[str, Any]]
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        arguments = frozenset(dict(*args, **kwargs).items())
-        object.__setattr__(self, "_arguments", arguments)
-
-    def as_dict(self) -> dict[str, Any]:
-        return dict(self._arguments)
-
-    def __getitem__(self, __key: str) -> Any:
-        return self.as_dict()[__key]
-
-    def __iter__(self) -> Iterator[str]:
-        return iter((key for key, _ in self._arguments))
-
-    def __len__(self) -> int:
-        return len(self._arguments)
-
-    def __repr__(self) -> str:
-        return f"KeywordArguments({self.as_dict()!r})"
-
-
-@attrs.define(frozen=True, repr=False)
-class Endpoint:
-    """An endpoint for a breadcrumb, as captured at registration"""
-
-    #: The flask context, if any
-    context: None | Blueprint
-
-    #: The endpoint name
-    name: str = attrs.field(validator=endpoint_name)
-
-    #: The keyword arguments for the endpoint used with url_for
-    url_kwargs: KeywordArguments = attrs.field(factory=lambda: KeywordArguments(), converter=KeywordArguments)
-
-    #: Whether to ignore the query string when checking for active status
-    ignore_query: bool = True
-
-    @property
-    def url(self) -> str:
-        """The URL for the endpoint"""
-        if isinstance(self.context, Blueprint):
-            name = f"{self.context.name}.{self.name}"
-            return url_for(name, **self.url_kwargs)
-
-        return url_for(self.name, **self.url_kwargs)
-
-    @property
-    def active(self) -> bool:
-        """Whether the endpoint is active"""
-        return is_active_endpoint(self.name, self.url_kwargs, self.ignore_query)
-
-    def __repr__(self) -> str:
-        parts = []
-        if self.context is not None:
-            parts.append(f"{self.context.name:s}.{self.name:s}")
-        else:
-            parts.append(f"{self.name:s}")
-
-        if self.url_kwargs:
-            parts.append(f", {self.url_kwargs!r}")
-
-        if not self.ignore_query:
-            parts.append(", ignore_query=False")
-
-        statement = ", ".join(parts)
-        return f"Endpoint({statement})"
 
 
 @attrs.define

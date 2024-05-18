@@ -11,7 +11,6 @@ Icon
    .. autosummary::
 
       ~Icon.endpoint
-      ~Icon.filename
       ~Icon.name
       ~Icon.svg
       ~Icon.url
@@ -26,7 +25,6 @@ Icon
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: endpoint
-   .. autoattribute:: filename
    .. autoattribute:: name
    .. autoattribute:: svg
    .. autoattribute:: url

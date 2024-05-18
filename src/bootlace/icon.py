@@ -3,8 +3,8 @@ from typing import ClassVar
 import attrs
 from dominate import svg as svg_tag
 from dominate.dom_tag import dom_tag
-from flask import url_for
 
+from bootlace.endpoint import Endpoint
 from bootlace.util import Tag
 
 
@@ -19,10 +19,7 @@ class Icon:
     """
 
     #: Endpoint name for getting the Bootstrap Icon SVG file
-    endpoint: ClassVar[str] = "bootlace.static"
-
-    #: Filename for the Bootstrap Icon SVG file
-    filename: ClassVar[str] = "icons/bootstrap-icons.svg"
+    endpoint: ClassVar[Endpoint] = Endpoint.from_name("bootlace.static", filename="icons/bootstrap-icons.svg")
 
     #: Name of the icon
     name: str
@@ -38,7 +35,7 @@ class Icon:
     @property
     def url(self) -> str:
         """The URL for the SVG source for the icon"""
-        return url_for(self.endpoint, filename=self.filename, _anchor=self.name)
+        return self.endpoint(_anchor=self.name)
 
     def __tag__(self) -> dom_tag:
         return self.svg(

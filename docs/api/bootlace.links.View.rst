@@ -14,10 +14,8 @@ View
       ~View.active
       ~View.enabled
       ~View.endpoint
-      ~View.ignore_query
       ~View.text
       ~View.url
-      ~View.url_kwargs
 
    .. rubric:: Methods Summary
 
@@ -31,10 +29,8 @@ View
    .. autoattribute:: active
    .. autoattribute:: enabled
    .. autoattribute:: endpoint
-   .. autoattribute:: ignore_query
    .. autoattribute:: text
    .. autoattribute:: url
-   .. autoattribute:: url_kwargs
 
    .. rubric:: Methods Documentation
 
