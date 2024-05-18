@@ -11,6 +11,7 @@ Column
    .. autosummary::
 
       ~Column.attribute
+      ~Column.format
       ~Column.heading
       ~Column.name
       ~Column.td
@@ -21,10 +22,12 @@ Column
    .. autosummary::
 
       ~Column.cell
+      ~Column.contents
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: attribute
+   .. autoattribute:: format
    .. autoattribute:: heading
    .. autoattribute:: name
    .. autoattribute:: td
@@ -33,3 +36,4 @@ Column
    .. rubric:: Methods Documentation
 
    .. automethod:: cell
+   .. automethod:: contents

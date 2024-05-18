@@ -1,28 +1,30 @@
-EditColumn
-==========
+ActionColumn
+============
 
 .. currentmodule:: bootlace.table
 
-.. autoclass:: EditColumn
+.. autoclass:: ActionColumn
    :show-inheritance:
 
    .. rubric:: Attributes Summary
 
    .. autosummary::
 
-      ~EditColumn.a
-      ~EditColumn.attribute
-      ~EditColumn.endpoint
-      ~EditColumn.heading
-      ~EditColumn.name
-      ~EditColumn.td
-      ~EditColumn.th
+      ~ActionColumn.a
+      ~ActionColumn.attribute
+      ~ActionColumn.endpoint
+      ~ActionColumn.heading
+      ~ActionColumn.label
+      ~ActionColumn.name
+      ~ActionColumn.td
+      ~ActionColumn.th
 
    .. rubric:: Methods Summary
 
    .. autosummary::
 
-      ~EditColumn.cell
+      ~ActionColumn.cell
+      ~ActionColumn.contents
 
    .. rubric:: Attributes Documentation
 
@@ -30,6 +32,7 @@ EditColumn
    .. autoattribute:: attribute
    .. autoattribute:: endpoint
    .. autoattribute:: heading
+   .. autoattribute:: label
    .. autoattribute:: name
    .. autoattribute:: td
    .. autoattribute:: th
@@ -37,3 +40,4 @@ EditColumn
    .. rubric:: Methods Documentation
 
    .. automethod:: cell
+   .. automethod:: contents

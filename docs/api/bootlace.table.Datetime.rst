@@ -22,6 +22,7 @@ Datetime
    .. autosummary::
 
       ~Datetime.cell
+      ~Datetime.contents
 
    .. rubric:: Attributes Documentation
 
@@ -35,3 +36,4 @@ Datetime
    .. rubric:: Methods Documentation
 
    .. automethod:: cell
+   .. automethod:: contents

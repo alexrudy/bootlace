@@ -7,10 +7,10 @@ from flask import Flask
 from bootlace.extension import Bootlace
 from bootlace.icon import Icon
 from bootlace.table.base import Heading
+from bootlace.table.columns import ActionColumn
 from bootlace.table.columns import CheckColumn
 from bootlace.table.columns import Column
 from bootlace.table.columns import Datetime
-from bootlace.table.columns import EditColumn
 from bootlace.testing import assert_same_html
 from bootlace.util import as_tag
 
@@ -35,16 +35,16 @@ class Item:
 
 def test_unnamed_column() -> None:
 
-    col = EditColumn(heading="Edit", endpoint="index")
+    col = ActionColumn(heading="Edit", endpoint="index")
 
     with pytest.raises(ValueError):
         col.attribute
 
 
 @pytest.mark.usefixtures("homepage")
-def test_edit_column(app: Flask) -> None:
+def test_action_column(app: Flask) -> None:
 
-    col = EditColumn(heading="Edit", name="editor", endpoint="index")
+    col = ActionColumn(heading="Edit", name="editor", endpoint="index")
 
     th = as_tag(col.heading)
 
@@ -54,6 +54,23 @@ def test_edit_column(app: Flask) -> None:
         td = col.cell(Item())
 
     expected = '<td><a href="/?id=1">editor</a></td>'
+
+    assert_same_html(expected, str(td))
+
+
+@pytest.mark.usefixtures("homepage")
+def test_action_column_label(app: Flask) -> None:
+
+    col = ActionColumn(heading="Edit", name="editor", endpoint="index", label="Edit")
+
+    th = as_tag(col.heading)
+
+    assert str(th) == "<span>Edit</span>"
+
+    with app.test_request_context("/"):
+        td = col.cell(Item())
+
+    expected = '<td><a href="/?id=1">Edit</a></td>'
 
     assert_same_html(expected, str(td))
 
@@ -124,5 +141,23 @@ def test_regular_column_missing() -> None:
     col = Column(heading="Something", name="missing")
 
     td = col.cell(Item())
-    expected = "<!--no value for missing-->"
+    expected = "<!--No value for missing-->"
+    assert str(td) == expected
+
+
+def test_regular_column() -> None:
+
+    col = Column(heading="Editor", name="editor")
+
+    td = col.cell(Item())
+    expected = "editor"
+    assert str(td) == expected
+
+
+def test_regular_column_formatted() -> None:
+    col = Column(heading="Editor", name="editor", format="Editor: {}")
+
+    td = col.cell(Item())
+    expected = "Editor: editor"
+
     assert str(td) == expected

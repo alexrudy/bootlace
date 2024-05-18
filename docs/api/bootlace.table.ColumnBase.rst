@@ -21,6 +21,7 @@ ColumnBase
    .. autosummary::
 
       ~ColumnBase.cell
+      ~ColumnBase.contents
 
    .. rubric:: Attributes Documentation
 
@@ -33,3 +34,4 @@ ColumnBase
    .. rubric:: Methods Documentation
 
    .. automethod:: cell
+   .. automethod:: contents

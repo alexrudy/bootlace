@@ -23,6 +23,7 @@ CheckColumn
    .. autosummary::
 
       ~CheckColumn.cell
+      ~CheckColumn.contents
 
    .. rubric:: Attributes Documentation
 
@@ -37,3 +38,4 @@ CheckColumn
    .. rubric:: Methods Documentation
 
    .. automethod:: cell
+   .. automethod:: contents
