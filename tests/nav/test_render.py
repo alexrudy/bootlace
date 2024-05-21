@@ -40,7 +40,7 @@ def test_nav_alignment(alignment: core.NavAlignment, cls: str) -> None:
 
     source = render(nav)
     expected = f"""
-    <ul class='nav {cls if cls else str()}'>
+    <ul class='nav {cls if cls else ''}'>
         <li class='nav-item'><span class='nav-link disabled' aria-disabled='true'>Text</span></li>
     </ul>"""
 

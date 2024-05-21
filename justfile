@@ -1,27 +1,44 @@
+# Common Flask project tasks
 
 # Set up the virtual environment based on the direnv convention
 # https://direnv.net/docs/legacy.html#virtualenv
-virtual_env :=  justfile_directory() / ".direnv/python-3.11/bin"
+python_version := env('PYTHON_VERSION', "3.12")
+virtual_env :=  justfile_directory() / ".direnv/python-$python_version/bin"
 export PATH := virtual_env + ":" + env('PATH')
+export REQUIREMENTS_TXT := env('REQUIREMENTS', '')
 
 [private]
 prepare:
     pip install --quiet --upgrade pip
-    pip install --quiet pip-tools pip-compile-multi
+    pip install --quiet -r requirements/pip-tools.txt
 
+# lock the requirements files
+compile: prepare
+    pip-compile-multi --use-cache --backtracking
+
+# Install dependencies
 sync: prepare
-    pip-compile-multi --use-cache
     pip-sync requirements/dev.txt
-    pip install -e .
-    tox --notest
+    [[ -f requirements/local.txt ]] && pip install -r requirements/local.txt
+    tox -p auto --notest
+
+alias install := sync
+alias develop := sync
+
+# Sort imports
+isort:
+    -pre-commit run reorder-python-imports --all-files
 
 # Run tests
 test:
-    pytest
+    pytest -q -n 4 --cov-report=html
 
 # Run all tests
 test-all:
-    tox
+    tox -p auto
+
+alias tox := test-all
+alias t := test-all
 
 # Run lints
 lint:
@@ -30,6 +47,13 @@ lint:
 # Run mypy
 mypy:
     mypy
+
+# run the flask application
+serve:
+    flask run
+
+alias s := serve
+alias run := serve
 
 # Build docs
 docs:
@@ -46,7 +70,7 @@ clean-docs:
     rm -rf docs/api
 
 # Clean aggressively
-clean-all: clean
+clean-all: clean clean-docs
     rm -rf .direnv
     rm -rf .venv
     rm -rf .tox
