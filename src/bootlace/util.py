@@ -276,6 +276,7 @@ def maybe(cls: type[T]) -> Callable[[str | T], T]:
 def is_active_endpoint(endpoint: str, url_kwargs: Mapping[str, Any], ignore_query: bool = True) -> bool:
     """Check if the current request is for the given endpoint and URL kwargs"""
     if request.endpoint != endpoint:
+        print(f"endpoint: {request.endpoint} != {endpoint}")
         return False
 
     if request.url_rule is None:  # pragma: no cover
@@ -289,6 +290,11 @@ def is_active_endpoint(endpoint: str, url_kwargs: Mapping[str, Any], ignore_quer
     _, url = rule_url
 
     return url == request.path
+
+
+def is_active_blueprint(blueprint: str) -> bool:
+    """Check if the current request is for the given blueprint"""
+    return request.blueprint == blueprint
 
 
 H = TypeVar("H", bound=tags.html_tag)

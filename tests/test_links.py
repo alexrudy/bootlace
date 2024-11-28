@@ -32,20 +32,21 @@ def test_view(app: Flask) -> None:
         print(f"{built=}")
         print(f"{request.path=}")
 
-        assert view.active, "View should be active"
-        assert view.enabled, "View should be enabled"
+        assert view.active, f"{view} should be active"
+        assert view.enabled, f"{view} should be enabled"
+        assert view.blueprint is None
 
         expected = '<a href="/">Test</a>'
         assert_same_html(expected, render(view))
 
     with app.test_request_context("/"):
         view = View(text="Test", endpoint=Endpoint(name="other", ignore_query=False))
-        assert not view.active, "View should not be active"
+        assert not view.active, f"{view} should not be active"
 
     with app.test_request_context("/foo"):
         view = View(text="Test", endpoint="index")
-        assert not view.active, "View should not be active"
+        assert not view.active, f"{view} should not be active"
 
     with app.test_request_context("/static/foo"):
         view = View(text="Test", endpoint=Endpoint(name="static", url_kwargs={"filename": "foo.txt"}))
-        assert not view.active, "View should not be active"
+        assert not view.active, f"{view} should not be active"

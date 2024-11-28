@@ -62,6 +62,25 @@ class Endpoint:
         return cls(name=name, url_kwargs=KeywordArguments(**kwargs), ignore_query=ignore_query)
 
     @property
+    def full_name(self) -> str:
+        """The full name of the endpoint"""
+        if self.context is not None and "." not in self.name:
+            return f"{self.context.name}.{self.name}"
+
+        return self.name
+
+    @property
+    def blueprint(self) -> str | None:
+        """The blueprint for the endpoint"""
+        if "." in self.name:
+            return ".".join(self.name.split(".")[:-1])
+
+        if self.context is not None:
+            return self.context.name
+
+        return None
+
+    @property
     def url(self) -> str:
         """The URL for the endpoint"""
         return self.build()
@@ -77,7 +96,7 @@ class Endpoint:
     @property
     def active(self) -> bool:
         """Whether the endpoint is active"""
-        return is_active_endpoint(self.name, self.url_kwargs, self.ignore_query)
+        return is_active_endpoint(self.full_name, self.url_kwargs, self.ignore_query)
 
     def __call__(self, **kwds: Any) -> str:
         return self.build(**kwds)

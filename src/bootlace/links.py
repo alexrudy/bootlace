@@ -70,3 +70,8 @@ class View(LinkBase):
     def active(self) -> bool:
         """Whether the link is active, based on the current request endpoint."""
         return self.endpoint.active
+
+    @property
+    def blueprint(self) -> str | None:
+        """The blueprint for the endpoint."""
+        return self.endpoint.blueprint

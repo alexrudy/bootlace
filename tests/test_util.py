@@ -2,9 +2,48 @@ from typing import Any
 
 import pytest
 from dominate import tags
+from flask import Blueprint
+from flask import Flask
 
 from bootlace.util import as_tag
+from bootlace.util import is_active_blueprint
+from bootlace.util import is_active_endpoint
 from bootlace.util import Tag
+
+
+@pytest.fixture
+def app(app: Flask) -> Flask:
+
+    @app.route("/")
+    def home() -> str:
+        return "Home"
+
+    @app.route("/about")
+    def about() -> str:
+        return "About"
+
+    @app.route("/contact")
+    def contact() -> str:
+        return "Contact"
+
+    return app
+
+
+@pytest.fixture
+def bp(app: Flask) -> Blueprint:
+    bp = Blueprint("bp", __name__)
+
+    @bp.route("/archive")
+    def archive() -> str:
+        return "Archive"
+
+    @bp.route("/post/<id>")
+    def post(id: str) -> str:
+        return "Post"
+
+    app.register_blueprint(bp)
+
+    return bp
 
 
 class Taggable:
@@ -29,7 +68,7 @@ def test_as_tag(tag: Any, expected: str) -> None:
 
 def test_as_tag_warning() -> None:
     with pytest.warns(UserWarning):
-        assert as_tag(1).render() == "1\n<!--Rendered type int not supported-->\n"  # type: ignore
+        assert as_tag(1).render() == "1\n<!--Rendered type int not supported-->\n"
 
 
 def test_classes() -> None:
@@ -102,3 +141,38 @@ def test_tag_configurator() -> None:
     a.classes.discard("test")
 
     assert as_tag(a).render() == '<a class="other" href="/test"></a>'
+
+
+@pytest.mark.usefixtures("bp")
+@pytest.mark.parametrize(
+    "uri,endpoint,kwargs,expected",
+    [
+        ("/", "home", {}, True),
+        ("/about", "home", {}, False),
+        ("/post/a", "bp.post", {"id": "a"}, True),
+        ("/post/b", "bp.post", {"id": "a"}, False),
+        ("/archive", "bp.archive", {}, True),
+    ],
+)
+def test_is_active_endpoint(app: Flask, uri: str, endpoint: str, kwargs: dict[str, str], expected: bool) -> None:
+
+    with app.test_request_context(uri):
+        print(f"Testing {uri} -> {endpoint} with {kwargs}")
+        assert is_active_endpoint(endpoint, kwargs) is expected
+
+
+@pytest.mark.usefixtures("bp")
+@pytest.mark.parametrize(
+    "uri,blueprint,expected",
+    [
+        ("/", None, True),
+        ("/about", "bp", False),
+        ("/post/a", "bp", True),
+        ("/archive", "bp", True),
+    ],
+)
+def test_is_active_blueprint(app: Flask, uri: str, blueprint: str, expected: bool) -> None:
+
+    with app.test_request_context(uri):
+        print(f"Testing {uri} -> {blueprint}")
+        assert is_active_blueprint(blueprint) is expected

@@ -10,7 +10,7 @@ export REQUIREMENTS_TXT := env('REQUIREMENTS', '')
 [private]
 prepare:
     pip install --quiet --upgrade pip
-    pip install --quiet -r requirements/pip-tools.txt
+    [[ -f requirements/local.txt ]] && pip install -r requirements/pip-tools.txt || pip install --quiet pip-tools
 
 # lock the requirements files
 compile: prepare
@@ -19,7 +19,7 @@ compile: prepare
 # Install dependencies
 sync: prepare
     pip-sync requirements/dev.txt
-    [[ -f requirements/local.txt ]] && pip install -r requirements/local.txt
+    [[ -f requirements/local.txt ]] && pip install -r requirements/local.txt || true
     tox -p auto --notest
 
 alias install := sync

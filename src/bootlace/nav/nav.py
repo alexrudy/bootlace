@@ -54,7 +54,7 @@ class Nav(SubGroup):
 
         if (link := getattr(active_endpoint, "link", None)) is not None:
             if (endpoint := getattr(link, "endpoint", None)) is not None:
-                ul["data-endpoint"] = endpoint
+                ul["data-endpoint"] = endpoint.full_name
 
         for item in self.items:
             ul.add(self.li(as_tag(item), __pretty=False))
