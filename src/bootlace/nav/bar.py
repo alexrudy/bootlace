@@ -61,7 +61,7 @@ class NavBar(NavElement):
         if self.expand:
             nav.classes.add(self.expand.add_to_class("navbar-expand"))
         if self.color:
-            nav.classes.add(self.color.add_to_class("bg-body"))
+            nav.classes.add(self.color.add_to_class("bg"))
 
         container = self.container()
         if self.fluid:

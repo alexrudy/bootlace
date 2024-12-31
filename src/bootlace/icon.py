@@ -27,7 +27,7 @@ class Icon:
     svg: Tag = Tag(
         svg_tag.svg,
         attributes={"role": "img", "fill": "currentColor", "width": "16", "height": "16"},
-        classes={"bi", "me-1", "pe-none", "align-self-center"},
+        classes={"bi", "me-1", "pe-none", "align-self-center", "bi-inline"},
     )
 
     use: Tag = Tag(svg_tag.use)
