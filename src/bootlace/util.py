@@ -277,7 +277,6 @@ def maybe(cls: type[T]) -> Callable[[str | T], T]:
 def is_active_endpoint(endpoint: str, url_kwargs: Mapping[str, Any], ignore_query: bool = True) -> bool:
     """Check if the current request is for the given endpoint and URL kwargs"""
     if request.endpoint != endpoint:
-        print(f"endpoint: {request.endpoint} != {endpoint}")
         return False
 
     if request.url_rule is None:  # pragma: no cover
@@ -285,11 +284,10 @@ def is_active_endpoint(endpoint: str, url_kwargs: Mapping[str, Any], ignore_quer
 
     try:
         rule_url = request.url_rule.build(url_kwargs, append_unknown=not ignore_query)
-    except TypeError:
-        # URL rule does not support the given URL kwargs
+    except TypeError:  # pragma: no cover
         return False
 
-    if rule_url is None:  # pragma: no cover
+    if rule_url is None:
         return False
 
     _, url = rule_url

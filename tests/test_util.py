@@ -4,6 +4,7 @@ import pytest
 from dominate import tags
 from flask import Blueprint
 from flask import Flask
+from flask import request
 
 from bootlace.util import as_tag
 from bootlace.util import is_active_blueprint
@@ -159,6 +160,15 @@ def test_is_active_endpoint(app: Flask, uri: str, endpoint: str, kwargs: dict[st
     with app.test_request_context(uri):
         print(f"Testing {uri} -> {endpoint} with {kwargs}")
         assert is_active_endpoint(endpoint, kwargs) is expected
+
+
+@pytest.mark.usefixtures("bp")
+def test_is_active_endpoint_invalid_kwargs(app: Flask) -> None:
+
+    with app.test_request_context("/"):
+        assert request.endpoint == "home"
+        assert request.url_rule is not None
+        assert not is_active_endpoint("home", {"id": "a"}, ignore_query=False)
 
 
 @pytest.mark.usefixtures("bp")
