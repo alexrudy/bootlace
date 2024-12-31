@@ -10,7 +10,7 @@ export REQUIREMENTS_TXT := env('REQUIREMENTS', '')
 [private]
 prepare:
     pip install --quiet --upgrade pip
-    [[ -f requirements/local.txt ]] && pip install -r requirements/pip-tools.txt || pip install --quiet pip-tools
+    [[ -f requirements/pip-tools.txt ]] && pip install -r requirements/pip-tools.txt || pip install --quiet pip-tools
 
 # lock the requirements files
 compile: prepare
@@ -31,7 +31,7 @@ isort:
 
 # Run tests
 test:
-    pytest -q -n 4 --cov-report=html
+    pytest --cov-report=html
 
 # Run all tests
 test-all:
