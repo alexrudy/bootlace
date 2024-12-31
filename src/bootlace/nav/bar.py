@@ -1,14 +1,14 @@
-from typing import Any
-
 import attrs
 from dominate import tags
 from dominate.dom_tag import dom_tag
 from dominate.util import container
+from marshmallow import fields
 
 from .core import Link
 from .core import NavElement
 from .core import SubGroup
 from .nav import Nav
+from .schema import NavSchema
 from bootlace.size import SizeClass
 from bootlace.style import ColorClass
 from bootlace.util import as_tag
@@ -27,34 +27,24 @@ class NavBar(NavElement):
     id: str = attrs.field(factory=element_id.factory("navbar"))
 
     #: The elements in the navbar
-    items: list[NavElement] = attrs.field(factory=list)
+    items: list[NavElement] = attrs.field(factory=list, metadata={"form": fields.List(fields.Nested(NavSchema))})
 
     #: The size of the navbar, if any, used to select when it
     #: should expand or collapse
-    expand: SizeClass | None = SizeClass.LARGE
+    expand: SizeClass | None = attrs.field(
+        default=SizeClass.LARGE, metadata={"form": fields.Enum(SizeClass, allow_none=True)}
+    )
 
     #: The color of the navbar, if using a bootstrap color class
-    color: ColorClass | None = ColorClass.TERTIARY
+    color: ColorClass | None = attrs.field(
+        default=ColorClass.TERTIARY, metadata={"form": fields.Enum(ColorClass, allow_none=True)}
+    )
 
     #: Whether the navbar should be fluid (e.g. full width)
     fluid: bool = True
 
     nav: Tag = Tag(tags.nav, classes={"navbar"})
     container: Tag = Tag(tags.div, classes={"container"})
-
-    def serialize(self) -> dict[str, Any]:
-        data = super().serialize()
-        data["items"] = [item.serialize() for item in self.items]
-        data["expand"] = self.expand.value if self.expand else None
-        data["color"] = self.color.value if self.color else None
-        return data
-
-    @classmethod
-    def deserialize(cls, data: dict[str, Any]) -> NavElement:
-        data["items"] = [NavElement.deserialize(item) for item in data["items"]]
-        data["expand"] = SizeClass(data["expand"]) if data["expand"] else None
-        data["color"] = ColorClass(data["color"]) if data["color"] else None
-        return cls(**data)
 
     def __tag__(self) -> tags.html_tag:
         nav = self.nav()

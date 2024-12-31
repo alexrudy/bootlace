@@ -1,9 +1,8 @@
 import warnings
-from typing import Any
-from typing import Self
 
 import attrs
 from dominate import tags
+from marshmallow import fields
 
 from .core import NavAlignment
 from .core import NavStyle
@@ -23,25 +22,13 @@ class Nav(SubGroup):
     id: str = attrs.field(factory=element_id.factory("nav"))
 
     #: The style of the nav
-    style: NavStyle = NavStyle.PLAIN
+    style: NavStyle = attrs.field(default=NavStyle.PLAIN, metadata={"form": fields.Enum(NavStyle)})
 
     #: The alignment of the elments in the nav
-    alignment: NavAlignment = NavAlignment.DEFAULT
+    alignment: NavAlignment = attrs.field(default=NavAlignment.DEFAULT, metadata={"form": fields.Enum(NavAlignment)})
 
     ul: Tag = Tag(tags.ul, classes={"nav"})
     li: Tag = Tag(tags.li, classes={"nav-item"})
-
-    def serialize(self) -> dict[str, Any]:
-        data = super().serialize()
-        data["style"] = self.style.name
-        data["alignment"] = self.alignment.name
-        return data
-
-    @classmethod
-    def deserialize(cls, data: dict[str, Any]) -> Self:
-        data["style"] = NavStyle[data["style"]]
-        data["alignment"] = NavAlignment[data["alignment"]]
-        return super().deserialize(data)
 
     def __tag__(self) -> tags.html_tag:
         active_endpoint = next((item for item in self.items if item.active), None)

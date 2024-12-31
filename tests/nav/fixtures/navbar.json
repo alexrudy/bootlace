@@ -1,0 +1,319 @@
+{
+  "id": "navbar",
+  "items": [
+    {
+      "link": {
+        "text": "Navbar",
+        "a": {
+          "tag": "a",
+          "classes": [],
+          "attributes": {}
+        },
+        "url": "#",
+        "active": false,
+        "enabled": true,
+        "__type__": "Link"
+      },
+      "a": {
+        "tag": "a",
+        "classes": [
+          "nav-link"
+        ],
+        "attributes": {}
+      },
+      "id": "navbar-brand",
+      "__type__": "Brand"
+    },
+    {
+      "items": [
+        {
+          "items": [
+            {
+              "link": {
+                "text": "Home",
+                "a": {
+                  "tag": "a",
+                  "classes": [],
+                  "attributes": {}
+                },
+                "url": "#",
+                "active": false,
+                "enabled": true,
+                "__type__": "Link"
+              },
+              "id": "nav-link",
+              "a": {
+                "tag": "a",
+                "classes": [
+                  "nav-link"
+                ],
+                "attributes": {}
+              },
+              "__type__": "CurrentLink"
+            },
+            {
+              "link": {
+                "text": "Link",
+                "a": {
+                  "tag": "a",
+                  "classes": [],
+                  "attributes": {}
+                },
+                "url": "#",
+                "active": false,
+                "enabled": true,
+                "__type__": "Link"
+              },
+              "id": "nav-link-1",
+              "a": {
+                "tag": "a",
+                "classes": [
+                  "nav-link"
+                ],
+                "attributes": {}
+              },
+              "__type__": "Link"
+            },
+            {
+              "items": [
+                {
+                  "link": {
+                    "text": "Action",
+                    "a": {
+                      "tag": "a",
+                      "classes": [],
+                      "attributes": {}
+                    },
+                    "url": "#",
+                    "active": false,
+                    "enabled": true,
+                    "__type__": "Link"
+                  },
+                  "id": "nav-link-2",
+                  "a": {
+                    "tag": "a",
+                    "classes": [
+                      "nav-link"
+                    ],
+                    "attributes": {}
+                  },
+                  "__type__": "Link"
+                },
+                {
+                  "link": {
+                    "text": "Another action",
+                    "a": {
+                      "tag": "a",
+                      "classes": [],
+                      "attributes": {}
+                    },
+                    "url": "#",
+                    "active": false,
+                    "enabled": true,
+                    "__type__": "Link"
+                  },
+                  "id": "nav-link-3",
+                  "a": {
+                    "tag": "a",
+                    "classes": [
+                      "nav-link"
+                    ],
+                    "attributes": {}
+                  },
+                  "__type__": "Link"
+                },
+                {
+                  "hr": {
+                    "tag": "hr",
+                    "classes": [
+                      "dropdown-divider"
+                    ],
+                    "attributes": {}
+                  },
+                  "__type__": "Separator"
+                },
+                {
+                  "link": {
+                    "text": "Separated link",
+                    "a": {
+                      "tag": "a",
+                      "classes": [],
+                      "attributes": {}
+                    },
+                    "url": "#",
+                    "active": false,
+                    "enabled": true,
+                    "__type__": "Link"
+                  },
+                  "id": "nav-link-4",
+                  "a": {
+                    "tag": "a",
+                    "classes": [
+                      "nav-link"
+                    ],
+                    "attributes": {}
+                  },
+                  "__type__": "Link"
+                }
+              ],
+              "title": "Dropdown",
+              "id": "bs-dropdown",
+              "dropdown": {
+                "tag": "div",
+                "classes": [
+                  "dropdown"
+                ],
+                "attributes": {}
+              },
+              "ul": {
+                "tag": "ul",
+                "classes": [
+                  "dropdown-menu"
+                ],
+                "attributes": {}
+              },
+              "li": {
+                "tag": "li",
+                "classes": [],
+                "attributes": {}
+              },
+              "toggle": {
+                "tag": "a",
+                "classes": [
+                  "nav-link",
+                  "dropdown-toggle"
+                ],
+                "attributes": {
+                  "role": "button"
+                }
+              },
+              "__type__": "Dropdown"
+            },
+            {
+              "link": {
+                "text": "Disabled",
+                "a": {
+                  "tag": "a",
+                  "classes": [],
+                  "attributes": {}
+                },
+                "url": "#",
+                "active": false,
+                "enabled": true,
+                "__type__": "Link"
+              },
+              "id": "nav-link-5",
+              "a": {
+                "tag": "a",
+                "classes": [
+                  "nav-link"
+                ],
+                "attributes": {}
+              },
+              "__type__": "DisabledLink"
+            }
+          ],
+          "style": "PLAIN",
+          "alignment": "DEFAULT",
+          "id": "navbar-nav",
+          "ul": {
+            "tag": "ul",
+            "classes": [
+              "navbar-nav"
+            ],
+            "attributes": {}
+          },
+          "li": {
+            "tag": "li",
+            "classes": [
+              "nav-item"
+            ],
+            "attributes": {}
+          },
+          "__type__": "NavBarNav"
+        },
+        {
+          "id": "navbar-search",
+          "placeholder": "Search",
+          "action": "#",
+          "method": "GET",
+          "button": null,
+          "form": {
+            "tag": "form",
+            "classes": [
+              "d-flex"
+            ],
+            "attributes": {
+              "role": "search"
+            }
+          },
+          "input": {
+            "tag": "input_",
+            "classes": [
+              "me-2",
+              "form-control"
+            ],
+            "attributes": {
+              "type": "search"
+            }
+          },
+          "button_tag": {
+            "tag": "button",
+            "classes": [
+              "btn-success",
+              "btn"
+            ],
+            "attributes": {
+              "type": "submit"
+            }
+          },
+          "__type__": "NavBarSearch"
+        }
+      ],
+      "id": "navbarSupportedContent",
+      "button": {
+        "tag": "button",
+        "classes": [
+          "navbar-toggler"
+        ],
+        "attributes": {
+          "type": "button"
+        }
+      },
+      "icon": {
+        "tag": "span",
+        "classes": [
+          "navbar-toggler-icon"
+        ],
+        "attributes": {}
+      },
+      "container": {
+        "tag": "div",
+        "classes": [
+          "navbar-collapse",
+          "collapse"
+        ],
+        "attributes": {}
+      },
+      "__type__": "NavBarCollapse"
+    }
+  ],
+  "expand": "LARGE",
+  "color": "TERTIARY",
+  "fluid": true,
+  "nav": {
+    "tag": "nav",
+    "classes": [
+      "navbar"
+    ],
+    "attributes": {}
+  },
+  "container": {
+    "tag": "div",
+    "classes": [
+      "container"
+    ],
+    "attributes": {}
+  },
+  "__type__": "NavBar"
+}

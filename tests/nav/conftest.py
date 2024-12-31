@@ -10,9 +10,6 @@ from bootlace.util import ids
 def get_fixture(name: str) -> str:
     here = Path(__file__).parent
 
-    if not name.endswith(".html"):
-        name += ".html"
-
     return (here / "fixtures" / name).read_text()
 
 

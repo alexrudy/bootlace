@@ -1,14 +1,15 @@
 import enum
 import warnings
 from typing import Any
-from typing import Self
 
 import attrs
 from dominate import tags
 from dominate.dom_tag import dom_tag
+from marshmallow import fields
 
 from bootlace import links
 from bootlace.endpoint import Endpoint
+from bootlace.nav.schema import NavSchema
 from bootlace.util import as_tag
 from bootlace.util import BootlaceWarning
 from bootlace.util import ids as element_id
@@ -33,37 +34,14 @@ class NavAlignment(enum.Enum):
     JUSTIFIED = "nav-justified"
 
 
-def nav_serialize_filter(field: attrs.Attribute, value: Any) -> Any:
-    """Serialize the value of a NavElement"""
-    if isinstance(value, Tag):
-        return False
-
-    return True
-
-
 class NavElement:
     """Base class for nav components"""
 
+    Schema: type[NavSchema] = NavSchema
     _NAV_ELEMENT_REGISTRY: dict[str, type["NavElement"]] = {}
 
     def __init_subclass__(cls) -> None:
         cls._NAV_ELEMENT_REGISTRY[cls.__name__] = cls
-
-    def serialize(self) -> dict[str, Any]:
-        """Serialize the element to a dictionary"""
-        data = attrs.asdict(self, filter=nav_serialize_filter)  # type: ignore
-        data["__type__"] = self.__class__.__name__
-        return data
-
-    @classmethod
-    def deserialize(cls, data: dict[str, Any]) -> "NavElement":
-        """Deserialize an element from a dictionary"""
-        if cls is NavElement:
-            element_cls = cls._NAV_ELEMENT_REGISTRY.get(data["__type__"], NavElement)
-            del data["__type__"]
-            return element_cls.deserialize(data)
-
-        return cls(**data)
 
     @property
     def active(self) -> bool:
@@ -105,25 +83,6 @@ class Link(NavElement):
     id: str = attrs.field(factory=element_id.factory("nav-link"))
 
     a: Tag = Tag(tags.a, classes={"nav-link"})
-
-    def serialize(self) -> dict[str, Any]:
-        data = super().serialize()
-        data["link"] = attrs.asdict(self.link, filter=nav_serialize_filter)
-        data["link"]["__type__"] = self.link.__class__.__name__
-
-        if "endpoint" in data["link"]:
-            data["link"]["endpoint"]["url_kwargs"] = dict(data["link"]["endpoint"]["url_kwargs"]["_arguments"])
-
-        return data
-
-    @classmethod
-    def deserialize(cls, data: dict[str, Any]) -> Self:
-        link_cls = getattr(links, data["link"].pop("__type__"))
-        if "endpoint" in data["link"]:
-            data["link"]["endpoint"] = Endpoint(**data["link"]["endpoint"])
-
-        data["link"] = link_cls(**data["link"])
-        return cls(**data)
 
     @classmethod
     def with_url(cls, url: str, text: MaybeTaggable, **kwargs: Any) -> "Link":
@@ -190,17 +149,7 @@ class Text(NavElement):
 class SubGroup(NavElement):
     """Any grouping of items in the nav bar"""
 
-    items: list[NavElement] = attrs.field(factory=list)
-
-    def serialize(self) -> dict[str, Any]:
-        data = super().serialize()
-        data["items"] = [item.serialize() for item in self.items]
-        return data
-
-    @classmethod
-    def deserialize(cls, data: dict[str, Any]) -> Self:
-        data["items"] = [NavElement.deserialize(item) for item in data["items"]]
-        return cls(**data)
+    items: list[NavElement] = attrs.field(factory=list, metadata={"form": fields.List(fields.Nested(NavSchema))})
 
     @property
     def active(self) -> bool:
