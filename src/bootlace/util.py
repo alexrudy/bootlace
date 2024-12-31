@@ -104,6 +104,7 @@ def as_tag(item: MaybeTaggable) -> dom_tag:
     """
 
     if isinstance(item, tags.html_tag):
+        # item.children = [as_tag(child) for child in item.children]
         return item
     if hasattr(item, "__tag__"):
         return item.__tag__()
@@ -282,7 +283,11 @@ def is_active_endpoint(endpoint: str, url_kwargs: Mapping[str, Any], ignore_quer
     if request.url_rule is None:  # pragma: no cover
         return False
 
-    rule_url = request.url_rule.build(url_kwargs, append_unknown=not ignore_query)
+    try:
+        rule_url = request.url_rule.build(url_kwargs, append_unknown=not ignore_query)
+    except TypeError:
+        # URL rule does not support the given URL kwargs
+        return False
 
     if rule_url is None:  # pragma: no cover
         return False
