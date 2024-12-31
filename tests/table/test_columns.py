@@ -14,7 +14,7 @@ from bootlace.table.columns import Datetime
 from bootlace.testing import assert_same_html
 from bootlace.util import as_tag
 
-ICON_OPEN_SVG_TAG = """<svg class="bi pe-none align-self-center me-1" role="img" width="16" height="16">"""
+ICON_OPEN_SVG_TAG = """<svg class="bi bi-inline pe-none align-self-center me-1" role="img" width="16" height="16">"""
 
 
 @pytest.fixture

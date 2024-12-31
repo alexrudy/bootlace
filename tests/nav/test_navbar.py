@@ -76,7 +76,7 @@ def test_navbar_color() -> None:
     source = render(navbar)
 
     expected = """
-    <nav class="navbar navbar-expand-lg bg-body-primary">
+    <nav class="navbar navbar-expand-lg bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Navbar</a>
     </div>
