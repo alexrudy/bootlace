@@ -173,7 +173,7 @@ class Separator(NavElement):
 class Text(NavElement):
     """A text element in the nav bar"""
 
-    text: str
+    text: MaybeTaggable
 
     span: Tag = Tag(tags.span, classes={"nav-link"})
 

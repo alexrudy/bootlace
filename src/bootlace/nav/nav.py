@@ -11,6 +11,7 @@ from .core import SubGroup
 from bootlace.util import as_tag
 from bootlace.util import BootlaceWarning
 from bootlace.util import ids as element_id
+from bootlace.util import MaybeTaggable
 from bootlace.util import Tag
 
 
@@ -67,7 +68,7 @@ class Dropdown(SubGroup):
     """A dropdown menu in the nav bar"""
 
     #: The title of the dropdown
-    title: str = attrs.field(kw_only=True)
+    title: MaybeTaggable = attrs.field(kw_only=True)
 
     #: The ID of the dropdown
     id: str = attrs.field(factory=element_id.factory("bs-dropdown"))
@@ -80,7 +81,7 @@ class Dropdown(SubGroup):
     def __tag__(self) -> tags.html_tag:
         div = self.dropdown()
         a = self.toggle(
-            self.title,
+            as_tag(self.title),
             href="#",
             id=self.id,
         )
