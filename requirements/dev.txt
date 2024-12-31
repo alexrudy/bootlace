@@ -10,17 +10,15 @@
 -r typing.txt
 -e file:///Users/alexrudy/Development/alexrudy/bootlace
     # via -r requirements/dev.in
-backports-tarfile==1.1.1
-    # via jaraco-context
-black==24.4.2
+black==24.10.0
     # via -r requirements/dev.in
-build==1.2.1
+build==1.2.2.post1
     # via
     #   -r requirements/dev.in
     #   pip-tools
 bump2version==1.0.1
     # via -r requirements/dev.in
-cachetools==5.3.3
+cachetools==5.5.0
     # via tox
 cfgv==3.4.0
     # via pre-commit
@@ -28,38 +26,34 @@ chardet==5.2.0
     # via tox
 colorama==0.4.6
     # via tox
-distlib==0.3.8
+distlib==0.3.9
     # via virtualenv
-filelock==3.14.0
+filelock==3.16.1
     # via
     #   tox
     #   virtualenv
-flake8==7.0.0
+flake8==7.1.1
     # via
     #   -r requirements/dev.in
     #   flake8-bugbear
     #   flake8-typing-imports
-flake8-bugbear==24.4.26
+flake8-bugbear==24.12.12
     # via -r requirements/dev.in
-flake8-implicit-str-concat==0.4.0
+flake8-implicit-str-concat==0.5.0
     # via -r requirements/dev.in
-flake8-typing-imports==1.15.0
+flake8-typing-imports==1.16.0
     # via -r requirements/dev.in
-hatchling==1.24.2
+hatchling==1.27.0
     # via -r requirements/dev.in
-identify==2.5.36
+identify==2.6.4
     # via pre-commit
-importlib-metadata==7.1.0
-    # via
-    #   keyring
-    #   twine
 jaraco-classes==3.4.0
     # via keyring
-jaraco-context==5.3.0
+jaraco-context==6.0.1
     # via keyring
-jaraco-functools==4.0.1
+jaraco-functools==4.1.0
     # via keyring
-keyring==25.2.1
+keyring==25.6.0
     # via twine
 markdown-it-py==3.0.0
     # via rich
@@ -67,69 +61,67 @@ mccabe==0.7.0
     # via flake8
 mdurl==0.1.2
     # via markdown-it-py
-more-itertools==10.2.0
+more-itertools==10.5.0
     # via
     #   jaraco-classes
     #   jaraco-functools
-nh3==0.2.17
+nh3==0.2.20
     # via readme-renderer
-nodeenv==1.8.0
+nodeenv==1.9.1
     # via pre-commit
 pathspec==0.12.1
     # via
     #   black
     #   hatchling
-pip-compile-multi==2.6.3
+pip-compile-multi==2.7.1
     # via -r requirements/dev.in
 pip-tools==7.4.1
     # via pip-compile-multi
-pkginfo==1.10.0
+pkginfo==1.12.0
     # via twine
-platformdirs==4.2.1
+platformdirs==4.3.6
     # via
     #   black
     #   tox
     #   virtualenv
-pre-commit==3.7.1
+pre-commit==4.0.1
     # via -r requirements/dev.in
-pycodestyle==2.11.1
+pycodestyle==2.12.1
     # via flake8
 pyflakes==3.2.0
     # via flake8
-pyproject-api==1.6.1
+pyproject-api==1.8.0
     # via tox
-pyproject-hooks==1.1.0
+pyproject-hooks==1.2.0
     # via
     #   build
     #   pip-tools
-pyyaml==6.0.1
+pyyaml==6.0.2
     # via pre-commit
-readme-renderer==43.0
+readme-renderer==44.0
     # via twine
 requests-toolbelt==1.0.0
     # via twine
 rfc3986==2.0.0
     # via twine
-rich==13.7.1
+rich==13.9.4
     # via twine
 toposort==1.10
     # via pip-compile-multi
-tox==4.15.0
+tox==4.23.2
     # via -r requirements/dev.in
-trove-classifiers==2024.4.10
+trove-classifiers==2024.10.21.16
     # via hatchling
-twine==5.0.0
+twine==6.0.1
     # via -r requirements/dev.in
-virtualenv==20.26.2
+virtualenv==20.28.0
     # via
     #   pre-commit
     #   tox
-watchdog==4.0.0
+watchdog==6.0.0
     # via -r requirements/dev.in
-wheel==0.43.0
+wheel==0.45.1
     # via pip-tools
-zipp==3.18.1
-    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip

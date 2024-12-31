@@ -3,3 +3,4 @@ attrs
 flask
 html5lib
 wtforms
+marshmallow
