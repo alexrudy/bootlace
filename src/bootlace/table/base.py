@@ -59,9 +59,13 @@ class ColumnBase(ABC):
             raise ValueError("column must be named in Table or name= parameter must be provided")
         return self.name
 
+    def attribute_value(self, value: Any) -> Any:
+        """Return the value of the attribute for the given object."""
+        return getattr(value, self.attribute)
+
     def contents(self, value: Any, format: str | None = None) -> Any:
         """Return the contents of the cell for the column, using an HTML comment if the attribute value is None."""
-        contents = getattr(value, self.attribute)
+        contents = self.attribute_value(value)
         if contents is None:
             return tags.comment(f"No value for {self.name}")
         if format:
