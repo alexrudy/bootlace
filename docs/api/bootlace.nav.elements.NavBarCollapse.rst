@@ -23,9 +23,7 @@ NavBarCollapse
    .. autosummary::
 
       ~NavBarCollapse.__tag__
-      ~NavBarCollapse.deserialize
       ~NavBarCollapse.element_state
-      ~NavBarCollapse.serialize
 
    .. rubric:: Attributes Documentation
 
@@ -40,6 +38,4 @@ NavBarCollapse
    .. rubric:: Methods Documentation
 
    .. automethod:: __tag__
-   .. automethod:: deserialize
    .. automethod:: element_state
-   .. automethod:: serialize

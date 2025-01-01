@@ -23,6 +23,7 @@ ActionColumn
 
    .. autosummary::
 
+      ~ActionColumn.attribute_value
       ~ActionColumn.cell
       ~ActionColumn.contents
 
@@ -39,5 +40,6 @@ ActionColumn
 
    .. rubric:: Methods Documentation
 
+   .. automethod:: attribute_value
    .. automethod:: cell
    .. automethod:: contents

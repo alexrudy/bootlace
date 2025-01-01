@@ -21,6 +21,7 @@ Column
 
    .. autosummary::
 
+      ~Column.attribute_value
       ~Column.cell
       ~Column.contents
 
@@ -35,5 +36,6 @@ Column
 
    .. rubric:: Methods Documentation
 
+   .. automethod:: attribute_value
    .. automethod:: cell
    .. automethod:: contents

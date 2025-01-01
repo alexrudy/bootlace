@@ -19,9 +19,7 @@ Separator
    .. autosummary::
 
       ~Separator.__tag__
-      ~Separator.deserialize
       ~Separator.element_state
-      ~Separator.serialize
 
    .. rubric:: Attributes Documentation
 
@@ -32,6 +30,4 @@ Separator
    .. rubric:: Methods Documentation
 
    .. automethod:: __tag__
-   .. automethod:: deserialize
    .. automethod:: element_state
-   .. automethod:: serialize

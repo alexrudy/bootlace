@@ -20,9 +20,7 @@ Text
    .. autosummary::
 
       ~Text.__tag__
-      ~Text.deserialize
       ~Text.element_state
-      ~Text.serialize
 
    .. rubric:: Attributes Documentation
 
@@ -34,6 +32,4 @@ Text
    .. rubric:: Methods Documentation
 
    .. automethod:: __tag__
-   .. automethod:: deserialize
    .. automethod:: element_state
-   .. automethod:: serialize

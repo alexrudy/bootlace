@@ -26,9 +26,7 @@ NavBarSearch
    .. autosummary::
 
       ~NavBarSearch.__tag__
-      ~NavBarSearch.deserialize
       ~NavBarSearch.element_state
-      ~NavBarSearch.serialize
 
    .. rubric:: Attributes Documentation
 
@@ -46,6 +44,4 @@ NavBarSearch
    .. rubric:: Methods Documentation
 
    .. automethod:: __tag__
-   .. automethod:: deserialize
    .. automethod:: element_state
-   .. automethod:: serialize

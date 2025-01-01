@@ -24,9 +24,7 @@ Nav
    .. autosummary::
 
       ~Nav.__tag__
-      ~Nav.deserialize
       ~Nav.element_state
-      ~Nav.serialize
 
    .. rubric:: Attributes Documentation
 
@@ -42,6 +40,4 @@ Nav
    .. rubric:: Methods Documentation
 
    .. automethod:: __tag__
-   .. automethod:: deserialize
    .. automethod:: element_state
-   .. automethod:: serialize

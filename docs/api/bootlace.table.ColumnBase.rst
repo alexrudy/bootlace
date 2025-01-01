@@ -20,6 +20,7 @@ ColumnBase
 
    .. autosummary::
 
+      ~ColumnBase.attribute_value
       ~ColumnBase.cell
       ~ColumnBase.contents
 
@@ -33,5 +34,6 @@ ColumnBase
 
    .. rubric:: Methods Documentation
 
+   .. automethod:: attribute_value
    .. automethod:: cell
    .. automethod:: contents

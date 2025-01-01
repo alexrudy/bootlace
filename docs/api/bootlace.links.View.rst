@@ -12,6 +12,7 @@ View
 
       ~View.a
       ~View.active
+      ~View.blueprint
       ~View.enabled
       ~View.endpoint
       ~View.text
@@ -27,6 +28,7 @@ View
 
    .. autoattribute:: a
    .. autoattribute:: active
+   .. autoattribute:: blueprint
    .. autoattribute:: enabled
    .. autoattribute:: endpoint
    .. autoattribute:: text

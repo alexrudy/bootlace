@@ -25,9 +25,7 @@ Dropdown
    .. autosummary::
 
       ~Dropdown.__tag__
-      ~Dropdown.deserialize
       ~Dropdown.element_state
-      ~Dropdown.serialize
 
    .. rubric:: Attributes Documentation
 
@@ -44,6 +42,4 @@ Dropdown
    .. rubric:: Methods Documentation
 
    .. automethod:: __tag__
-   .. automethod:: deserialize
    .. automethod:: element_state
-   .. automethod:: serialize
