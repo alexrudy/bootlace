@@ -4,18 +4,21 @@
 {% endfor %}
 {% endmacro %}
 
+{% macro field_only(entity) %}
+{% if entity.errors %}
+{{ entity.field(class_="form-control is-invalid", aria_describedby="{}-errors".format(entity.id), **kwargs) }}
+<div id="{{ entity.id }}-errors" class="invalid-feedback">{{ errors(entity.errors) }}</div>
+{% elif entity.description %}
+{{ entity.field(class_="form-control", aria_describedby="{}-description".format(entity.id)) }}
+<div id="{{ entity.id }}-description" class="form-text">{{ entity.description }}</div>
+{% else %}
+{{ entity.field(class_="form-control") }}
+{% endif %}
+
 {% macro field(entity) %}
 <div>
     {{ entity.label(class_="form-label") }}
-    {% if entity.errors %}
-    {{ entity.field(class_="form-control is-invalid", aria_describedby="{}-errors".format(entity.id), **kwargs) }}
-    <div id="{{ entity.id }}-errors" class="invalid-feedback">{{ errors(entity.errors) }}</div>
-    {% elif entity.description %}
-    {{ entity.field(class_="form-control", aria_describedby="{}-description".format(entity.id)) }}
-    <div id="{{ entity.id }}-description" class="form-text">{{ entity.description }}</div>
-    {% else %}
-    {{ entity.field(class_="form-control") }}
-    {% endif %}
+    {{ field_only(entity) }}
 </div>
 {% endmacro %}
 
@@ -39,4 +42,12 @@
     {{ field.field(class_="form-control", aria_describedby=field.label.id, aria_label=field.name, aria_describedby=field.label.id) }}
     <span class="input-group-text" id="{{ field.label.id }}">{{ field.label }}</span>
 </div>
+{% endmacro %}
+
+{% macro input_group(field, left=True) %}
+{% if left %}
+{{ inputGroupLeft(field) }}
+{% else %}
+{{ inputGroupRight(field) }}
+{% endif %}
 {% endmacro %}

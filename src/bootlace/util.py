@@ -69,10 +69,10 @@ class Taggable(Protocol):
 
 
 #: A type that can be converted to a tag
-IntoTag: TypeAlias = Taggable | dom_tag
+IntoTag: TypeAlias = Taggable | dom_tag | str
 
 #: A type that can be converted to a tag via :func:`as_tag`
-MaybeTaggable: TypeAlias = IntoTag | str | Iterable[Taggable | dom_tag]
+MaybeTaggable: TypeAlias = IntoTag | str | Iterable[IntoTag]
 
 
 def as_tag(item: MaybeTaggable) -> dom_tag:

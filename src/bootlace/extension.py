@@ -1,9 +1,13 @@
+from typing import Any
+
 from flask import Blueprint
 from flask import current_app
 from flask import Flask
 
 from .endpoint import Endpoint
-from bootlace.resources import Resources
+from .resources import Resources
+from .util import as_tag
+from .util import render
 
 
 class Bootlace:
@@ -20,6 +24,9 @@ class Bootlace:
         app.jinja_env.globals["bootlace"] = self
 
         name = app.config.setdefault("BOOTLACE_BLUEPRINT_NAME", "bootlace")
+
+        if app.config.setdefault("BOOTLACE_CONTEXT_PROCESSORS", True):
+            app.context_processor(context)
 
         blueprint = Blueprint(
             name,
@@ -40,3 +47,10 @@ class Bootlace:
         return Resources(
             endpoint=Endpoint.from_name(self.static_view), resources=["bootstrap.min.js", "bootstrap.min.css"]
         )
+
+
+def context() -> dict[str, Any]:
+    return {
+        "render": render,
+        "as_tag": as_tag,
+    }
