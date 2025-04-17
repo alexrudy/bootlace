@@ -1,10 +1,10 @@
 [build-system]
-requires = ["hatchling", "hatch-requirements-txt", "hatch-vcs"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
 name = "bootlace"
-dynamic = ["version", "dependencies"]
+dynamic = ["version"]
 description = 'Pythonic Bootstrap Utilities'
 readme = "README.md"
 requires-python = ">=3.11"
@@ -12,18 +12,24 @@ license = "MIT"
 keywords = []
 authors = [{ name = "Alex Rudy", email = "github@alexrudy.net" }]
 classifiers = [
-  "Development Status :: 4 - Beta",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: Implementation :: CPython",
-  "Programming Language :: Python :: Implementation :: PyPy",
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+    "attrs>=25.3.0",
+    "dominate>=2.9.1",
+    "flask>=3.1.0",
+    "html5lib>=1.1",
+    "marshmallow>=3.26.1",
+    "marshmallow-oneofschema>=3.1.1",
+    "wtforms>=3.2.1",
 ]
 
 [tool.hatch.metadata]
 allow-direct-references = true
-
-[tool.hatch.metadata.hooks.requirements_txt]
-files = ["requirements/base.in"]
 
 [tool.hatch.version]
 source = "vcs"
@@ -49,9 +55,9 @@ error
 ignore:There is no current event loop:DeprecationWarning:dominate.*
 """
 addopts = [
-  "--cov-report=term-missing",
-  "--cov-config=pyproject.toml",
-  "--cov=bootlace",
+    "--cov-report=term-missing",
+    "--cov-config=pyproject.toml",
+    "--cov=bootlace",
 ]
 log_level = "NOTSET"
 
@@ -60,25 +66,23 @@ branch = true
 source = ["src/bootlace", "tests"]
 omit = ["src/bootlace/_version.py", "src/bootlace/testing/*"]
 
-
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
 
-
 [tool.coverage.report]
 exclude_lines = [
-  "pragma: no cover",
-  "def __repr__",
-  "def __str__",
-  "def __hash__",
-  "if TYPE_CHECKING:",
-  "if __name__ == .__main__.:",
-  "raise AssertionError",
-  "raise NotImplementedError",
-  "if 0:",
-  "except BaseException:",
-  "\\.\\.\\.",
-  "if app is not None:",
+    "pragma: no cover",
+    "def __repr__",
+    "def __str__",
+    "def __hash__",
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "except BaseException:",
+    "\\.\\.\\.",
+    "if app is not None:",
 ]
 omit = ["src/bootlace/_version.py", "src/bootlace/testing/*"]
 
@@ -87,7 +91,7 @@ omit = ["src/bootlace/_version.py", "src/bootlace/testing/*"]
 line-length = 120
 
 [tool.mypy]
-files = "src/bootlace,stubs/dominate-stubs"
+files = "src/bootlace"
 python_version = "3.11"
 show_error_codes = true
 allow_redefinition = true
@@ -114,3 +118,81 @@ disallow_subclassing_any = false
 [[tool.mypy.overrides]]
 module = "html5lib.*"
 ignore_missing_imports = true
+
+[tool.uv.sources]
+bootlace = { workspace = true }
+dominate-stubs = { path = "stubs/dominate-stubs" }
+
+[dependency-groups]
+dev = [
+    "attrs>=25.3.0",
+    "black>=25.1.0",
+    "bootlace",
+    "build>=1.2.2.post1",
+    "bump2version>=1.0.1",
+    "dominate>=2.9.1",
+    "flake8>=7.2.0",
+    "flake8-bugbear>=24.12.12",
+    "flake8-implicit-str-concat>=0.5.0",
+    "flake8-typing-imports>=1.16.0",
+    "flask>=3.1.0",
+    "hatchling>=1.27.0",
+    "html5lib>=1.1",
+    "marshmallow>=3.26.1",
+    "marshmallow-oneofschema>=3.1.1",
+    "mypy>=1.15.0",
+    "pip-compile-multi>=2.8.0",
+    "pre-commit>=4.2.0",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "pytz>=2025.2",
+    "sphinx>=8.2.3",
+    "sphinx-automodapi>=0.18.0",
+    "sphinx-mdinclude>=0.6.2",
+    "tox>=4.25.0",
+    "tox-uv>=1.25.0",
+    "twine>=6.1.0",
+    "types-pytz>=2025.2.0.20250326",
+    "types-pyyaml>=6.0.12.20250402",
+    "types-wtforms>=3.2.1.20250401",
+    "watchdog>=6.0.0",
+    "wtforms>=3.2.1",
+]
+docs = [
+    "attrs>=25.3.0",
+    "dominate>=2.9.1",
+    "flask>=3.1.0",
+    "html5lib>=1.1",
+    "marshmallow>=3.26.1",
+    "marshmallow-oneofschema>=3.1.1",
+    "pytz>=2025.2",
+    "sphinx>=8.2.3",
+    "sphinx-automodapi>=0.18.0",
+    "sphinx-mdinclude>=0.6.2",
+    "wtforms>=3.2.1",
+]
+tests = [
+    "attrs>=25.3.0",
+    "dominate>=2.9.1",
+    "flask>=3.1.0",
+    "html5lib>=1.1",
+    "marshmallow>=3.26.1",
+    "marshmallow-oneofschema>=3.1.1",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "wtforms>=3.2.1",
+]
+typing = [
+    "attrs>=25.3.0",
+    "dominate>=2.9.1",
+    "dominate-stubs",
+    "flask>=3.1.0",
+    "html5lib>=1.1",
+    "marshmallow>=3.26.1",
+    "marshmallow-oneofschema>=3.1.1",
+    "mypy>=1.15.0",
+    "types-pytz>=2025.2.0.20250326",
+    "types-pyyaml>=6.0.12.20250402",
+    "types-wtforms>=3.2.1.20250401",
+    "wtforms>=3.2.1",
+]

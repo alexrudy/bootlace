@@ -1,0 +1,72 @@
+[tox]
+envlist = [
+    "py3{11,12}",
+    "coverage",
+    "style",
+    "typing",
+    "docs",
+    "minimal",
+    "dist",
+]
+skip_missing_interpreters = true
+
+[env_run_base]
+dependency_groups = ["tests"]
+runner = "uv-venv-lock-runner"
+commands = [
+    [
+        "pytest",
+        "-v",
+        "--tb=short",
+        "--basetemp={envtmpdir}",
+        "{posargs}",
+    ],
+]
+
+[env.coverage]
+depends = "py3{11,12}"
+runner = "uv-venv-lock-runner"
+dependency_groups = ["tests"]
+commands = [["coverage", "report", "--fail-under=90", "--skip-covered"]]
+
+[env.style]
+deps = ["pre-commit"]
+skip_install = true
+commands = [["pre-commit", "run", "--all-files", "--show-diff-on-failure"]]
+
+[env.typing]
+runner = "uv-venv-lock-runner"
+dependency_groups = ["typing"]
+commands = [["mypy"]]
+
+[env.docs]
+runner = "uv-venv-lock-runner"
+dependency_groups = ["docs"]
+commands = [
+    [
+        "sphinx-build",
+        "-W",
+        "-b",
+        "html",
+        "-d",
+        "{envtmpdir}/doctrees",
+        "{toxinidir}/docs",
+        "{envtmpdir}/build/html",
+    ],
+]
+
+[env.minimal]
+deps = []
+commands = [["python", "{toxinidir}/scripts/check-minimal.py"]]
+
+[env.dist]
+deps = ["hatch", "build"]
+skip_install = true
+commands = [
+    [
+        "python",
+        "{toxinidir}/scripts/check-dist.py",
+        "{toxinidir}",
+        "{posargs:-q}",
+    ],
+]
