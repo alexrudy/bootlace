@@ -1,12 +1,20 @@
 from collections.abc import Iterator
 from collections.abc import Mapping
 from typing import Any
+from typing import Protocol
 
 import attrs
 from flask import Blueprint
+from flask import request
 from flask import url_for
+from werkzeug.exceptions import BadRequest
+from werkzeug.routing import BuildError
 
 from bootlace.util import is_active_endpoint
+
+
+class NoEndpointError(BadRequest):
+    """Raised when there is no endpoint set."""
 
 
 @attrs.define(frozen=True, init=False)
@@ -36,6 +44,33 @@ class KeywordArguments(Mapping[str, Any]):
 
     def __repr__(self) -> str:
         return f"KeywordArguments({self.as_dict()!r})"
+
+
+class EndpointProtocol(Protocol):
+    @property
+    def active(self) -> bool: ...
+
+    def build(self, **kwds: Any) -> str: ...
+
+    def __call__(self, **kwds: Any) -> str: ...
+
+    @property
+    def name(self) -> str: ...
+
+    @property
+    def full_name(self) -> str: ...
+
+    @property
+    def url(self) -> str: ...
+
+    @property
+    def blueprint(self) -> str | None: ...
+
+    @property
+    def url_kwargs(self) -> KeywordArguments: ...
+
+    @property
+    def ignore_query(self) -> bool: ...
 
 
 @attrs.define(frozen=True, repr=False, kw_only=True)
@@ -116,6 +151,55 @@ class Endpoint:
 
         statement = ", ".join(parts)
         return f"Endpoint({statement})"
+
+
+@attrs.define(frozen=True)
+class CurrentEndpoint:
+    ignore_query: bool = False
+
+    @property
+    def active(self) -> bool:
+        return True
+
+    @property
+    def name(self) -> str:
+        if not request.endpoint:
+            raise NoEndpointError()
+
+        return request.endpoint.split(".")[-1]
+
+    @property
+    def full_name(self) -> str:
+        if not request.endpoint:
+            raise NoEndpointError()
+        return request.endpoint
+
+    @property
+    def blueprint(self) -> str | None:
+        return request.blueprint
+
+    @property
+    def url(self) -> str:
+        return self.build()
+
+    @property
+    def url_kwargs(self) -> KeywordArguments:
+        args = dict(request.view_args or {})
+        args.update(request.args.items())
+        return KeywordArguments(args)
+
+    def build(self, **kwds: Any) -> str:
+        args = request.view_args or {}
+        args.update(kwds)
+
+        if not request.endpoint:
+            raise BuildError(request.endpoint, args, request.method)
+
+        args["_method"] = request.method
+        return url_for(request.endpoint, **args)
+
+    def __call__(self, **kwds: Any) -> str:
+        return self.build(**kwds)
 
 
 def convert_endpoint(endpoint: str | Endpoint) -> Endpoint:

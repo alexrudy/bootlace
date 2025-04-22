@@ -25,7 +25,7 @@ class NavSchema(OneOfSchema):
     """Registry for nav element schemas"""
 
     type_field = "__type__"
-    type_schemas: dict[str, type[Schema]] = {}
+    type_schemas: dict[str, type[Schema]] = {}  # pyright: ignore
 
     def __init__(self, **kwargs: Any) -> None:
         self.register_all()
@@ -42,8 +42,9 @@ class NavSchema(OneOfSchema):
     @classmethod
     def register(cls, element: "type[NavElement]") -> None:
         """Register a schema for a nav element"""
-        schema = build_schema(element)
-        cls.type_schemas[element.__name__] = schema
+        if element.__name__ not in cls.type_schemas:
+            schema = build_schema(element)
+            cls.type_schemas[element.__name__] = schema
 
 
 class BaseSchema(Schema):
@@ -55,7 +56,6 @@ class BaseSchema(Schema):
 
 
 class DomTagField(fields.Field):
-
     def _serialize(self, value: Any, attr: str | None, obj: Any, **kwargs: Any) -> Any:
         if value is None:  # pragma: no cover
             return None
@@ -65,27 +65,37 @@ class DomTagField(fields.Field):
 
         return value.__name__
 
-    def _deserialize(self, value: Any, attr: str | None, data: Mapping[str, Any] | None, **kwargs: Any) -> Any:
+    def _deserialize(
+        self,
+        value: Any,
+        attr: str | None,
+        data: Mapping[str, Any] | None,
+        **kwargs: Any,
+    ) -> Any:
         if value is None:  # pragma: no cover
             return None
         return getattr(tags, value)
 
 
 class Set(fields.List):
-
     def _serialize(self, value: Any, attr: str | None, obj: Any, **kwargs: Any) -> Any:
         if value is None:  # pragma: no cover
             return None
         return list(value)
 
-    def _deserialize(self, value: Any, attr: str | None, data: Mapping[str, Any] | None, **kwargs: Any) -> Any:
+    def _deserialize(
+        self,
+        value: Any,
+        attr: str | None,
+        data: Mapping[str, Any] | None,
+        **kwargs: Any,
+    ) -> Any:
         if value is None:  # pragma: no cover
             return None
         return set(value)
 
 
 class TagSchema(Schema):
-
     tag = DomTagField()
     classes = Set(fields.String())
     attributes = fields.Dict()
@@ -99,13 +109,18 @@ class TagSchema(Schema):
 
 
 class TaggableField(fields.Field):
-
     def _serialize(self, value: Any, attr: str | None, obj: Any, **kwargs: Any) -> Any:
         if value is None:  # pragma: no cover
             return None
         return str(render(value))
 
-    def _deserialize(self, value: Any, attr: str | None, data: Mapping[str, Any] | None, **kwargs: Any) -> Any:
+    def _deserialize(
+        self,
+        value: Any,
+        attr: str | None,
+        data: Mapping[str, Any] | None,
+        **kwargs: Any,
+    ) -> Any:
         if value is None:  # pragma: no cover
             return None
         return Markup(value)
@@ -126,7 +141,6 @@ ATTRS_FIELD_TYPE_MAP = {
 def build_schema(element: "type[NavElement]") -> type[Schema]:
     form_fields: dict[str, fields.Field] = {}
     for field in attrs.fields(element):  # type: ignore
-
         ff = field.metadata.get("form", None)
         if ff is None:
             if field.type not in ATTRS_FIELD_TYPE_MAP:  # pragma: no cover
@@ -175,4 +189,4 @@ class ViewLinkSchema(BaseSchema):
 
 class LinkBaseSchema(OneOfSchema):
     type_field = "__type__"
-    type_schemas: dict[str, type[Schema]] = {"Link": LinkSchema, "View": ViewLinkSchema}
+    type_schemas: dict[str, type[Schema]] = {"Link": LinkSchema, "View": ViewLinkSchema}  # pyright: ignore
