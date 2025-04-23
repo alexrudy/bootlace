@@ -7,19 +7,11 @@ virtual_env :=  justfile_directory() / ".direnv/python-$python_version/bin"
 export PATH := virtual_env + ":" + env('PATH')
 export REQUIREMENTS_TXT := env('REQUIREMENTS', '')
 
-[private]
-prepare:
-    pip install --quiet --upgrade pip
-    [[ -f requirements/pip-tools.txt ]] && pip install -r requirements/pip-tools.txt || pip install --quiet pip-tools
 
-# lock the requirements files
-compile: prepare
-    pip-compile-multi --use-cache --backtracking
 
 # Install dependencies
-sync: prepare
-    pip-sync requirements/dev.txt
-    [[ -f requirements/local.txt ]] && pip install -r requirements/local.txt || true
+sync:
+    uv sync --group dev
     tox -p auto --notest
 
 alias install := sync
@@ -31,7 +23,7 @@ isort:
 
 # Run tests
 test:
-    pytest --cov-report=html
+    uv run --group tests pytest --cov-report=html
 
 # Run all tests
 test-all:
@@ -46,11 +38,11 @@ lint:
 
 # Run mypy
 mypy:
-    mypy
+    uv run --group typing mypy
 
 # run the flask application
 serve:
-    flask run
+    uv run flask run
 
 alias s := serve
 alias run := serve

@@ -96,6 +96,7 @@ dev = [
     { name = "build" },
     { name = "bump2version" },
     { name = "dominate" },
+    { name = "dominate-stubs" },
     { name = "flake8" },
     { name = "flake8-bugbear" },
     { name = "flake8-implicit-str-concat" },
@@ -181,6 +182,7 @@ dev = [
     { name = "build", specifier = ">=1.2.2.post1" },
     { name = "bump2version", specifier = ">=1.0.1" },
     { name = "dominate", specifier = ">=2.9.1" },
+    { name = "dominate-stubs", editable = "stubs/dominate-stubs" },
     { name = "flake8", specifier = ">=7.2.0" },
     { name = "flake8-bugbear", specifier = ">=24.12.12" },
     { name = "flake8-implicit-str-concat", specifier = ">=0.5.0" },
@@ -235,7 +237,7 @@ tests = [
 typing = [
     { name = "attrs", specifier = ">=25.3.0" },
     { name = "dominate", specifier = ">=2.9.1" },
-    { name = "dominate-stubs", directory = "stubs/dominate-stubs" },
+    { name = "dominate-stubs", editable = "stubs/dominate-stubs" },
     { name = "flask", specifier = ">=3.1.0" },
     { name = "html5lib", specifier = ">=1.1" },
     { name = "marshmallow", specifier = ">=3.26.1" },
@@ -526,7 +528,7 @@ wheels = [
 [[package]]
 name = "dominate-stubs"
 version = "0.1.0"
-source = { directory = "stubs/dominate-stubs" }
+source = { editable = "stubs/dominate-stubs" }
 dependencies = [
     { name = "dominate" },
 ]

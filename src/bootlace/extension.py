@@ -1,5 +1,6 @@
 from typing import Any
 
+import attrs
 from flask import Blueprint
 from flask import current_app
 from flask import Flask
@@ -10,6 +11,7 @@ from .util import as_tag
 from .util import render
 
 
+@attrs.define(init=False, eq=False)
 class Bootlace:
     """Flask extension for bootlace"""
 

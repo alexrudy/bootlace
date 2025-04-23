@@ -121,7 +121,7 @@ ignore_missing_imports = true
 
 [tool.uv.sources]
 bootlace = { workspace = true }
-dominate-stubs = { path = "stubs/dominate-stubs" }
+dominate-stubs = { path = "stubs/dominate-stubs", editable = true }
 
 [dependency-groups]
 dev = [
@@ -131,6 +131,7 @@ dev = [
     "build>=1.2.2.post1",
     "bump2version>=1.0.1",
     "dominate>=2.9.1",
+    "dominate-stubs",
     "flake8>=7.2.0",
     "flake8-bugbear>=24.12.12",
     "flake8-implicit-str-concat>=0.5.0",
