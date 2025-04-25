@@ -127,7 +127,7 @@ ignore_missing_imports = true
 
 [tool.uv.sources]
 bootlace = { workspace = true }
-domilite = { path = "../domilite", editable = true }
+# domilite = { path = "../domilite", editable = true }
 
 [dependency-groups]
 dev = [

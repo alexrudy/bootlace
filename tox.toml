@@ -1,6 +1,6 @@
-[tox]
-envlist = [
-    "py3{11,12}",
+env_list = [
+    "py311",
+    "py312",
     "coverage",
     "style",
     "typing",
@@ -31,6 +31,7 @@ commands = [["coverage", "report", "--fail-under=90", "--skip-covered"]]
 
 [env.style]
 deps = ["pre-commit"]
+runner = "virtualenv"
 skip_install = true
 commands = [["pre-commit", "run", "--all-files", "--show-diff-on-failure"]]
 
@@ -61,6 +62,7 @@ commands = [["python", "{toxinidir}/scripts/check-minimal.py"]]
 
 [env.dist]
 deps = ["hatch", "build"]
+runner = "virtualenv"
 skip_install = true
 commands = [
     [

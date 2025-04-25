@@ -10,9 +10,9 @@ Tag
 
    .. autosummary::
 
-      ~Tag.attributes
-      ~Tag.classes
-      ~Tag.tag
+      ~Tag.aria
+      ~Tag.data
+      ~Tag.hx
 
    .. rubric:: Methods Summary
 
@@ -24,9 +24,9 @@ Tag
 
    .. rubric:: Attributes Documentation
 
-   .. autoattribute:: attributes
-   .. autoattribute:: classes
-   .. autoattribute:: tag
+   .. autoattribute:: aria
+   .. autoattribute:: data
+   .. autoattribute:: hx
 
    .. rubric:: Methods Documentation
 
