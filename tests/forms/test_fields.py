@@ -8,7 +8,6 @@ from bootlace.forms import fields
 
 
 def test_enum_field() -> None:
-
     class TestEnum(enum.Enum):
         FOO = "foo"
         BAR = "bar"
@@ -33,7 +32,6 @@ def test_enum_field() -> None:
 
 
 def test_markdown_field() -> None:
-
     class TestForm(Form):
         field = fields.MarkdownField()
 
@@ -49,7 +47,6 @@ def test_markdown_field() -> None:
 
 
 def test_known_mime_type() -> None:
-
     validator = fields.KnownMIMEType()
 
     class TestForm(Form):

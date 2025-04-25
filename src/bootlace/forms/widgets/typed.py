@@ -1,8 +1,8 @@
 from typing import Any
 
 import attrs
-from dominate.tags import html_tag
-from dominate.tags import input_
+from domilite.tags import html_tag
+from domilite.tags import input
 from wtforms.fields.core import Field
 
 from .core import InputBase
@@ -200,7 +200,7 @@ class ColorInput(InputBase):
     Renders an input with type "color".
     """
 
-    tag = Tag(input_, classes={"form-control-color"})
+    tag = Tag(input, classes={"form-control-color"})
 
     input_type = "color"
     validation_attrs = {"disabled"}

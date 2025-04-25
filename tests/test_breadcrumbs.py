@@ -61,7 +61,6 @@ def test_breadcrumbs_init() -> None:
 
 
 def test_basic_breadcrumbs(app: Flask) -> None:
-
     with app.test_request_context("/"):
         trail = breadcrumbs.get()
         assert len(trail) == 1
@@ -76,7 +75,6 @@ def test_basic_breadcrumbs(app: Flask) -> None:
 
 @pytest.mark.usefixtures("bp")
 def test_blueprint_breadcrumbs(app: Flask) -> None:
-
     with app.test_request_context("/post"):
         trail = breadcrumbs.get()
         assert len(trail) == 3
@@ -119,7 +117,6 @@ def test_render_nested_breadcrumbs(app: Flask) -> None:
 
 
 def test_render_empty_breadcrumbs(app: Flask) -> None:
-
     @app.route("/empty")
     def empty() -> str:
         return "Empty"
@@ -131,7 +128,6 @@ def test_render_empty_breadcrumbs(app: Flask) -> None:
 
 
 def test_render_default_divider(app: Flask) -> None:
-
     app.config["BOOTLACE_BREADCRUMBS_DIVIDER"] = "/"
 
     with app.test_request_context("/"):
@@ -152,7 +148,6 @@ def test_render_default_divider(app: Flask) -> None:
 
 
 def test_register_with_app(app: Flask, breadcrumb_extension: BreadcrumbExtension) -> None:
-
     @app.route("/register")
     @breadcrumb_extension.register(app, None, "Register")
     def register() -> str:
@@ -165,7 +160,6 @@ def test_register_with_app(app: Flask, breadcrumb_extension: BreadcrumbExtension
 
 
 def test_register_relative(app: Flask, breadcrumb_extension: BreadcrumbExtension) -> None:
-
     with pytest.raises(ValueError):
 
         @app.route("/register")
@@ -175,7 +169,6 @@ def test_register_relative(app: Flask, breadcrumb_extension: BreadcrumbExtension
 
 
 def test_register_self_parent(app: Flask, breadcrumb_extension: BreadcrumbExtension) -> None:
-
     with pytest.raises(ValueError):
 
         @app.route("/register")
@@ -185,7 +178,6 @@ def test_register_self_parent(app: Flask, breadcrumb_extension: BreadcrumbExtens
 
 
 def test_kwargs_frozen() -> None:
-
     kwargs = KeywordArguments()
     assert len(kwargs) == 0
 

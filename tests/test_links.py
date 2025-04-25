@@ -10,7 +10,6 @@ from bootlace.util import render
 
 
 def test_link() -> None:
-
     link = Link(text="Test", url="https://example.com")
     assert link.active is False
     assert link.enabled is True
@@ -21,7 +20,6 @@ def test_link() -> None:
 
 @pytest.mark.usefixtures("homepage")
 def test_view(app: Flask) -> None:
-
     with app.test_request_context("/"):
         view = View(text="Test", endpoint="index")
 
@@ -48,5 +46,8 @@ def test_view(app: Flask) -> None:
         assert not view.active, f"{view} should not be active"
 
     with app.test_request_context("/static/foo"):
-        view = View(text="Test", endpoint=Endpoint(name="static", url_kwargs={"filename": "foo.txt"}))
+        view = View(
+            text="Test",
+            endpoint=Endpoint(name="static", url_kwargs={"filename": "foo.txt"}),
+        )
         assert not view.active, f"{view} should not be active"

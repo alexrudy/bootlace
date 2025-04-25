@@ -12,7 +12,6 @@ from bootlace.util import render
 
 
 def test_plain_element() -> None:
-
     nav = elements.Nav()
     nav.items.append(core.NavElement())
 
@@ -34,13 +33,12 @@ def test_plain_element() -> None:
     ids=["default", "fill", "justified"],
 )
 def test_nav_alignment(alignment: core.NavAlignment, cls: str) -> None:
-
     nav = elements.Nav(alignment=alignment)
     nav.items.append(elements.Text("Text"))
 
     source = render(nav)
     expected = f"""
-    <ul class='nav {cls if cls else ''}'>
+    <ul class='nav {cls if cls else ""}'>
         <li class='nav-item'><span class='nav-link disabled' aria-disabled='true'>Text</span></li>
     </ul>"""
 
@@ -57,7 +55,6 @@ def test_nav_alignment(alignment: core.NavAlignment, cls: str) -> None:
     ids=["default", "tabs", "pills"],
 )
 def test_nav_style(style: NavStyle) -> None:
-
     nav = elements.Nav(style=style)
     nav.items.append(elements.Text("Text"))
 

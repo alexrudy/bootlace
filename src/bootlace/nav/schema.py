@@ -1,21 +1,15 @@
 from collections.abc import Mapping
-from typing import Any
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import attrs
-from dominate import tags
+from domilite import tags
 from markupsafe import Markup
-from marshmallow import fields
-from marshmallow import post_load
-from marshmallow import Schema
-from marshmallow import ValidationError
+from marshmallow import Schema, ValidationError, fields, post_load
 from marshmallow_oneofschema.one_of_schema import OneOfSchema
 
 from bootlace import links
 from bootlace.endpoint import Endpoint
-from bootlace.util import MaybeTaggable
-from bootlace.util import render
-from bootlace.util import Tag
+from bootlace.util import MaybeTaggable, Tag, render
 
 if TYPE_CHECKING:
     from bootlace.nav.core import NavElement
@@ -60,10 +54,10 @@ class DomTagField(fields.Field):
         if value is None:  # pragma: no cover
             return None
 
-        if not hasattr(tags, value.__name__):  # pragma: no cover
-            raise ValidationError(f"Unknown tag {value.__name__}")
+        if not (isinstance(value, tags.html_tag) or issubclass(value, tags.html_tag)):
+            raise ValidationError(f"Unknown tag type: {type(value)!r}: {value!r}")
 
-        return value.__name__
+        return value.name
 
     def _deserialize(
         self,
@@ -74,7 +68,7 @@ class DomTagField(fields.Field):
     ) -> Any:
         if value is None:  # pragma: no cover
             return None
-        return getattr(tags, value)
+        return tags.html_tag.find_tag_type(value)
 
 
 class Set(fields.List):

@@ -28,7 +28,6 @@ def test_base_nav(nav: elements.Nav) -> None:
 
 
 def test_nav_tabs(nav: elements.Nav) -> None:
-
     nav.style = NavStyle.TABS
     source = render(nav)
 
@@ -38,7 +37,6 @@ def test_nav_tabs(nav: elements.Nav) -> None:
 
 
 def test_nav_pills(nav: elements.Nav) -> None:
-
     nav.style = NavStyle.PILLS
 
     source = render(nav)
@@ -49,7 +47,6 @@ def test_nav_pills(nav: elements.Nav) -> None:
 
 
 def test_nav_text() -> None:
-
     nav = elements.Nav()
     nav.items.append(elements.Text(text="Text"))
 

@@ -9,8 +9,7 @@ from . import widgets as bl_widgets
 
 
 class BootlaceMeta(DefaultMeta):
-
-    WIDGET_MAP = { getattr(wt_widgets, name): getattr(bl_widgets, name) for name in bl_widgets.__all__}
+    WIDGET_MAP = {getattr(wt_widgets, name): getattr(bl_widgets, name) for name in bl_widgets.__all__}
 
     def render_field(self, field: Field, render_kw: Any) -> Markup:
         cls = self.WIDGET_MAP[field.widget.__class__]

@@ -6,4 +6,12 @@ from .columns import CheckColumn
 from .columns import Column
 from .columns import Datetime
 
-__all__ = ["Table", "ColumnBase", "Heading", "Column", "CheckColumn", "Datetime", "ActionColumn"]
+__all__ = [
+    "Table",
+    "ColumnBase",
+    "Heading",
+    "Column",
+    "CheckColumn",
+    "Datetime",
+    "ActionColumn",
+]

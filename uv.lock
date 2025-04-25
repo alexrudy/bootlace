@@ -80,7 +80,7 @@ name = "bootlace"
 source = { editable = "." }
 dependencies = [
     { name = "attrs" },
-    { name = "dominate" },
+    { name = "domilite" },
     { name = "flask" },
     { name = "html5lib" },
     { name = "marshmallow" },
@@ -95,8 +95,7 @@ dev = [
     { name = "bootlace" },
     { name = "build" },
     { name = "bump2version" },
-    { name = "dominate" },
-    { name = "dominate-stubs" },
+    { name = "domilite" },
     { name = "flake8" },
     { name = "flake8-bugbear" },
     { name = "flake8-implicit-str-concat" },
@@ -126,7 +125,7 @@ dev = [
 ]
 docs = [
     { name = "attrs" },
-    { name = "dominate" },
+    { name = "domilite" },
     { name = "flask" },
     { name = "html5lib" },
     { name = "marshmallow" },
@@ -139,7 +138,7 @@ docs = [
 ]
 tests = [
     { name = "attrs" },
-    { name = "dominate" },
+    { name = "domilite" },
     { name = "flask" },
     { name = "html5lib" },
     { name = "marshmallow" },
@@ -150,8 +149,7 @@ tests = [
 ]
 typing = [
     { name = "attrs" },
-    { name = "dominate" },
-    { name = "dominate-stubs" },
+    { name = "domilite" },
     { name = "flask" },
     { name = "html5lib" },
     { name = "marshmallow" },
@@ -166,7 +164,7 @@ typing = [
 [package.metadata]
 requires-dist = [
     { name = "attrs", specifier = ">=25.3.0" },
-    { name = "dominate", specifier = ">=2.9.1" },
+    { name = "domilite", editable = "../domilite" },
     { name = "flask", specifier = ">=3.1.0" },
     { name = "html5lib", specifier = ">=1.1" },
     { name = "marshmallow", specifier = ">=3.26.1" },
@@ -181,8 +179,7 @@ dev = [
     { name = "bootlace", editable = "." },
     { name = "build", specifier = ">=1.2.2.post1" },
     { name = "bump2version", specifier = ">=1.0.1" },
-    { name = "dominate", specifier = ">=2.9.1" },
-    { name = "dominate-stubs", editable = "stubs/dominate-stubs" },
+    { name = "domilite", editable = "../domilite" },
     { name = "flake8", specifier = ">=7.2.0" },
     { name = "flake8-bugbear", specifier = ">=24.12.12" },
     { name = "flake8-implicit-str-concat", specifier = ">=0.5.0" },
@@ -212,7 +209,7 @@ dev = [
 ]
 docs = [
     { name = "attrs", specifier = ">=25.3.0" },
-    { name = "dominate", specifier = ">=2.9.1" },
+    { name = "domilite", editable = "../domilite" },
     { name = "flask", specifier = ">=3.1.0" },
     { name = "html5lib", specifier = ">=1.1" },
     { name = "marshmallow", specifier = ">=3.26.1" },
@@ -225,7 +222,7 @@ docs = [
 ]
 tests = [
     { name = "attrs", specifier = ">=25.3.0" },
-    { name = "dominate", specifier = ">=2.9.1" },
+    { name = "domilite", editable = "../domilite" },
     { name = "flask", specifier = ">=3.1.0" },
     { name = "html5lib", specifier = ">=1.1" },
     { name = "marshmallow", specifier = ">=3.26.1" },
@@ -236,8 +233,7 @@ tests = [
 ]
 typing = [
     { name = "attrs", specifier = ">=25.3.0" },
-    { name = "dominate", specifier = ">=2.9.1" },
-    { name = "dominate-stubs", editable = "stubs/dominate-stubs" },
+    { name = "domilite", editable = "../domilite" },
     { name = "flask", specifier = ">=3.1.0" },
     { name = "html5lib", specifier = ">=1.1" },
     { name = "marshmallow", specifier = ">=3.26.1" },
@@ -517,24 +513,25 @@ wheels = [
 ]
 
 [[package]]
-name = "dominate"
-version = "2.9.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/fb/f3/1c8088ff19a0fcd9c3234802a0ee47006ea64bd8852f1019194f0e3583ff/dominate-2.9.1.tar.gz", hash = "sha256:558284687d9b8aae1904e3d6051ad132dd4a8c0cf551b37ea4e7e42a31d19dc4", size = 37715 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/58/19/0380af745f151a1648657bbcef0fb49ac28bf09083d94498163ffd9b32dc/dominate-2.9.1-py2.py3-none-any.whl", hash = "sha256:cb7b6b79d33b15ae0a6e87856b984879927c7c2ebb29522df4c75b28ffd9b989", size = 29976 },
-]
-
-[[package]]
-name = "dominate-stubs"
-version = "0.1.0"
-source = { editable = "stubs/dominate-stubs" }
+name = "domilite"
+source = { editable = "../domilite" }
 dependencies = [
-    { name = "dominate" },
+    { name = "markupsafe" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "dominate" }]
+requires-dist = [{ name = "markupsafe", specifier = ">=3.0.2" }]
+
+[package.metadata.requires-dev]
+tests = [
+    { name = "pytest", specifier = ">=8.3.5" },
+    { name = "pytest-cov", specifier = ">=6.1.1" },
+]
+tox = [
+    { name = "tox", specifier = ">=4.25.0" },
+    { name = "tox-uv", specifier = ">=1.25.0" },
+]
+typing = [{ name = "mypy", specifier = ">=1.15.0" }]
 
 [[package]]
 name = "filelock"

@@ -1,14 +1,15 @@
+import warnings
 from typing import Any
 from typing import ClassVar
-import warnings
 
-from markupsafe import Markup
 import attrs
-from dominate import tags
+from domilite import tags
+from markupsafe import Markup
 from markupsafe import escape
 from wtforms.fields import Field
 
-from bootlace.util import Tag, render
+from bootlace.util import Tag
+from bootlace.util import render
 
 __all__ = [
     "Widget",
@@ -33,7 +34,7 @@ class Widget:
     def get_field_value(self, field: Field) -> Any:
         if (get_value := getattr(field, "_value", None)) is not None:
             return get_value()
-        return None
+        return field.data
 
     def prepare_attributes(self, field: Field, kwargs: dict[str, Any]) -> dict[str, Any]:
         return kwargs
@@ -60,7 +61,7 @@ class InputBase(Widget):
     """A base input widget"""
 
     input_type: ClassVar[str | None] = None
-    tag = Tag(tags.input_, classes={"form-control"})
+    tag = Tag(tags.input, classes={"form-control"})
 
     def __form_tag__(self, field: Field, **kwargs: Any) -> tags.html_tag:
         if self.input_type is not None:
@@ -68,13 +69,14 @@ class InputBase(Widget):
         else:
             warnings.warn("Input type not specified")
         return super().__form_tag__(field, **kwargs)
+
 
 @attrs.define
 class Input(Widget):
     """A base input widget"""
 
     input_type: str | None = None
-    tag = Tag(tags.input_, classes={"form-control"})
+    tag = Tag(tags.input, classes={"form-control"})
 
     def __form_tag__(self, field: Field, **kwargs: Any) -> tags.html_tag:
         if self.input_type is not None:
@@ -82,6 +84,7 @@ class Input(Widget):
         else:
             warnings.warn("Input type not specified")
         return super().__form_tag__(field, **kwargs)
+
 
 @attrs.define
 class TextInput(InputBase):

@@ -14,14 +14,12 @@ def get_fixture(name: str) -> str:
 
 
 class CurrentLink(elements.Link):
-
     @property
     def active(self) -> bool:
         return True
 
 
 class DisabledLink(elements.Link):
-
     @property
     def enabled(self) -> bool:
         return False

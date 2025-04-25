@@ -1,5 +1,5 @@
 import attrs
-from dominate import tags
+from domilite import tags
 
 __all__ = ["Image"]
 
@@ -21,4 +21,4 @@ class Image:
     height: int
 
     def __tag__(self) -> tags.html_tag:
-        return tags.img(src=self.src, alt=self.alt, width=self.width, height=self.height)
+        return tags.img(src=self.src, alt=self.alt, width=str(self.width), height=str(self.height))

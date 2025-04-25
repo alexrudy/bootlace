@@ -47,7 +47,8 @@ class Bootlace:
 
     def bootstrap(self) -> "Resources":
         return Resources(
-            endpoint=Endpoint.from_name(self.static_view), resources=["bootstrap.min.js", "bootstrap.min.css"]
+            endpoint=Endpoint.from_name(self.static_view),
+            resources=["bootstrap.min.js", "bootstrap.min.css"],
         )
 
 

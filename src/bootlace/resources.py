@@ -2,9 +2,9 @@ from collections.abc import Iterator
 from pathlib import PosixPath as Path
 
 import attrs
-from dominate import tags
-from dominate.dom_tag import dom_tag
-from dominate.util import container
+from domilite import tags
+from domilite.dom_tag import dom_tag
+from domilite.util import container
 
 from bootlace.endpoint import Endpoint
 
