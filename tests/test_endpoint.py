@@ -7,7 +7,6 @@ from bootlace.endpoint import Endpoint
 
 @pytest.fixture
 def app(app: Flask) -> Flask:
-
     @app.route("/")
     def home() -> str:
         return "Home"
@@ -41,7 +40,6 @@ def bp(app: Flask) -> Blueprint:
 
 
 def test_endpoint_app_url(app: Flask) -> None:
-
     endpoint = Endpoint(context=None, name="home")
 
     with app.test_request_context("/"):
@@ -49,7 +47,6 @@ def test_endpoint_app_url(app: Flask) -> None:
 
 
 def test_endpoint_bp_url(app: Flask, bp: Blueprint) -> None:
-
     endpoint = Endpoint(context=bp, name="archive")
 
     with app.test_request_context("/"):
@@ -57,7 +54,6 @@ def test_endpoint_bp_url(app: Flask, bp: Blueprint) -> None:
 
 
 def test_endpoint_bp_url_no_context(app: Flask, bp: Blueprint) -> None:
-
     endpoint = Endpoint(context=None, name=f"{bp.name}.archive")
 
     with app.test_request_context("/"):
@@ -65,7 +61,6 @@ def test_endpoint_bp_url_no_context(app: Flask, bp: Blueprint) -> None:
 
 
 def test_endpoint_attributes(app: Flask, bp: Blueprint) -> None:
-
     endpoint = Endpoint(context=bp, name="archive")
 
     with app.test_request_context("/archive"):
@@ -87,7 +82,6 @@ def test_endpoint_attributes(app: Flask, bp: Blueprint) -> None:
 
 
 def test_endpoint_active_context_with_fullname(app: Flask, bp: Blueprint) -> None:
-
     endpoint = Endpoint(context=bp, name="bp.archive")
 
     with app.test_request_context("/archive"):

@@ -4,9 +4,9 @@ from typing import Protocol
 from typing import TypeVar
 
 import attrs
-from dominate import tags
-from dominate.dom_tag import dom_tag
-from dominate.util import text
+from domilite import tags
+from domilite.dom_tag import dom_tag
+from domilite.util import text
 from flask import Blueprint
 from flask import current_app
 from flask import Flask
@@ -27,7 +27,6 @@ __all__ = [
 
 
 class Named(Protocol):
-
     __name__: str
 
 
@@ -141,7 +140,10 @@ class BreadcrumbExtension:
         app.extensions[EXTENSION_KEY] = self
 
     def register(
-        self, context: Flask | Blueprint | None, parent: str | Endpoint | None, title: str
+        self,
+        context: Flask | Blueprint | None,
+        parent: str | Endpoint | None,
+        title: str,
     ) -> Callable[[V], V]:
         """Register a breadcrumb for a view
 

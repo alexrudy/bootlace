@@ -10,7 +10,6 @@ from bootlace.util import render
 
 
 def test_nav(nav: elements.NavBar) -> None:
-
     schema = elements.NavBar.Schema()
     data = schema.dump(nav)
 
@@ -43,7 +42,6 @@ def test_nav(nav: elements.NavBar) -> None:
     ids=lambda x: x.__class__.__name__,
 )
 def test_scalar(element: core.NavElement) -> None:
-
     schema = element.Schema()
 
     data = schema.dump(element)

@@ -7,13 +7,14 @@ from typing import NamedTuple
 from typing import TypeVar
 
 import attrs
-from dominate import tags
+from domilite import tags
 from markupsafe import escape
 from wtforms.fields import Field
 from wtforms.fields import SelectField
 
-from .core import Widget
 from bootlace.util import Tag
+
+from .core import Widget
 
 __all__ = ["Select", "OptionChoice"]
 
@@ -40,7 +41,7 @@ class Select(Widget):
     optgroup: ClassVar[Tag] = Tag(tags.optgroup)
     option: ClassVar[Tag] = Tag(tags.option)
 
-    def __form_tag__(self, field: Field, **kwargs) -> tags.html_tag:
+    def __form_tag__(self, field: Field, **kwargs: Any) -> tags.html_tag:
         if not isinstance(field, SelectField):
             raise TypeError(f"Field for select widget must be a SelectField, got {type(field)!r}")
         if self.multiple:

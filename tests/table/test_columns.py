@@ -34,7 +34,6 @@ class Item:
 
 
 def test_unnamed_column() -> None:
-
     col = ActionColumn(heading="Edit", endpoint="index")
 
     with pytest.raises(ValueError):
@@ -43,7 +42,6 @@ def test_unnamed_column() -> None:
 
 @pytest.mark.usefixtures("homepage")
 def test_action_column(app: Flask) -> None:
-
     col = ActionColumn(heading="Edit", name="editor", endpoint="index")
 
     th = as_tag(col.heading)
@@ -60,7 +58,6 @@ def test_action_column(app: Flask) -> None:
 
 @pytest.mark.usefixtures("homepage")
 def test_action_column_label(app: Flask) -> None:
-
     col = ActionColumn(heading="Edit", name="editor", endpoint="index", label="Edit")
 
     th = as_tag(col.heading)
@@ -76,7 +73,6 @@ def test_action_column_label(app: Flask) -> None:
 
 
 def test_check_column(app: Flask) -> None:
-
     col = CheckColumn(heading="Check", name="check")
 
     with app.test_request_context("/"):
@@ -103,7 +99,6 @@ def test_check_column(app: Flask) -> None:
 
 
 def test_datetime_column(app: Flask) -> None:
-
     col = Datetime(heading=Heading(icon=Icon("clock"), text="time"), name="when")
 
     with app.test_request_context("/"):
@@ -126,7 +121,6 @@ def test_datetime_column(app: Flask) -> None:
 
 
 def test_datetime_format() -> None:
-
     col = Datetime(heading="Date", name="when", format="%Y-%m-%d")
 
     td = col.cell(Item())
@@ -137,7 +131,6 @@ def test_datetime_format() -> None:
 
 
 def test_regular_column_missing() -> None:
-
     col = Column(heading="Something", name="missing")
 
     td = col.cell(Item())
@@ -146,7 +139,6 @@ def test_regular_column_missing() -> None:
 
 
 def test_regular_column() -> None:
-
     col = Column(heading="Editor", name="editor")
 
     td = col.cell(Item())

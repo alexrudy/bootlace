@@ -7,9 +7,9 @@ from typing import Any
 from typing import ClassVar
 
 import attrs
-from dominate import tags
-from dominate.dom_tag import dom_tag
-from dominate.util import text
+from domilite import tags
+from domilite.dom_tag import dom_tag
+from domilite.util import text
 
 from bootlace.icon import Icon
 from bootlace.util import as_tag
@@ -30,7 +30,11 @@ class Heading:
     def __tag__(self) -> tags.html_tag:
         if self.icon:
             return tags.a(
-                as_tag(self.icon), href="#", data_bs_toggle="tooltip", data_bs_title=self.text, cls="link-dark"
+                as_tag(self.icon),
+                href="#",
+                data_bs_toggle="tooltip",
+                data_bs_title=self.text,
+                cls="link-dark",
             )
         return tags.span(self.text)
 
@@ -101,7 +105,6 @@ def _get_columns(attrs: Mapping[str, Any]) -> dict[str, ColumnBase]:
 
 
 class TableMetaclass(type):
-
     columns: dict[str, ColumnBase]
 
     def __new__(mcls, name: str, bases: tuple[type, ...], namespace: dict[str, Any]) -> type:

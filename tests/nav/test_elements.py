@@ -1,6 +1,6 @@
 import pytest
-from dominate.dom_tag import dom_tag
-from dominate.util import text
+from domilite.dom_tag import dom_tag
+from domilite.util import text
 from flask import Flask
 
 from bootlace import links
@@ -19,9 +19,7 @@ def test_link() -> None:
 
 
 def test_fake_bad_link() -> None:
-
     class BadLink(links.LinkBase):
-
         @property
         def active(self) -> bool:
             return False

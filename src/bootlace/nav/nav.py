@@ -1,17 +1,13 @@
 import warnings
 
 import attrs
-from dominate import tags
+from domilite import tags
 from marshmallow import fields
 
-from .core import NavAlignment
-from .core import NavStyle
-from .core import SubGroup
-from bootlace.util import as_tag
-from bootlace.util import BootlaceWarning
+from bootlace.util import BootlaceWarning, MaybeTaggable, Tag, as_tag
 from bootlace.util import ids as element_id
-from bootlace.util import MaybeTaggable
-from bootlace.util import Tag
+
+from .core import NavAlignment, NavStyle, SubGroup
 
 
 @attrs.define
@@ -81,12 +77,13 @@ class Dropdown(SubGroup):
         for item in self.items:
             tag = as_tag(item)
             if isinstance(tag, tags.html_tag):
-                tag.classes.remove("nav-link")
+                tag.classes.discard("nav-link")
                 if not any(cls.startswith("dropdown-") for cls in tag.classes):
                     tag.classes.add("dropdown-item")
             else:
                 warnings.warn(
-                    BootlaceWarning(f"Item {item!r} is not an html tag, may not display properly"), stacklevel=2
+                    BootlaceWarning(f"Item {item!r} is not an html tag, may not display properly"),
+                    stacklevel=2,
                 )
             menu.add(self.li(tag, __pretty=False))
         div.add(menu)

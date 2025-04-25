@@ -1,19 +1,17 @@
 import attrs
-from dominate import tags
-from dominate.dom_tag import dom_tag
-from dominate.util import container
+from domilite import tags
+from domilite.dom_tag import dom_tag
+from domilite.util import container
 from marshmallow import fields
 
-from .core import Link
-from .core import NavElement
-from .core import SubGroup
-from .nav import Nav
-from .schema import NavSchema
 from bootlace.size import SizeClass
 from bootlace.style import ColorClass
-from bootlace.util import as_tag
+from bootlace.util import Tag, as_tag
 from bootlace.util import ids as element_id
-from bootlace.util import Tag
+
+from .core import Link, NavElement, SubGroup
+from .nav import Nav
+from .schema import NavSchema
 
 
 @attrs.define
@@ -32,12 +30,14 @@ class NavBar(NavElement):
     #: The size of the navbar, if any, used to select when it
     #: should expand or collapse
     expand: SizeClass | None = attrs.field(
-        default=SizeClass.LARGE, metadata={"form": fields.Enum(SizeClass, allow_none=True)}
+        default=SizeClass.LARGE,
+        metadata={"form": fields.Enum(SizeClass, allow_none=True)},
     )
 
     #: The color of the navbar, if using a bootstrap color class
     color: ColorClass | None = attrs.field(
-        default=ColorClass.TERTIARY, metadata={"form": fields.Enum(ColorClass, allow_none=True)}
+        default=ColorClass.TERTIARY,
+        metadata={"form": fields.Enum(ColorClass, allow_none=True)},
     )
 
     #: Whether the navbar should be fluid (e.g. full width)
@@ -56,7 +56,7 @@ class NavBar(NavElement):
         container = self.container()
         if self.fluid:
             container.classes.add("container-fluid")
-            container.classes.remove("container")
+            container.classes.discard("container")
         else:
             container.classes.add("container")
 
@@ -139,7 +139,7 @@ class NavBarSearch(NavElement):
     button: str | None = None
 
     form: Tag = Tag(tags.form, classes={"d-flex"}, attributes={"role": "search"})
-    input: Tag = Tag(tags.input_, classes={"form-control", "me-2"}, attributes={"type": "search"})
+    input: Tag = Tag(tags.input, classes={"form-control", "me-2"}, attributes={"type": "search"})
     button_tag: Tag = Tag(tags.button, classes={"btn", "btn-success"}, attributes={"type": "submit"})
 
     def __tag__(self) -> dom_tag:

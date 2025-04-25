@@ -38,7 +38,14 @@ class EnumField(fields.SelectField, Generic[E]):
     :param enum: The enum type
     """
 
-    def __init__(self, label: str | None = None, validators: Any = None, *, enum: type[E], **kwargs: Any) -> None:
+    def __init__(
+        self,
+        label: str | None = None,
+        validators: Any = None,
+        *,
+        enum: type[E],
+        **kwargs: Any,
+    ) -> None:
         labelfunc = kwargs.pop("labelfunc", _enum_labelfunc)
         kwargs.setdefault("choices", [(value.name, labelfunc(value)) for value in enum])
         super().__init__(label=label, validators=validators, coerce=self._coerce, **kwargs)

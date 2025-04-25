@@ -20,7 +20,7 @@ classifiers = [
 ]
 dependencies = [
     "attrs>=25.3.0",
-    "dominate>=2.9.1",
+    "domilite",
     "flask>=3.1.0",
     "html5lib>=1.1",
     "marshmallow>=3.26.1",
@@ -90,6 +90,12 @@ omit = ["src/bootlace/_version.py", "src/bootlace/testing/*"]
 [tool.black]
 line-length = 120
 
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint.isort]
+force-single-line = true
+
 [tool.mypy]
 files = "src/bootlace"
 python_version = "3.11"
@@ -122,6 +128,7 @@ ignore_missing_imports = true
 [tool.uv.sources]
 bootlace = { workspace = true }
 dominate-stubs = { path = "stubs/dominate-stubs", editable = true }
+domilite = { path = "../domilite", editable = true }
 
 [dependency-groups]
 dev = [
@@ -130,8 +137,7 @@ dev = [
     "bootlace",
     "build>=1.2.2.post1",
     "bump2version>=1.0.1",
-    "dominate>=2.9.1",
-    "dominate-stubs",
+    "domilite",
     "flake8>=7.2.0",
     "flake8-bugbear>=24.12.12",
     "flake8-implicit-str-concat>=0.5.0",
@@ -161,7 +167,7 @@ dev = [
 ]
 docs = [
     "attrs>=25.3.0",
-    "dominate>=2.9.1",
+    "domilite",
     "flask>=3.1.0",
     "html5lib>=1.1",
     "marshmallow>=3.26.1",
@@ -174,7 +180,7 @@ docs = [
 ]
 tests = [
     "attrs>=25.3.0",
-    "dominate>=2.9.1",
+    "domilite",
     "flask>=3.1.0",
     "html5lib>=1.1",
     "marshmallow>=3.26.1",
@@ -185,8 +191,7 @@ tests = [
 ]
 typing = [
     "attrs>=25.3.0",
-    "dominate>=2.9.1",
-    "dominate-stubs",
+    "domilite",
     "flask>=3.1.0",
     "html5lib>=1.1",
     "marshmallow>=3.26.1",

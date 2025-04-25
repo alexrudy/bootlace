@@ -1,9 +1,9 @@
 from typing import Any
 
 import attrs
-from dominate import tags
-from dominate.dom_tag import dom_tag
-from dominate.util import text
+from domilite import tags
+from domilite.dom_tag import dom_tag
+from domilite.util import text
 
 from bootlace.endpoint import convert_endpoint
 from bootlace.endpoint import Endpoint

@@ -1,8 +1,8 @@
 from typing import ClassVar
 
 import attrs
-from dominate import svg as svg_tag
-from dominate.dom_tag import dom_tag
+from domilite import svg as svg_tag
+from domilite.dom_tag import dom_tag
 
 from bootlace.endpoint import Endpoint
 from bootlace.util import Tag
@@ -26,7 +26,12 @@ class Icon:
 
     svg: Tag = Tag(
         svg_tag.svg,
-        attributes={"role": "img", "fill": "currentColor", "width": "16", "height": "16"},
+        attributes={
+            "role": "img",
+            "fill": "currentColor",
+            "width": "16",
+            "height": "16",
+        },
         classes={"bi", "me-1", "pe-none", "align-self-center", "bi-inline"},
     )
 

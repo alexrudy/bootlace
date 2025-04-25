@@ -1,7 +1,7 @@
 import abc
 
 import attrs
-from dominate import tags
+from domilite import tags
 
 from .endpoint import convert_endpoint
 from .endpoint import Endpoint

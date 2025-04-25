@@ -3,8 +3,8 @@ import warnings
 from typing import Any
 
 import attrs
-from dominate import tags
-from dominate.dom_tag import dom_tag
+from domilite import tags
+from domilite.dom_tag import dom_tag
 from marshmallow import fields
 
 from bootlace import links
@@ -54,7 +54,10 @@ class NavElement:
         return True
 
     def __tag__(self) -> dom_tag:
-        warnings.warn(BootlaceWarning(f"Unhandled element {self.__class__.__name__}"), stacklevel=2)
+        warnings.warn(
+            BootlaceWarning(f"Unhandled element {self.__class__.__name__}"),
+            stacklevel=2,
+        )
         return tags.comment(f"unhandled element {self.__class__.__name__}")
 
     def element_state(self, tag: dom_tag) -> dom_tag:

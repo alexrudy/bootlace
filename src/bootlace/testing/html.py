@@ -132,7 +132,13 @@ class HTMLDiff:
         for attr in actual.attrib:
             if (attr in self.attributes) or (attr.startswith("aria-")):
                 if attr not in expected.attrib:
-                    differences.append(Difference(None, actual.attrib.get(attr), f"Attribute {attr} not expected"))
+                    differences.append(
+                        Difference(
+                            None,
+                            actual.attrib.get(attr),
+                            f"Attribute {attr} not expected",
+                        )
+                    )
                     continue
 
         return differences

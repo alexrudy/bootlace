@@ -1,20 +1,14 @@
 from typing import Any
 
 import pytest
-from dominate import tags
-from flask import Blueprint
-from flask import Flask
-from flask import request
+from domilite import tags
+from flask import Blueprint, Flask, request
 
-from bootlace.util import as_tag
-from bootlace.util import is_active_blueprint
-from bootlace.util import is_active_endpoint
-from bootlace.util import Tag
+from bootlace.util import Tag, as_tag, is_active_blueprint, is_active_endpoint
 
 
 @pytest.fixture
 def app(app: Flask) -> Flask:
-
     @app.route("/")
     def home() -> str:
         return "Home"
@@ -72,34 +66,6 @@ def test_as_tag_warning() -> None:
         assert as_tag(1).render() == "1\n<!--Rendered type int not supported-->\n"
 
 
-def test_classes() -> None:
-
-    div = tags.div()
-
-    div.classes.add("test")
-    div.classes.add("test")
-
-    assert "test" in div.classes
-
-    assert div.render() == '<div class="test"></div>'
-
-    div.classes.swap("test", "other")
-    div.classes.swap("test", "other")
-
-    assert div.render() == '<div class="other"></div>'
-
-    assert len(div.classes) == 1
-
-    div.classes.remove("other")
-
-    assert div.render() == '<div class=""></div>'
-
-    div.classes.add("test")
-    div.classes.add("other")
-    div.classes.discard("test")
-    assert div.render() == '<div class="other"></div>'
-
-
 @pytest.mark.parametrize("prefix", ["data", "aria", "hx"])
 def test_accessors(prefix: str) -> None:
     div = tags.div(other="ignored")
@@ -133,7 +99,6 @@ def test_accessors(prefix: str) -> None:
 
 
 def test_tag_configurator() -> None:
-
     a = Tag(tags.a, classes={"test"}, attributes={"href": "#"})
 
     assert a["href"] == "#"
@@ -156,7 +121,6 @@ def test_tag_configurator() -> None:
     ],
 )
 def test_is_active_endpoint(app: Flask, uri: str, endpoint: str, kwargs: dict[str, str], expected: bool) -> None:
-
     with app.test_request_context(uri):
         print(f"Testing {uri} -> {endpoint} with {kwargs}")
         assert is_active_endpoint(endpoint, kwargs) is expected
@@ -164,7 +128,6 @@ def test_is_active_endpoint(app: Flask, uri: str, endpoint: str, kwargs: dict[st
 
 @pytest.mark.usefixtures("bp")
 def test_is_active_endpoint_invalid_kwargs(app: Flask) -> None:
-
     with app.test_request_context("/"):
         assert request.endpoint == "home"
         assert request.url_rule is not None
@@ -182,7 +145,6 @@ def test_is_active_endpoint_invalid_kwargs(app: Flask) -> None:
     ],
 )
 def test_is_active_blueprint(app: Flask, uri: str, blueprint: str, expected: bool) -> None:
-
     with app.test_request_context(uri):
         print(f"Testing {uri} -> {blueprint}")
         assert is_active_blueprint(blueprint) is expected

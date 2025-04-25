@@ -1,5 +1,5 @@
 import pytest
-from dominate import util
+from domilite import util
 
 from .conftest import CurrentLink
 from .conftest import DisabledLink
@@ -13,7 +13,6 @@ from bootlace.util import render
 
 
 def test_navbar(nav: bar.NavBar) -> None:
-
     source = render(nav)
 
     expected = get_fixture("navbar.html")
@@ -22,7 +21,6 @@ def test_navbar(nav: bar.NavBar) -> None:
 
 
 def test_navbar_with_content() -> None:
-
     navbarnav = bar.NavBarNav(
         items=[
             CurrentLink.with_url(url="#", text="Home"),
@@ -56,8 +54,12 @@ def test_navbar_with_content() -> None:
 
 
 def test_brand_img() -> None:
-
-    image = Image(alt="Bootstrap", src="/docs/5.3/assets/brand/bootstrap-logo.svg", width=30, height=24)
+    image = Image(
+        alt="Bootstrap",
+        src="/docs/5.3/assets/brand/bootstrap-logo.svg",
+        width=30,
+        height=24,
+    )
     brand = bar.Brand.with_url(url="#", text=image)
 
     navbar = bar.NavBar(items=[brand], expand=None, fluid=False)
@@ -70,7 +72,6 @@ def test_brand_img() -> None:
 
 
 def test_navbar_color() -> None:
-
     navbar = bar.NavBar(items=[bar.Brand.with_url(url="#", text="Navbar")], color=ColorClass.PRIMARY)
 
     source = render(navbar)
@@ -87,7 +88,6 @@ def test_navbar_color() -> None:
 
 
 def test_navbar_nocolor() -> None:
-
     navbar = bar.NavBar(items=[bar.Brand.with_url(url="#", text="Navbar")], color=None)
 
     source = render(navbar)

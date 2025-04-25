@@ -4,14 +4,12 @@ from bootlace.extension import Bootlace
 
 
 def test_extension(app: Flask) -> None:
-
     bootlace = Bootlace(app)
 
     with app.app_context():
         bootstrap = bootlace.bootstrap()
 
     with app.test_client() as client:
-
         for resource in bootstrap.iter_resources(extension=None):
             with client.get(resource) as response:
                 assert response.status_code == 200
