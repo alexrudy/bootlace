@@ -5,13 +5,13 @@ from domilite import tags
 from domilite.dom_tag import dom_tag
 from domilite.util import text
 
-from bootlace.endpoint import convert_endpoint
 from bootlace.endpoint import Endpoint
+from bootlace.endpoint import convert_endpoint
 from bootlace.icon import Icon
 from bootlace.table.base import ColumnBase
-from bootlace.util import as_tag
 from bootlace.util import MaybeTaggable
 from bootlace.util import Tag
+from bootlace.util import as_tag
 
 __all__ = ["Column", "ActionColumn", "CheckColumn", "Datetime"]
 

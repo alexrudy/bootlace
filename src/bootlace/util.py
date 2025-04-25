@@ -2,14 +2,20 @@ import collections
 import functools
 import itertools
 import warnings
-from collections.abc import Callable, Iterable, Mapping
-from typing import Any, Protocol, TypeAlias, TypeVar
+from collections.abc import Callable
+from collections.abc import Iterable
+from collections.abc import Mapping
+from typing import Any
+from typing import Protocol
+from typing import TypeAlias
+from typing import TypeVar
 
 import attrs
 from domilite import tags
 from domilite.dom_tag import dom_tag
 from domilite.template import TagTemplate as Tag
-from domilite.util import container, text
+from domilite.util import container
+from domilite.util import text
 from flask import request
 from markupsafe import Markup
 

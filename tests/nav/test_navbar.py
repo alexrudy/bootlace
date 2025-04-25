@@ -1,15 +1,16 @@
 import pytest
 from domilite import util
 
-from .conftest import CurrentLink
-from .conftest import DisabledLink
-from .conftest import get_fixture
 from bootlace.image import Image
 from bootlace.nav import bar
 from bootlace.nav import elements
 from bootlace.style import ColorClass
 from bootlace.testing.html import assert_same_html
 from bootlace.util import render
+
+from .conftest import CurrentLink
+from .conftest import DisabledLink
+from .conftest import get_fixture
 
 
 def test_navbar(nav: bar.NavBar) -> None:

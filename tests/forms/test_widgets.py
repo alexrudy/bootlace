@@ -1,7 +1,8 @@
 import domilite.tags
 import pytest
 from wtforms import Form
-from wtforms.fields import BooleanField, StringField
+from wtforms.fields import BooleanField
+from wtforms.fields import StringField
 
 from bootlace.forms import widgets
 from bootlace.forms.widgets.core import InputBase
@@ -42,11 +43,11 @@ def find_input(tag: domilite.tags.html_tag) -> domilite.tags.html_tag:
     if tag.name == "input":
         return tag
     else:
-        for tag in tag.descendants():
-            if tag.name == "input":
-                return tag
+        for child in tag.descendants():
+            if child.name == "input":
+                return child
         else:
-            assert False, "Can't find input"
+            assert False, "Can't find input"  # noqa: B011
 
 
 @pytest.mark.parametrize(
@@ -70,9 +71,9 @@ def test_widget(widget: type[InputBase]):
     input_tag = find_input(tags)
 
     assert input_tag.attributes["type"] == widget.input_type, (
-        f"Expected type '{widget.input_type}' but got '{input_tag['type']}'"
+        f"Expected type {widget.input_type!r} but got {input_tag['type']!r}"
     )
-    assert input_tag.attributes["id"] == form.input.id, f"Expected id '{form.input.id}' but got '{input_tag['id']}'"
+    assert input_tag.attributes["id"] == form.input.id, f"Expected id {form.input.id!r} but got {input_tag['id']!r}"
 
 
 def test_widget_input_explicit():
@@ -84,9 +85,9 @@ def test_widget_input_explicit():
     input_tag = find_input(tags)
 
     assert input_tag.attributes["type"] == widgets.TextInput.input_type, (
-        f"Expected type '{widgets.TextInput.input_type}' but got '{input_tag['type']}'"
+        f"Expected type {widgets.TextInput.input_type!r} but got {input_tag['type']!r}"
     )
-    assert input_tag.attributes["id"] == form.input.id, f"Expected id '{form.input.id}' but got '{input_tag['id']}'"
+    assert input_tag.attributes["id"] == form.input.id, f"Expected id {form.input.id!r} but got {input_tag['id']!r}"
 
 
 def test_widget_input_missing():
@@ -98,8 +99,8 @@ def test_widget_input_missing():
         tags = widgets.Input(input_type=None).__form_tag__(form.input)
     input_tag = find_input(tags)
 
-    assert "type" not in input_tag.attributes, f"Expected no 'type' attribute but got '{input_tag['type']}'"
-    assert input_tag.attributes["id"] == form.input.id, f"Expected id '{form.input.id}' but got '{input_tag['id']}'"
+    assert "type" not in input_tag.attributes, f"Expected no 'type' attribute but got {input_tag['type']!r}"
+    assert input_tag.attributes["id"] == form.input.id, f"Expected id {form.input.id!r} but got {input_tag['id']!r}"
 
 
 def test_widget_inputbase():
@@ -111,5 +112,5 @@ def test_widget_inputbase():
         tags = widgets.core.InputBase().__form_tag__(form.input)
     input_tag = find_input(tags)
 
-    assert "type" not in input_tag.attributes, f"Expected no 'type' attribute but got '{input_tag['type']}'"
-    assert input_tag.attributes["id"] == form.input.id, f"Expected id '{form.input.id}' but got '{input_tag['id']}'"
+    assert "type" not in input_tag.attributes, f"Expected no 'type' attribute but got {input_tag['type']!r}"
+    assert input_tag.attributes["id"] == form.input.id, f"Expected id {form.input.id!r} but got {input_tag['id']!r}"

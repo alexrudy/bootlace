@@ -1,9 +1,9 @@
 from typing import Any
 
 from markupsafe import Markup
+from wtforms import widgets as wt_widgets
 from wtforms.fields import Field
 from wtforms.meta import DefaultMeta
-from wtforms import widgets as wt_widgets
 
 from . import widgets as bl_widgets
 

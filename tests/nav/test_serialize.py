@@ -2,11 +2,12 @@ import json
 
 import pytest
 
-from .conftest import get_fixture
 from bootlace.nav import core
 from bootlace.nav import elements
 from bootlace.testing.html import assert_same_html
 from bootlace.util import render
+
+from .conftest import get_fixture
 
 
 def test_nav(nav: elements.NavBar) -> None:

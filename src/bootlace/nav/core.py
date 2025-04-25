@@ -10,11 +10,11 @@ from marshmallow import fields
 from bootlace import links
 from bootlace.endpoint import Endpoint
 from bootlace.nav.schema import NavSchema
-from bootlace.util import as_tag
 from bootlace.util import BootlaceWarning
-from bootlace.util import ids as element_id
 from bootlace.util import MaybeTaggable
 from bootlace.util import Tag
+from bootlace.util import as_tag
+from bootlace.util import ids as element_id
 
 
 class NavStyle(enum.Enum):

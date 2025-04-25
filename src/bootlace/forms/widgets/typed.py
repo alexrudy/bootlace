@@ -5,9 +5,9 @@ from domilite.tags import html_tag
 from domilite.tags import input
 from wtforms.fields.core import Field
 
-from .core import InputBase
 from bootlace.util import Tag
 
+from .core import InputBase
 
 __all__ = [
     "SearchInput",

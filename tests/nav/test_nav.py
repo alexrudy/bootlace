@@ -1,12 +1,13 @@
 import pytest
 
+from bootlace.nav import NavStyle
+from bootlace.nav import elements
+from bootlace.testing.html import assert_same_html
+from bootlace.util import render
+
 from .conftest import CurrentLink
 from .conftest import DisabledLink
 from .conftest import get_fixture
-from bootlace.nav import elements
-from bootlace.nav import NavStyle
-from bootlace.testing.html import assert_same_html
-from bootlace.util import render
 
 
 @pytest.fixture

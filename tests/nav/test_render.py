@@ -1,14 +1,15 @@
 import pytest
 from flask import Flask
 
-from .conftest import CurrentLink
 from bootlace.links import View
-from bootlace.nav import core
-from bootlace.nav import elements
 from bootlace.nav import NavAlignment
 from bootlace.nav import NavStyle
+from bootlace.nav import core
+from bootlace.nav import elements
 from bootlace.testing.html import assert_same_html
 from bootlace.util import render
+
+from .conftest import CurrentLink
 
 
 def test_plain_element() -> None:

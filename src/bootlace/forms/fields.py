@@ -9,7 +9,6 @@ from wtforms import fields
 from wtforms.validators import Regexp
 from wtforms.validators import ValidationError
 
-
 __all__ = ["EnumField", "MarkdownField", "KnownMIMEType", "SLUG_VALIDATOR"]
 
 
