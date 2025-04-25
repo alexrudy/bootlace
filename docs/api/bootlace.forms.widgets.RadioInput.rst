@@ -1,33 +1,31 @@
-Switch
-======
+RadioInput
+==========
 
 .. currentmodule:: bootlace.forms.widgets
 
-.. autoclass:: Switch
+.. autoclass:: RadioInput
    :show-inheritance:
 
    .. rubric:: Attributes Summary
 
    .. autosummary::
 
-      ~Switch.div
-      ~Switch.input
-      ~Switch.label
-      ~Switch.validation_attrs
+      ~RadioInput.input_type
+      ~RadioInput.tag
+      ~RadioInput.validation_attrs
 
    .. rubric:: Methods Summary
 
    .. autosummary::
 
-      ~Switch.__call__
-      ~Switch.get_field_value
-      ~Switch.prepare_attributes
+      ~RadioInput.__call__
+      ~RadioInput.get_field_value
+      ~RadioInput.prepare_attributes
 
    .. rubric:: Attributes Documentation
 
-   .. autoattribute:: div
-   .. autoattribute:: input
-   .. autoattribute:: label
+   .. autoattribute:: input_type
+   .. autoattribute:: tag
    .. autoattribute:: validation_attrs
 
    .. rubric:: Methods Documentation

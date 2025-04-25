@@ -1,33 +1,29 @@
-Switch
-======
+TextArea
+========
 
 .. currentmodule:: bootlace.forms.widgets
 
-.. autoclass:: Switch
+.. autoclass:: TextArea
    :show-inheritance:
 
    .. rubric:: Attributes Summary
 
    .. autosummary::
 
-      ~Switch.div
-      ~Switch.input
-      ~Switch.label
-      ~Switch.validation_attrs
+      ~TextArea.tag
+      ~TextArea.validation_attrs
 
    .. rubric:: Methods Summary
 
    .. autosummary::
 
-      ~Switch.__call__
-      ~Switch.get_field_value
-      ~Switch.prepare_attributes
+      ~TextArea.__call__
+      ~TextArea.get_field_value
+      ~TextArea.prepare_attributes
 
    .. rubric:: Attributes Documentation
 
-   .. autoattribute:: div
-   .. autoattribute:: input
-   .. autoattribute:: label
+   .. autoattribute:: tag
    .. autoattribute:: validation_attrs
 
    .. rubric:: Methods Documentation

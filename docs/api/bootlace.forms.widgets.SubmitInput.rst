@@ -1,33 +1,31 @@
-Switch
-======
+SubmitInput
+===========
 
 .. currentmodule:: bootlace.forms.widgets
 
-.. autoclass:: Switch
+.. autoclass:: SubmitInput
    :show-inheritance:
 
    .. rubric:: Attributes Summary
 
    .. autosummary::
 
-      ~Switch.div
-      ~Switch.input
-      ~Switch.label
-      ~Switch.validation_attrs
+      ~SubmitInput.input_type
+      ~SubmitInput.tag
+      ~SubmitInput.validation_attrs
 
    .. rubric:: Methods Summary
 
    .. autosummary::
 
-      ~Switch.__call__
-      ~Switch.get_field_value
-      ~Switch.prepare_attributes
+      ~SubmitInput.__call__
+      ~SubmitInput.get_field_value
+      ~SubmitInput.prepare_attributes
 
    .. rubric:: Attributes Documentation
 
-   .. autoattribute:: div
-   .. autoattribute:: input
-   .. autoattribute:: label
+   .. autoattribute:: input_type
+   .. autoattribute:: tag
    .. autoattribute:: validation_attrs
 
    .. rubric:: Methods Documentation

@@ -164,7 +164,7 @@ typing = [
 [package.metadata]
 requires-dist = [
     { name = "attrs", specifier = ">=25.3.0" },
-    { name = "domilite", editable = "../domilite" },
+    { name = "domilite" },
     { name = "flask", specifier = ">=3.1.0" },
     { name = "html5lib", specifier = ">=1.1" },
     { name = "marshmallow", specifier = ">=3.26.1" },
@@ -179,7 +179,7 @@ dev = [
     { name = "bootlace", editable = "." },
     { name = "build", specifier = ">=1.2.2.post1" },
     { name = "bump2version", specifier = ">=1.0.1" },
-    { name = "domilite", editable = "../domilite" },
+    { name = "domilite" },
     { name = "flake8", specifier = ">=7.2.0" },
     { name = "flake8-bugbear", specifier = ">=24.12.12" },
     { name = "flake8-implicit-str-concat", specifier = ">=0.5.0" },
@@ -209,7 +209,7 @@ dev = [
 ]
 docs = [
     { name = "attrs", specifier = ">=25.3.0" },
-    { name = "domilite", editable = "../domilite" },
+    { name = "domilite" },
     { name = "flask", specifier = ">=3.1.0" },
     { name = "html5lib", specifier = ">=1.1" },
     { name = "marshmallow", specifier = ">=3.26.1" },
@@ -222,7 +222,7 @@ docs = [
 ]
 tests = [
     { name = "attrs", specifier = ">=25.3.0" },
-    { name = "domilite", editable = "../domilite" },
+    { name = "domilite" },
     { name = "flask", specifier = ">=3.1.0" },
     { name = "html5lib", specifier = ">=1.1" },
     { name = "marshmallow", specifier = ">=3.26.1" },
@@ -233,7 +233,7 @@ tests = [
 ]
 typing = [
     { name = "attrs", specifier = ">=25.3.0" },
-    { name = "domilite", editable = "../domilite" },
+    { name = "domilite" },
     { name = "flask", specifier = ">=3.1.0" },
     { name = "html5lib", specifier = ">=1.1" },
     { name = "marshmallow", specifier = ">=3.26.1" },
@@ -514,24 +514,15 @@ wheels = [
 
 [[package]]
 name = "domilite"
-source = { editable = "../domilite" }
+version = "0.1.0"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "markupsafe" },
 ]
-
-[package.metadata]
-requires-dist = [{ name = "markupsafe", specifier = ">=3.0.2" }]
-
-[package.metadata.requires-dev]
-tests = [
-    { name = "pytest", specifier = ">=8.3.5" },
-    { name = "pytest-cov", specifier = ">=6.1.1" },
+sdist = { url = "https://files.pythonhosted.org/packages/c3/2d/683869746fbe6bb40b56cbf3136ded0bd4e0700b5135dd3500c54204047b/domilite-0.1.0.tar.gz", hash = "sha256:3e6eed9b6f454a7675a338e072fad0f379eebcca93859ae1d3126513fe3d4b6b", size = 14923 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/14/fc/69b93e745968cbe7944d2924f9842021c2a23e3296e11c92be0a764047e3/domilite-0.1.0-py3-none-any.whl", hash = "sha256:0160a583350f56ed4386d40ab326317f137928d3cf79c29f2ef922afd879479e", size = 17638 },
 ]
-tox = [
-    { name = "tox", specifier = ">=4.25.0" },
-    { name = "tox-uv", specifier = ">=1.25.0" },
-]
-typing = [{ name = "mypy", specifier = ">=1.15.0" }]
 
 [[package]]
 name = "filelock"

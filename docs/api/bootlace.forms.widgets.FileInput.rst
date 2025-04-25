@@ -1,33 +1,33 @@
-Switch
-======
+FileInput
+=========
 
 .. currentmodule:: bootlace.forms.widgets
 
-.. autoclass:: Switch
+.. autoclass:: FileInput
    :show-inheritance:
 
    .. rubric:: Attributes Summary
 
    .. autosummary::
 
-      ~Switch.div
-      ~Switch.input
-      ~Switch.label
-      ~Switch.validation_attrs
+      ~FileInput.input_type
+      ~FileInput.multiple
+      ~FileInput.tag
+      ~FileInput.validation_attrs
 
    .. rubric:: Methods Summary
 
    .. autosummary::
 
-      ~Switch.__call__
-      ~Switch.get_field_value
-      ~Switch.prepare_attributes
+      ~FileInput.__call__
+      ~FileInput.get_field_value
+      ~FileInput.prepare_attributes
 
    .. rubric:: Attributes Documentation
 
-   .. autoattribute:: div
-   .. autoattribute:: input
-   .. autoattribute:: label
+   .. autoattribute:: input_type
+   .. autoattribute:: multiple
+   .. autoattribute:: tag
    .. autoattribute:: validation_attrs
 
    .. rubric:: Methods Documentation

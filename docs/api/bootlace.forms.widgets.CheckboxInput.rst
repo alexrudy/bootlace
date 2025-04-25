@@ -1,33 +1,31 @@
-Switch
-======
+CheckboxInput
+=============
 
 .. currentmodule:: bootlace.forms.widgets
 
-.. autoclass:: Switch
+.. autoclass:: CheckboxInput
    :show-inheritance:
 
    .. rubric:: Attributes Summary
 
    .. autosummary::
 
-      ~Switch.div
-      ~Switch.input
-      ~Switch.label
-      ~Switch.validation_attrs
+      ~CheckboxInput.input_type
+      ~CheckboxInput.tag
+      ~CheckboxInput.validation_attrs
 
    .. rubric:: Methods Summary
 
    .. autosummary::
 
-      ~Switch.__call__
-      ~Switch.get_field_value
-      ~Switch.prepare_attributes
+      ~CheckboxInput.__call__
+      ~CheckboxInput.get_field_value
+      ~CheckboxInput.prepare_attributes
 
    .. rubric:: Attributes Documentation
 
-   .. autoattribute:: div
-   .. autoattribute:: input
-   .. autoattribute:: label
+   .. autoattribute:: input_type
+   .. autoattribute:: tag
    .. autoattribute:: validation_attrs
 
    .. rubric:: Methods Documentation
