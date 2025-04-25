@@ -2,9 +2,14 @@ from typing import Any
 
 import pytest
 from domilite import tags
-from flask import Blueprint, Flask, request
+from flask import Blueprint
+from flask import Flask
+from flask import request
 
-from bootlace.util import Tag, as_tag, is_active_blueprint, is_active_endpoint
+from bootlace.util import Tag
+from bootlace.util import as_tag
+from bootlace.util import is_active_blueprint
+from bootlace.util import is_active_endpoint
 
 
 @pytest.fixture

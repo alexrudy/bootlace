@@ -1,15 +1,21 @@
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
+from typing import Any
 
 import attrs
 from domilite import tags
 from markupsafe import Markup
-from marshmallow import Schema, ValidationError, fields, post_load
+from marshmallow import Schema
+from marshmallow import ValidationError
+from marshmallow import fields
+from marshmallow import post_load
 from marshmallow_oneofschema.one_of_schema import OneOfSchema
 
 from bootlace import links
 from bootlace.endpoint import Endpoint
-from bootlace.util import MaybeTaggable, Tag, render
+from bootlace.util import MaybeTaggable
+from bootlace.util import Tag
+from bootlace.util import render
 
 if TYPE_CHECKING:
     from bootlace.nav.core import NavElement

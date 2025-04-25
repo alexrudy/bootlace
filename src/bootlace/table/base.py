@@ -12,9 +12,9 @@ from domilite.dom_tag import dom_tag
 from domilite.util import text
 
 from bootlace.icon import Icon
+from bootlace.util import Tag
 from bootlace.util import as_tag
 from bootlace.util import maybe
-from bootlace.util import Tag
 
 
 @attrs.define

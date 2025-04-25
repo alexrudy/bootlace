@@ -1,3 +1,4 @@
+from .bootstrap import Switch
 from .core import CheckboxInput
 from .core import FileInput
 from .core import HiddenInput
@@ -21,7 +22,6 @@ from .typed import TelInput
 from .typed import TimeInput
 from .typed import URLInput
 from .typed import WeekInput
-from .bootstrap import Switch
 
 __all__ = [
     "Input",

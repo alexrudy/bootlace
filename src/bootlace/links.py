@@ -3,11 +3,11 @@ import abc
 import attrs
 from domilite import tags
 
-from .endpoint import convert_endpoint
 from .endpoint import Endpoint
-from .util import as_tag
+from .endpoint import convert_endpoint
 from .util import MaybeTaggable
 from .util import Tag
+from .util import as_tag
 
 __all__ = ["Link", "View"]
 

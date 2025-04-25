@@ -67,7 +67,7 @@ class InputBase(Widget):
         if self.input_type is not None:
             kwargs.setdefault("type", self.input_type)
         else:
-            warnings.warn("Input type not specified")
+            warnings.warn("Input type not specified", stacklevel=2)
         return super().__form_tag__(field, **kwargs)
 
 
@@ -82,7 +82,7 @@ class Input(Widget):
         if self.input_type is not None:
             kwargs.setdefault("type", self.input_type)
         else:
-            warnings.warn("Input type not specified")
+            warnings.warn("Input type not specified", stacklevel=2)
         return super().__form_tag__(field, **kwargs)
 
 

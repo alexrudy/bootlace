@@ -4,10 +4,15 @@ import attrs
 from domilite import tags
 from marshmallow import fields
 
-from bootlace.util import BootlaceWarning, MaybeTaggable, Tag, as_tag
+from bootlace.util import BootlaceWarning
+from bootlace.util import MaybeTaggable
+from bootlace.util import Tag
+from bootlace.util import as_tag
 from bootlace.util import ids as element_id
 
-from .core import NavAlignment, NavStyle, SubGroup
+from .core import NavAlignment
+from .core import NavStyle
+from .core import SubGroup
 
 
 @attrs.define

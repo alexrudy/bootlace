@@ -3,8 +3,10 @@ from typing import Any
 import attrs
 from domilite import tags
 from wtforms.fields import Field
-from .core import Widget
+
 from bootlace.util import Tag
+
+from .core import Widget
 
 
 @attrs.define

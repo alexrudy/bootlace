@@ -2,8 +2,8 @@ from typing import Any
 
 import attrs
 from flask import Blueprint
-from flask import current_app
 from flask import Flask
+from flask import current_app
 
 from .endpoint import Endpoint
 from .resources import Resources

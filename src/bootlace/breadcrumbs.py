@@ -8,14 +8,15 @@ from domilite import tags
 from domilite.dom_tag import dom_tag
 from domilite.util import text
 from flask import Blueprint
-from flask import current_app
 from flask import Flask
+from flask import current_app
 from flask import request
 from werkzeug.local import LocalProxy
 
-from .util import as_tag
-from .util import Tag
 from bootlace.endpoint import Endpoint
+
+from .util import Tag
+from .util import as_tag
 
 __all__ = [
     "breadcrumbs",

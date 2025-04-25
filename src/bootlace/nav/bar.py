@@ -6,10 +6,13 @@ from marshmallow import fields
 
 from bootlace.size import SizeClass
 from bootlace.style import ColorClass
-from bootlace.util import Tag, as_tag
+from bootlace.util import Tag
+from bootlace.util import as_tag
 from bootlace.util import ids as element_id
 
-from .core import Link, NavElement, SubGroup
+from .core import Link
+from .core import NavElement
+from .core import SubGroup
 from .nav import Nav
 from .schema import NavSchema
 

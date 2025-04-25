@@ -9,7 +9,6 @@ from .core import Text
 from .nav import Dropdown
 from .nav import Nav
 
-
 __all__ = [
     "Link",
     "Separator",

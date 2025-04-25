@@ -7,7 +7,6 @@ from domilite.dom_tag import dom_tag
 from bootlace.endpoint import Endpoint
 from bootlace.util import Tag
 
-
 __all__ = ["Icon"]
 
 
