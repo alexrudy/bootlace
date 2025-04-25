@@ -1,58 +1,44 @@
 name: Tests
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
 
 env:
-  FORCE_COLOR: "1" # Make tools pretty.
-  PIP_DISABLE_PIP_VERSION_CHECK: "1"
-  PIP_NO_PYTHON_VERSION_WARNING: "1"
+    FORCE_COLOR: "1" # Make tools pretty.
+    PIP_DISABLE_PIP_VERSION_CHECK: "1"
+    PIP_NO_PYTHON_VERSION_WARNING: "1"
 
 jobs:
-  python:
-    name: tox ${{ matrix.tox }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        tox: [py311, typing, style, docs, minimal, dist]
-        python: [3.11]
-        include:
-          - tox: py312
-            python: 3.12
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '21'
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python }}
-          cache: 'pip'
-          cache-dependency-path: 'requirements/*.txt'
-      - name: Install dot
-        run: sudo apt-get install -y graphviz
-        if: matrix.tox == 'docs'
-      - name: update pip
-        run: |
-          pip install -U wheel
-          pip install -U setuptools
-          python -m pip install -U pip
-      - name: cache pre-commit
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pre-commit
-          key: pre-commit|${{ hashFiles('.pre-commit-config.yaml') }}
-        if: matrix.tox == 'style'
-      - name: cache mypy
-        uses: actions/cache@v3.0.3
-        with:
-          path: ./.mypy_cache
-          key: mypy|python-${{ matrix.python }}|${{ hashFiles('pyproject.toml') }}
-        if: matrix.tox == 'typing'
-      - run: pip install tox
-      - run: tox -e ${{ matrix.tox }}
+    python:
+        name: tox ${{ matrix.tox }}
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                tox: [py311, typing, style, docs, minimal, dist]
+                python: [3.11]
+                include:
+                    - tox: py312
+                      python: 3.12
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: "21"
+            - uses: actions/setup-python@v5
+              with:
+                  python-version: ${{ matrix.python }}
+            - name: Install dot
+              run: sudo apt-get install -y graphviz
+              if: matrix.tox == 'docs'
+            - name: update pip
+              run: |
+                  pip install -U wheel
+                  pip install -U setuptools
+                  python -m pip install -U pip
+            - run: pip install tox-uv
+            - run: tox -e ${{ matrix.tox }}
