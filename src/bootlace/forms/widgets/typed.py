@@ -184,6 +184,8 @@ class RangeInput(InputBase):
     """
 
     step: int | None = None
+    min: int | None = None
+    max: int | None = None
 
     input_type = "range"
     validation_attrs = {"disabled", "max", "min", "step"}
@@ -191,6 +193,10 @@ class RangeInput(InputBase):
     def __form_tag__(self, field: Field, **kwargs: Any) -> html_tag:
         if self.step is not None:
             kwargs.setdefault("step", self.step)
+        if self.min is not None:
+            kwargs.setdefault("min", self.min)
+        if self.max is not None:
+            kwargs.setdefault("max", self.max)
         return super().__form_tag__(field, **kwargs)
 
 

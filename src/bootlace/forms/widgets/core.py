@@ -41,7 +41,7 @@ class Widget:
 
     def __form_tag__(self, field: Field, **kwargs: Any) -> tags.html_tag:
         kwargs.setdefault("id", field.id)
-        if "value" not in kwargs and (value := self.get_field_value(field) is not None):
+        if "value" not in kwargs and ((value := self.get_field_value(field)) is not None):
             kwargs["value"] = value
 
         flags = getattr(field, "flags", object())
