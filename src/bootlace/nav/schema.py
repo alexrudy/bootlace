@@ -60,7 +60,7 @@ class DomTagField(fields.Field):
         if value is None:  # pragma: no cover
             return None
 
-        if not (isinstance(value, tags.html_tag) or issubclass(value, tags.html_tag)):
+        if not (isinstance(value, tags.html_tag) or issubclass(value, tags.html_tag)):  # pragma: no cover
             raise ValidationError(f"Unknown tag type: {type(value)!r}: {value!r}")
 
         return value.name
