@@ -3,7 +3,9 @@ from flask import Blueprint
 from flask import Flask
 from werkzeug.routing.exceptions import BuildError
 
-from bootlace.endpoint import CurrentEndpoint, Endpoint, NoEndpointError
+from bootlace.endpoint import CurrentEndpoint
+from bootlace.endpoint import Endpoint
+from bootlace.endpoint import NoEndpointError
 
 
 @pytest.fixture
@@ -89,21 +91,22 @@ def test_endpoint_active_context_with_fullname(app: Flask, bp: Blueprint) -> Non
         assert endpoint.active is True
         assert endpoint.blueprint == "bp"
 
+
 def test_current_endpoint(app: Flask) -> None:
     endpoint = CurrentEndpoint()
-    with app.test_request_context('/contact'):
+    with app.test_request_context("/contact"):
         assert endpoint.active is True
         assert endpoint.blueprint is None
-        assert endpoint.name == 'contact'
-        assert endpoint.full_name == 'contact'
-        assert endpoint.url == '/contact'
+        assert endpoint.name == "contact"
+        assert endpoint.full_name == "contact"
+        assert endpoint.url == "/contact"
         assert not endpoint.url_kwargs
-        assert endpoint(foo='foo') == '/contact?foo=foo'
+        assert endpoint(foo="foo") == "/contact?foo=foo"
+
 
 def test_current_endpoint_no_endpoint(app: Flask) -> None:
-
     endpoint = CurrentEndpoint()
-    with app.test_request_context('/does-not-exist'):
+    with app.test_request_context("/does-not-exist"):
         with pytest.raises(NoEndpointError):
             endpoint.name
 

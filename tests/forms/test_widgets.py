@@ -1,6 +1,5 @@
 import domilite.tags
 import pytest
-from attr import s
 from werkzeug.datastructures import MultiDict
 from wtforms import Field
 from wtforms import FileField
@@ -258,43 +257,43 @@ def test_select_groups() -> None:
         for opt in child.children:
             assert isinstance(opt, domilite.tags.html_tag)
             assert opt.name == "option"
-            if opt.attributes.get('value', None) == "a":
+            if opt.attributes.get("value", None) == "a":
                 assert opt["selected"]
 
-def test_number_input() -> None:
 
+def test_number_input() -> None:
     form = SimpleForm()
     widget = widgets.NumberInput(min=2, max=5, step=1)
     tag = widget.__form_tag__(form.string)
 
-    assert tag['min'] == 2
-    assert tag['max'] == 5
-    assert tag['step'] == 1
-    assert tag['type'] == 'number'
+    assert tag["min"] == 2
+    assert tag["max"] == 5
+    assert tag["step"] == 1
+    assert tag["type"] == "number"
 
     widget = widgets.NumberInput()
     tag = widget.__form_tag__(form.string)
 
-    assert tag['type'] == 'number'
-    assert 'min' not in tag.attributes
-    assert 'max' not in tag.attributes
-    assert 'step' not in tag.attributes
+    assert tag["type"] == "number"
+    assert "min" not in tag.attributes
+    assert "max" not in tag.attributes
+    assert "step" not in tag.attributes
+
 
 def test_range_input() -> None:
-
     form = SimpleForm()
     widget = widgets.RangeInput(min=2, max=5, step=1)
     tag = widget.__form_tag__(form.string)
 
-    assert tag['min'] == 2
-    assert tag['max'] == 5
-    assert tag['step'] == 1
-    assert tag['type'] == 'range'
+    assert tag["min"] == 2
+    assert tag["max"] == 5
+    assert tag["step"] == 1
+    assert tag["type"] == "range"
 
     widget = widgets.RangeInput()
     tag = widget.__form_tag__(form.string)
 
-    assert tag['type'] == 'range'
-    assert 'min' not in tag.attributes
-    assert 'max' not in tag.attributes
-    assert 'step' not in tag.attributes
+    assert tag["type"] == "range"
+    assert "min" not in tag.attributes
+    assert "max" not in tag.attributes
+    assert "step" not in tag.attributes
