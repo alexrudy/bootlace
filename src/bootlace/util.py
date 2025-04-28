@@ -185,7 +185,7 @@ def is_active_endpoint(endpoint: str, url_kwargs: Mapping[str, Any], ignore_quer
     except TypeError:  # pragma: no cover
         return False
 
-    if rule_url is None:
+    if rule_url is None:  # pragma: no cover
         return False
 
     _, url = rule_url
