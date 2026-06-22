@@ -37,7 +37,7 @@ class OptionChoice(NamedTuple, Generic[V]):
 class Select(Widget):
     multiple: bool = False
     validation_attrs = {"required", "disabled"}
-    tag = Tag(tags.select, classes={"form-control"})
+    tag = Tag(tags.select, classes={"form-select"})
     optgroup: ClassVar[Tag] = Tag(tags.optgroup)
     option: ClassVar[Tag] = Tag(tags.option)
 
