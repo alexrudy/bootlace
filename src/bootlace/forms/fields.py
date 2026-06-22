@@ -43,19 +43,26 @@ class EnumField(fields.SelectField, Generic[E]):
         validators: Any = None,
         *,
         enum: type[E],
+        allow_none: bool = False,
         **kwargs: Any,
     ) -> None:
         labelfunc = kwargs.pop("labelfunc", _enum_labelfunc)
         kwargs.setdefault("choices", [(value.name, labelfunc(value)) for value in enum])
         super().__init__(label=label, validators=validators, coerce=self._coerce, **kwargs)
         self.enum = enum
+        self.allow_none = allow_none
 
-    def _coerce(self, value: str | E) -> E:
+    def _coerce(self, value: str | E | None) -> E | None:
         if isinstance(value, self.enum):
             return value
+        if not value:
+            if self.allow_none:
+                return None
+            if self.default:
+                return self.default
         return self.enum[value]  # type: ignore
 
-    def _value(self) -> str:
+    def _value(self) -> str | None:
         if self.data:
             return self.data.name
         else:
