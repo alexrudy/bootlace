@@ -39,6 +39,7 @@ class Bootlace:
         )
 
         app.register_blueprint(blueprint)
+        app.add_template_filter(render, "render")
 
     @property
     def static_view(self) -> str:
