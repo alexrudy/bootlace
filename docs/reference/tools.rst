@@ -2,4 +2,4 @@ Tools and Utilities
 ===================
 
 .. automodapi:: bootlace.util
-    :include-all-objects:
+    :allowed-package-names: bootlace.util

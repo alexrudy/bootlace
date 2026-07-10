@@ -4,7 +4,7 @@ repos:
       hooks:
           - id: python-use-type-annotations
     - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v4.6.0
+      rev: v6.0.0
       hooks:
           - id: check-docstring-first
           - id: debug-statements
@@ -16,15 +16,12 @@ repos:
           - id: end-of-file-fixer
             language_version: python3
             exclude: "^src/bootlace/assets/"
-          - id: fix-encoding-pragma
-            language_version: python3
-            args: [--remove]
           - id: check-yaml
             language_version: python3
           - id: debug-statements
             language_version: python3
     - repo: https://github.com/pycqa/flake8
-      rev: 7.0.0
+      rev: 7.3.0
       hooks:
           - id: flake8
             additional_dependencies:
@@ -35,7 +32,7 @@ repos:
     - repo:
           https://github.com/astral-sh/ruff-pre-commit
           # Ruff version.
-      rev: v0.11.6
+      rev: v0.15.21
       hooks:
           # Run the linter.
           - id: ruff
@@ -45,7 +42,7 @@ repos:
             name: ruff-sort-imports
             args: [ruff, check, --select, I, --fix]
     - repo: https://github.com/asottile/pyupgrade
-      rev: v3.15.2
+      rev: v3.21.2
       hooks:
           - id: pyupgrade
             args: [--py311-plus]
@@ -54,10 +51,6 @@ repos:
       rev: v1.10.0
       hooks:
           - id: rst-backticks
-    - repo: https://github.com/peterdemin/pip-compile-multi
-      rev: v2.6.3
-      hooks:
-          - id: pip-compile-multi-verify
     # - repo: https://github.com/pre-commit/mirrors-eslint
     #   rev: "v9.0.0-beta.1"
     #   hooks:

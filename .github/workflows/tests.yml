@@ -19,11 +19,11 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                tox: [py311, typing, style, docs, minimal, dist]
-                python: [3.11]
+                tox: [py313, typing, style, docs, minimal, dist]
+                python: [3.13]
                 include:
-                    - tox: py312
-                      python: 3.12
+                    - tox: py314
+                      python: 3.14
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4

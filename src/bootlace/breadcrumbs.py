@@ -173,7 +173,6 @@ class BreadcrumbExtension:
             parent_link = parent
 
         def decorator(view: V) -> V:
-            nonlocal parent_link
             link = Endpoint(name=view.__name__, context=context)
 
             if link == parent_link:

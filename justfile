@@ -19,15 +19,15 @@ alias develop := sync
 
 # Sort imports
 isort:
-    -pre-commit run reorder-python-imports --all-files
+    -uv run --group dev pre-commit run reorder-python-imports --all-files
 
 # Run tests
 test:
-    uv run --group tests pytest --cov-report=html
+    uv run --group dev pytest --cov-report=html
 
 # Run all tests
 test-all:
-    tox -p auto
+    uv run --group dev tox -p auto
 
 alias tox := test-all
 alias t := test-all

@@ -1,30 +1,34 @@
 Tag
 ===
 
-.. currentmodule:: bootlace.util
+.. currentmodule:: domilite.template
 
-.. autoclass:: Tag
+.. autoclass:: TagTemplate
    :show-inheritance:
 
    .. rubric:: Attributes Summary
 
    .. autosummary::
 
-      ~Tag.aria
-      ~Tag.data
-      ~Tag.hx
+      ~TagTemplate.aria
+      ~TagTemplate.attributes
+      ~TagTemplate.classes
+      ~TagTemplate.data
+      ~TagTemplate.hx
 
    .. rubric:: Methods Summary
 
    .. autosummary::
 
-      ~Tag.__call__
-      ~Tag.__tag__
-      ~Tag.update
+      ~TagTemplate.__call__
+      ~TagTemplate.__tag__
+      ~TagTemplate.update
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: aria
+   .. autoattribute:: attributes
+   .. autoattribute:: classes
    .. autoattribute:: data
    .. autoattribute:: hx
 

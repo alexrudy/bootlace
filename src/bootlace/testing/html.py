@@ -85,7 +85,7 @@ class HTMLDiff:
 
     def _filter(self, element: Element) -> Element | None:
         for filter in self.filters:
-            element = filter(element)  # type: ignore
+            element = filter(element)  # pyright: ignore
             if element is None:
                 return None
         return element
